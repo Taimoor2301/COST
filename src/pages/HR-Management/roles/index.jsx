@@ -169,7 +169,7 @@ const columns = [
     minWidth: 100,
     sortable: false,
     field: 'actions',
-    headerName: '',
+    headerName: 'Actions',
     renderCell: ({ row }) => <RowOptions data={row} />
   }
 ]

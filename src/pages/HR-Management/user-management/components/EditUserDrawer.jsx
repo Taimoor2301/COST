@@ -9,6 +9,7 @@ import { FormControl } from '@mui/material'
 import { Grid, Switch } from '@mui/material'
 import Chip from '@mui/material/Chip'
 import MenuItem from '@mui/material/MenuItem'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -23,6 +24,7 @@ import { useQuery } from '@tanstack/react-query'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
+import { checkValidation } from './utils'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -46,6 +48,7 @@ const dataTemplate = {
 const AddRoleDrawer = ({ open, toggle, data }) => {
   const [selectedRoles, setSelectedRole] = useState([])
   const [errorMsg, setErrorMsg] = useState('')
+  const [userData, setUserData] = useState(dataTemplate)
   const queryClient = useQueryClient()
 
   const { data: rolesList } = useQuery({
@@ -68,20 +71,32 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
     }
   })
 
-  const [userData, setUserData] = useState(dataTemplate)
+  // ! image handling
+
+  const [image, setImage] = useState('')
+  const [localImageUrl, setLoacalImageUrl] = useState('')
+
+  useEffect(() => {
+    if (image) {
+      setLoacalImageUrl(URL.createObjectURL(image))
+    } else {
+      setLoacalImageUrl(null)
+    }
+  }, [image])
+
+  // ! set initial data
 
   useEffect(() => {
     if (data) {
       setUserData({
-        firstName: data.firstName,
-        lastName: data.lastName,
+        firstName: data.firstName || '',
+        lastName: data.lastName || '',
         imageUrl: data.imageUrl,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        isActive: data.isActive,
-        userRoles: data.roles
+        email: data.email || '',
+        phoneNumber: data.phoneNumber || '',
+        isActive: data.isActive || '',
+        userRoles: data.roles || ''
       })
-
       setSelectedRole(data.roles)
     }
   }, [data])
@@ -90,6 +105,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
     // mutation.mutate({ name: data.roleName, description: data.roleDescription })
   }
 
+  // ! role add and remove
   function handleRoleChange(newItems) {
     let freshItems = []
     newItems.forEach(item => {
@@ -109,23 +125,10 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
     console.log(selectedRoles)
   }, [selectedRoles])
 
+  //! validation errors
   useEffect(() => {
-    if (userData.firstName.length < 3) {
-      return setErrorMsg('first name should be atleast 3 characters long')
-    }
-    if (userData.lastName.length < 3) {
-      return setErrorMsg('last name should be atleast 3 characters long')
-    }
-    if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(userData.email) === false) {
-      return setErrorMsg('please enter a valid email')
-    }
-    if (/^\+(?:[0-9] ?){6,14}[0-9]$/.test(userData.phoneNumber) === false) {
-      return setErrorMsg('please enter a valid phone number')
-    }
-    if (!selectedRoles.length) {
-      return setErrorMsg('please select atleast one role')
-    }
-    setErrorMsg('')
+    const errorMsg = checkValidation(userData)
+    setErrorMsg(errorMsg)
   }, [userData, selectedRoles])
 
   return (
@@ -138,7 +141,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Edit Role</Typography>
+        <Typography variant='h5'>Edit User</Typography>
         <IconButton
           size='small'
           onClick={() => toggle()}
@@ -155,6 +158,36 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
           <Icon icon='tabler:x' fontSize='1.125rem' />
         </IconButton>
       </Header>
+
+      <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
+        <div className=' flex items-center justify-start gap-2 flex-col py-6'>
+          {localImageUrl ? (
+            <CustomAvatar src={localImageUrl} sx={{ mr: 2.5, width: 80, height: 80 }} />
+          ) : (
+            <CustomAvatar
+              skin='light'
+              sx={{
+                mr: 2.5,
+                width: 80,
+                height: 80,
+                fontWeight: 500,
+                fontSize: theme => theme.typography.body1.fontSize
+              }}
+            ></CustomAvatar>
+          )}
+
+          <input type='file' id='userImage' className='hidden' onChange={e => setImage(e.target.files[0])} />
+
+          <Button
+            type='submit'
+            variant='contained'
+            onClick={() => document.getElementById('userImage').click()}
+            sx={{ mr: 3 }}
+          >
+            Upload
+          </Button>
+        </div>
+      </Box>
 
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <Box sx={{ my: 4 }}>
@@ -279,18 +312,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
         </Grid>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button
-            type='submit'
-            variant='contained'
-            sx={{ mr: 3 }}
-            disabled={
-              userData.firstName.length < 3 ||
-              userData.lastName.length < 3 ||
-              /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(userData.email) === false ||
-              /^\+(?:[0-9] ?){6,14}[0-9]$/.test(userData.phoneNumber) === false ||
-              !selectedRoles.length
-            }
-          >
+          <Button type='submit' variant='contained' sx={{ mr: 3 }} disabled={Boolean(errorMsg)}>
             {mutation.isPending ? 'Loading...' : 'Submit'}
           </Button>
           <Button variant='tonal' color='secondary' onClick={toggle}>
