@@ -1,4 +1,6 @@
-export const AutocompleteCheckboxesJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Import
+export const AutocompleteCheckboxesJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Import
 import Checkbox from '@mui/material/Checkbox'
 
 // ** Custom Component Imports
@@ -28,9 +30,13 @@ const AutocompleteCheckboxes = () => {
 }
 
 export default AutocompleteCheckboxes
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteAsynchronousRequestJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const AutocompleteAsynchronousRequestJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { Fragment, useEffect, useState } from 'react'
 
 // ** MUI Import
@@ -110,9 +116,13 @@ const AutocompleteAsynchronousRequest = () => {
 }
 
 export default AutocompleteAsynchronousRequest
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteCreatableJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const AutocompleteCreatableJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Import
@@ -184,9 +194,13 @@ const AutocompleteCreatable = () => {
 }
 
 export default AutocompleteCreatable
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteCustomJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Import
+export const AutocompleteCustomJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Import
 import Box from '@mui/material/Box'
 
 // ** Custom Component Imports
@@ -227,9 +241,13 @@ const AutocompleteCustom = () => {
 }
 
 export default AutocompleteCustom
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteCustomFilterJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Import
+export const AutocompleteCustomFilterJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Import
 import { createFilterOptions } from '@mui/material/Autocomplete'
 
 // ** Custom Component Imports
@@ -257,9 +275,13 @@ const AutocompleteCustomFilter = () => {
 }
 
 export default AutocompleteCustomFilter
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteCustomInputJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** Custom Component Import
+export const AutocompleteCustomInputJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** Custom Component Import
 import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 
 const options = ['Option 1', 'Option 2']
@@ -287,9 +309,13 @@ const AutocompleteCustomInput = () => {
 }
 
 export default AutocompleteCustomInput
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteFixedOptionsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const AutocompleteFixedOptionsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Import
@@ -334,9 +360,13 @@ const AutocompleteFixedOptions = () => {
 }
 
 export default AutocompleteFixedOptions
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteGroupedJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** Custom Component Imports
+export const AutocompleteGroupedJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** Custom Component Imports
 import CustomTextField from 'src/@core/components/mui/text-field'
 import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 
@@ -366,9 +396,13 @@ const AutocompleteGrouped = () => {
 }
 
 export default AutocompleteGrouped
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteFreeSoloJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** Custom Component Imports
+export const AutocompleteFreeSoloJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** Custom Component Imports
 import CustomTextField from 'src/@core/components/mui/text-field'
 import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 
@@ -388,9 +422,13 @@ const AutocompleteFreeSolo = () => {
 }
 
 export default AutocompleteFreeSolo
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteLimitTagsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** Custom Component Imports
+export const AutocompleteLimitTagsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** Custom Component Imports
 import CustomTextField from 'src/@core/components/mui/text-field'
 import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 
@@ -412,9 +450,13 @@ const AutocompleteLimitTags = () => {
 }
 
 export default AutocompleteLimitTags
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteControlledUncontrolledJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const AutocompleteControlledUncontrolledJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Import
@@ -458,9 +500,13 @@ const AutocompleteControlledUncontrolled = () => {
 }
 
 export default AutocompleteControlledUncontrolled
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteDisabledOptionsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** Custom Component Imports
+export const AutocompleteDisabledOptionsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** Custom Component Imports
 import CustomTextField from 'src/@core/components/mui/text-field'
 import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 
@@ -481,9 +527,13 @@ const AutocompleteDisabledOptions = () => {
 }
 
 export default AutocompleteDisabledOptions
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteCountryJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Import
+export const AutocompleteCountryJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Import
 import Box from '@mui/material/Box'
 
 // ** Custom Component Imports
@@ -528,9 +578,13 @@ const AutocompleteCountry = () => {
 }
 
 export default AutocompleteCountry
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteMultipleValuesJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const AutocompleteMultipleValuesJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 
@@ -583,9 +637,13 @@ const AutocompleteMultipleValues = () => {
 }
 
 export default AutocompleteMultipleValues
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompletePropsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Import
+export const AutocompletePropsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Import
 import Box from '@mui/material/Box'
 
 // ** Custom Component Imports
@@ -675,9 +733,13 @@ const AutocompleteProps = () => {
 }
 
 export default AutocompleteProps
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteMediumSizeJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** Custom Component Imports
+export const AutocompleteMediumSizeJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** Custom Component Imports
 import CustomTextField from 'src/@core/components/mui/text-field'
 import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 
@@ -712,9 +774,13 @@ const AutocompleteMediumSize = () => {
 }
 
 export default AutocompleteMediumSize
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const AutocompleteVariantsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const AutocompleteVariantsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -759,5 +825,6 @@ const AutocompleteVariants = () => {
 }
 
 export default AutocompleteVariants
-`}</code></pre>) 
-
+`}</code>
+  </pre>
+)

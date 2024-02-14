@@ -42,11 +42,7 @@ const FooterContent = () => {
           <Typography target='_blank' component={LinkStyled} href=''>
             More Themes
           </Typography>
-          <Typography
-            target='_blank'
-            component={LinkStyled}
-            href=''
-          >
+          <Typography target='_blank' component={LinkStyled} href=''>
             Documentation
           </Typography>
           <Typography target='_blank' component={LinkStyled} href=''>

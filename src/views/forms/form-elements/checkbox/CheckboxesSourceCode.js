@@ -1,4 +1,6 @@
-export const CheckboxesControlledUncontrolledJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CheckboxesControlledUncontrolledJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -26,9 +28,13 @@ const CheckboxesControlledUncontrolled = () => {
 }
 
 export default CheckboxesControlledUncontrolled
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CheckboxesBasicJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const CheckboxesBasicJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -49,9 +55,13 @@ const CheckboxesBasic = () => {
 }
 
 export default CheckboxesBasic
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CheckboxesColorsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const CheckboxesColorsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -73,9 +83,13 @@ const CheckboxesColors = () => {
 }
 
 export default CheckboxesColors
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CheckboxesLabelPlacementJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const CheckboxesLabelPlacementJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -96,9 +110,13 @@ const CheckboxesLabelPlacement = () => {
 }
 
 export default CheckboxesLabelPlacement
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CheckboxesShowErrorJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CheckboxesShowErrorJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -171,9 +189,13 @@ const CheckboxesShowError = () => {
 }
 
 export default CheckboxesShowError
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CheckboxesCustomizedJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const CheckboxesCustomizedJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import { styled } from '@mui/material/styles'
 import Checkbox from '@mui/material/Checkbox'
 
@@ -247,9 +269,13 @@ const CheckboxesCustomized = () => {
 }
 
 export default CheckboxesCustomized
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CheckboxesCustomIconsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const CheckboxesCustomIconsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -287,9 +313,13 @@ const CheckboxesCustomIcons = () => {
 }
 
 export default CheckboxesCustomIcons
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CheckboxesSizesJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const CheckboxesSizesJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -308,5 +338,6 @@ const CheckboxesSizes = () => {
 }
 
 export default CheckboxesSizes
-`}</code></pre>) 
-
+`}</code>
+  </pre>
+)

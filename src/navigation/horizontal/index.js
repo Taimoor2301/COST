@@ -19,7 +19,7 @@ const navigation = () => {
         },
         {
           title: 'Permissions',
-          path:'/HR-Management/permissions'
+          path: '/HR-Management/permissions'
         }
       ]
     },

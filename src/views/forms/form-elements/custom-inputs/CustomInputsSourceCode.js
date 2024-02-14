@@ -1,4 +1,6 @@
-export const CustomCheckboxBasicJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CustomCheckboxBasicJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -55,9 +57,13 @@ const BasicCustomCheckbox = () => {
 }
 
 export default BasicCustomCheckbox
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CustomRadioIconsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CustomRadioIconsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -124,9 +130,13 @@ const CustomRadioWithIcons = () => {
 }
 
 export default CustomRadioWithIcons
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CustomCheckboxIconsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CustomCheckboxIconsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -194,9 +204,13 @@ const CustomCheckboxWithIcons = () => {
 }
 
 export default CustomCheckboxWithIcons
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CustomCheckboxImgJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CustomCheckboxImgJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -253,9 +267,13 @@ const CustomCheckboxWithImages = () => {
 }
 
 export default CustomCheckboxWithImages
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CustomRadioImgJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CustomRadioImgJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -311,9 +329,13 @@ const CustomRadioWithImages = () => {
 }
 
 export default CustomRadioWithImages
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const CustomRadioBasicJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const CustomRadioBasicJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -369,5 +391,6 @@ const BasicCustomRadio = () => {
 }
 
 export default BasicCustomRadio
-`}</code></pre>) 
-
+`}</code>
+  </pre>
+)

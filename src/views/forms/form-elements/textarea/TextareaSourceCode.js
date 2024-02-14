@@ -1,4 +1,6 @@
-export const TextareaVariantJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const TextareaVariantJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -84,9 +86,13 @@ const TextareaVariant = () => {
 }
 
 export default TextareaVariant
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const TextareaCustomJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const TextareaCustomJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** Custom Component Import
@@ -123,5 +129,6 @@ const TextareaCustom = () => {
 }
 
 export default TextareaCustom
-`}</code></pre>) 
-
+`}</code>
+  </pre>
+)

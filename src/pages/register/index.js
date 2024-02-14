@@ -4,6 +4,7 @@ import { useState } from 'react'
 // ** Next Import
 import Link from 'next/link'
 import themeConfig from 'src/configs/themeConfig'
+
 // ** MUI Components
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -18,6 +19,7 @@ import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import logo from '../../assest/images/kaptlogo.svg'
 import Image from 'next/image'
 import signup from '../../assest/images/man_13.png'
+
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
 
@@ -78,6 +80,7 @@ const Register = () => {
   // ** States
   const [showPassword, setShowPassword] = useState(false)
   const { t } = useTranslation()
+
   // ** Hooks
   const theme = useTheme()
   const { settings } = useSettings()
@@ -91,21 +94,21 @@ const Register = () => {
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
       {!hidden ? (
         <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
+          sx={{
+            flex: 1,
+            display: 'flex',
 
-          position: 'relative',
-          alignItems: 'center',
-          borderRadius: '20px',
-          justifyContent: 'center',
-          backgroundColor: 'customColors.bodyBg',
-          margin: theme => theme.spacing(5, 0, 5, 8)
-        }}
-      >
-        <Image alt='signup' src={signup} style={{ height: '93vh', objectFit: 'contain', width: '50%' }} />
-        <FooterIllustrationsV2 />
-      </Box>
+            position: 'relative',
+            alignItems: 'center',
+            borderRadius: '20px',
+            justifyContent: 'center',
+            backgroundColor: 'customColors.bodyBg',
+            margin: theme => theme.spacing(5, 0, 5, 8)
+          }}
+        >
+          <Image alt='signup' src={signup} style={{ height: '93vh', objectFit: 'contain', width: '50%' }} />
+          <FooterIllustrationsV2 />
+        </Box>
       ) : null}
       <RightWrapper>
         <Box
@@ -118,7 +121,7 @@ const Register = () => {
           }}
         >
           <Box md={{ width: '100%', maxWidth: 400, mt: -20 }} sx={{ width: '100%', maxWidth: 400, mt: -10 }}>
-          <Box sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
+            <Box sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
               <Image alt='kapt logo' src={logo} width={180} />
             </Box>
             <Box sx={{ mb: 2, mt: -6 }}>

@@ -1,4 +1,6 @@
-export const FileUploaderMultipleJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const FileUploaderMultipleJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { Fragment, useState } from 'react'
 
 // ** MUI Imports
@@ -106,9 +108,13 @@ const FileUploaderMultiple = () => {
 }
 
 export default FileUploaderMultiple
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const FileUploaderRestrictionsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const FileUploaderRestrictionsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { Fragment, useState } from 'react'
 
 // ** MUI Imports
@@ -226,9 +232,13 @@ const FileUploaderRestrictions = () => {
 }
 
 export default FileUploaderRestrictions
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const FileUploaderSingleJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const FileUploaderSingleJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -294,5 +304,6 @@ const FileUploaderSingle = () => {
 }
 
 export default FileUploaderSingle
-`}</code></pre>) 
-
+`}</code>
+  </pre>
+)

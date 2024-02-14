@@ -1,4 +1,3 @@
-
 // ** MUI Imports
 import Drawer from '@mui/material/Drawer'
 import Button from '@mui/material/Button'
@@ -6,6 +5,7 @@ import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { MenuItem } from '@mui/material'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -17,7 +17,6 @@ import { useForm, Controller } from 'react-hook-form'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -48,8 +47,8 @@ const schema = yup.object().shape({
 })
 
 const defaultValues = {
- roleName:"",
- roleDescription:""
+  roleName: '',
+  roleDescription: ''
 }
 
 const SidebarAddUser = props => {
@@ -70,8 +69,7 @@ const SidebarAddUser = props => {
   const onSubmit = data => {
     if (data) {
       console.log(data)
-        }
-     else {
+    } else {
       toggle()
       reset()
     }

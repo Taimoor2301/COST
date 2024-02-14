@@ -4,6 +4,7 @@ import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Image from 'next/image'
 import logo from '../../../assest/images/kaptlogo.svg'
+
 const FallbackSpinner = ({ sx }) => {
   // ** Hook
   const theme = useTheme()
@@ -19,7 +20,7 @@ const FallbackSpinner = ({ sx }) => {
         ...sx
       }}
     >
-     <Image alt='kapt logo' src={logo} width={180} />
+      <Image alt='kapt logo' src={logo} width={180} />
       <CircularProgress disableShrink sx={{ mt: 6 }} />
     </Box>
   )

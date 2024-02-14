@@ -99,6 +99,7 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const { t } = useTranslation()
+
   // ** Hooks
   const auth = useAuth()
   const theme = useTheme()
@@ -135,23 +136,23 @@ const LoginPage = () => {
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
       {!hidden ? (
         <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          position: 'relative',
-          alignItems: 'center',
-          borderRadius: '20px',
-          justifyContent: 'center',
-          backgroundColor: 'customColors.bodyBg',
-          margin: theme => theme.spacing(5, 0, 5, 8)
-        }}
-      >
-        <Image src={login} style={{ height: '93vh', objectFit: 'contain', width: '50%' }} />
-        <FooterIllustrationsV2 />
-      </Box>
+          sx={{
+            flex: 1,
+            display: 'flex',
+            position: 'relative',
+            alignItems: 'center',
+            borderRadius: '20px',
+            justifyContent: 'center',
+            backgroundColor: 'customColors.bodyBg',
+            margin: theme => theme.spacing(5, 0, 5, 8)
+          }}
+        >
+          <Image src={login} alt='login image' style={{ height: '93vh', objectFit: 'contain', width: '50%' }} />
+          <FooterIllustrationsV2 />
+        </Box>
       ) : null}
       <RightWrapper>
-      <Box
+        <Box
           sx={{
             p: [5, 12],
             height: '100%',
@@ -162,7 +163,7 @@ const LoginPage = () => {
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
             <Box sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
-              <Image src={logo} width={180} />
+              <Image alt='company logo' src={logo} width={180} />
             </Box>
             <Box sx={{ mb: 2, mt: -6 }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>

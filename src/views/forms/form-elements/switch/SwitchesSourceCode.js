@@ -1,4 +1,6 @@
-export const SwitchesControlledUncontrolledJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const SwitchesControlledUncontrolledJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useState } from 'react'
 
 // ** MUI Imports
@@ -23,9 +25,13 @@ const SwitchesControlledUncontrolled = () => {
 }
 
 export default SwitchesControlledUncontrolled
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const SwitchesColorsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const SwitchesColorsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Switch from '@mui/material/Switch'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -44,9 +50,13 @@ const SwitchesColors = () => {
 }
 
 export default SwitchesColors
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const SwitchesCustomizedJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const SwitchesCustomizedJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import { styled } from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -115,9 +125,13 @@ const SwitchesCustomized = () => (
 )
 
 export default SwitchesCustomized
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const SwitchesStandaloneJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const SwitchesStandaloneJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Switch from '@mui/material/Switch'
 
 const SwitchesStandalone = () => {
@@ -132,9 +146,13 @@ const SwitchesStandalone = () => {
 }
 
 export default SwitchesStandalone
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const SwitchesBasicJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const SwitchesBasicJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Switch from '@mui/material/Switch'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -151,9 +169,13 @@ const SwitchesBasic = () => {
 }
 
 export default SwitchesBasic
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const SwitchesLabelPlacementJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const SwitchesLabelPlacementJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Switch from '@mui/material/Switch'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -174,9 +196,13 @@ const SwitchedLabelPlacement = () => {
 }
 
 export default SwitchedLabelPlacement
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const SwitchesSizesJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const SwitchesSizesJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Switch from '@mui/material/Switch'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -191,5 +217,6 @@ const SwitchesSizes = () => {
 }
 
 export default SwitchesSizes
-`}</code></pre>) 
-
+`}</code>
+  </pre>
+)

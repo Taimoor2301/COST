@@ -15,6 +15,7 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 import Icon from 'src/@core/components/icon'
 import forgetpass from '../../assest/images/46.png'
 import logo from '../../assest/images/kaptlogo.svg'
+
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
@@ -63,31 +64,32 @@ const ForgotPassword = () => {
   // ** Hooks
   const theme = useTheme()
   const { t } = useTranslation()
+
   // ** Vars
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
       {!hidden ? (
-  <Box
-  sx={{
-    flex: 1,
-    display: 'flex',
-    position: 'relative',
-    alignItems: 'center',
-    borderRadius: '20px',
-    justifyContent: 'center',
-    backgroundColor: 'customColors.bodyBg',
-    margin: theme => theme.spacing(5, 0, 5, 8)
-  }}
->
-  <Image
-    alt='forget-password'
-    src={forgetpass}
-    style={{ height: '93vh', objectFit: 'contain', width: '35%' }}
-  />
-  <FooterIllustrationsV2 />
-</Box>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            position: 'relative',
+            alignItems: 'center',
+            borderRadius: '20px',
+            justifyContent: 'center',
+            backgroundColor: 'customColors.bodyBg',
+            margin: theme => theme.spacing(5, 0, 5, 8)
+          }}
+        >
+          <Image
+            alt='forget-password'
+            src={forgetpass}
+            style={{ height: '93vh', objectFit: 'contain', width: '35%' }}
+          />
+          <FooterIllustrationsV2 />
+        </Box>
       ) : null}
       <RightWrapper>
         <Box
@@ -100,7 +102,7 @@ const ForgotPassword = () => {
           }}
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
-          <Box sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
+            <Box sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
               <Image alt='kapt logo' src={logo} width={180} />
             </Box>
             <Box sx={{ mb: 6, mt: -6 }}>

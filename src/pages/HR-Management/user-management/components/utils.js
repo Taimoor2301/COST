@@ -1,5 +1,4 @@
-export function checkValidation (userData){
-
+export function checkValidation(userData, selectedRoles) {
   if (userData.firstName.length < 3) {
     return 'first name should be atleast 3 characters long'
   }
@@ -14,10 +13,5 @@ export function checkValidation (userData){
   }
   if (!selectedRoles.length) {
     return 'please select atleast one role'
-  }
-
-  else return ''
-
+  } else return ''
 }
-
-

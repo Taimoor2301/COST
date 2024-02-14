@@ -1,4 +1,6 @@
-export const ProgressCircularControlledUncontrolledJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const ProgressCircularControlledUncontrolledJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useEffect, useState } from 'react'
 
 // ** MUI Imports
@@ -40,9 +42,13 @@ const ProgressCircularControlledUncontrolled = () => {
 }
 
 export default ProgressCircularControlledUncontrolled
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressCircularIndeterminateJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const ProgressCircularIndeterminateJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import CircularProgress from '@mui/material/CircularProgress'
 
 const ProgressCircularIndeterminate = () => {
@@ -50,9 +56,13 @@ const ProgressCircularIndeterminate = () => {
 }
 
 export default ProgressCircularIndeterminate
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressCircularWithLabelJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const ProgressCircularWithLabelJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useEffect, useState } from 'react'
 
 // ** MUI Imports
@@ -101,9 +111,13 @@ const ProgressCircularWithLabel = () => {
 }
 
 export default ProgressCircularWithLabel
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressCircularCustomizationJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const ProgressCircularCustomizationJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Box from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -129,9 +143,13 @@ const ProgressCircularCustomization = () => {
 }
 
 export default ProgressCircularCustomization
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressLinearColorsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const ProgressLinearColorsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import Stack from '@mui/material/Stack'
 import LinearProgress from '@mui/material/LinearProgress'
 
@@ -148,9 +166,13 @@ const ProgressLinearColors = () => {
 }
 
 export default ProgressLinearColors
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressLinearControlledUncontrolledJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const ProgressLinearControlledUncontrolledJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useEffect, useState } from 'react'
 
 // ** MUI Imports
@@ -193,9 +215,13 @@ const ProgressLinearControlledUncontrolled = () => {
 }
 
 export default ProgressLinearControlledUncontrolled
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressLinearCustomizationJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const ProgressLinearCustomizationJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import React from 'react'
 
 // ** MUI Imports
@@ -219,9 +245,13 @@ const ProcessLinearCustomization = () => {
 }
 
 export default ProcessLinearCustomization
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressLinearBufferJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const ProgressLinearBufferJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useEffect, useRef, useState } from 'react'
 
 // ** MUI Imports
@@ -260,9 +290,13 @@ const ProcessLinearBuffer = () => {
 }
 
 export default ProcessLinearBuffer
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressLinearIndeterminateJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const ProgressLinearIndeterminateJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import LinearProgress from '@mui/material/LinearProgress'
 
 const ProgressLinearIndeterminate = () => {
@@ -270,9 +304,13 @@ const ProgressLinearIndeterminate = () => {
 }
 
 export default ProgressLinearIndeterminate
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressLinearWithLabelJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** React Imports
+export const ProgressLinearWithLabelJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** React Imports
 import { useEffect, useState } from 'react'
 
 // ** MUI Imports
@@ -308,9 +346,13 @@ export default function ProcessLinearWithLabel() {
 
   return <LinearProgressWithLabel value={progress} />
 }
-`}</code></pre>) 
+`}</code>
+  </pre>
+)
 
-export const ProgressCircularColorsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
+export const ProgressCircularColorsJSXCode = (
+  <pre className='language-jsx'>
+    <code className='language-jsx'>{`// ** MUI Imports
 import CircularProgress from '@mui/material/CircularProgress'
 
 const ProgressCircularColors = () => {
@@ -326,5 +368,6 @@ const ProgressCircularColors = () => {
 }
 
 export default ProgressCircularColors
-`}</code></pre>) 
-
+`}</code>
+  </pre>
+)

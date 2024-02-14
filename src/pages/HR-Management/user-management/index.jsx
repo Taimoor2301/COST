@@ -220,33 +220,29 @@ const UserList = ({ apiData }) => {
             toggle={() => setAddUserOpen(p => !p)}
           />
 
-          {isLoading ? (
-            <div className='h-full w-full grid place-content-center py-5'>
-              <CircularProgress />
-            </div>
-          ) : isError ? (
+          {isError ? (
             <Typography>Something went wrong! Please try again.</Typography>
           ) : (
-            allUsers?.length > 0 && (
-              <DataGrid
-                autoHeight
-                rowHeight={62}
-                rows={
-                  usersToShow?.map(el => ({
-                    ...el,
-                    editFn: data => {
-                      setItemToEdit(data)
-                      setOpenEditUser(true)
-                    }
-                  })) || []
-                }
-                columns={columns}
-                disableRowSelectionOnClick
-                pageSizeOptions={[10, 25, 50]}
-                paginationModel={paginationModel}
-                onPaginationModelChange={setPaginationModel}
-              />
-            )
+            <DataGrid
+              autoHeight
+              rowHeight={62}
+              rows={
+                usersToShow?.map(el => ({
+                  ...el,
+                  editFn: data => {
+                    setItemToEdit(data)
+                    setOpenEditUser(true)
+                  }
+                })) || []
+              }
+              columns={columns}
+              loading={isLoading}
+              loadingOverlayComponent={<CircularProgress />}
+              disableRowSelectionOnClick
+              pageSizeOptions={[10, 25, 50]}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+            />
           )}
         </Card>
       </Grid>

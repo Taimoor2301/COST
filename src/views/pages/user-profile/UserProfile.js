@@ -10,7 +10,6 @@ import { Card, CardActions, CardContent, FormControl, Input, InputLabel, TextFie
 import { Button } from '@mui/base'
 
 const UserProfile = ({ data }) => {
-
   const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
       backgroundColor: '#44b700',
@@ -50,15 +49,10 @@ const UserProfile = ({ data }) => {
           </Typography>
           <Grid container sx={{ mb: 4, mt: 5 }}>
             <StyledBadge overlap='circular' anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-                <Avatar alt='Full Name'  sx={{ width: 80, height: 80 }} />
+              <Avatar alt='Full Name' sx={{ width: 80, height: 80 }} />
             </StyledBadge>
             <Grid item xs={12} style={{ marginTop: '20px' }}>
-              <input
-                accept='image/*'
-                style={{ display: 'none' }}
-                id='upload-photo'
-                type='file'
-              />
+              <input accept='image/*' style={{ display: 'none' }} id='upload-photo' type='file' />
 
               <label
                 htmlFor='upload-photo'
@@ -88,34 +82,29 @@ const UserProfile = ({ data }) => {
                   Select A New Photo
                 </Button>
               </label>
-                <Button
-                  variant='contained'
-                  component='span'
-                  sx={{ border: 0 }}
-                  style={{
-                    border: 'none',
-                    borderRadius: '5px',
-                    fontSize: '17px',
-                    textTransform: 'uppercase',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    backgroundColor: '#D34C4D',
-                    padding: '10px 20px',
-                    color: 'white',
-                    marginLeft: '10px'
-                  }}
-                >
-                  Delete Photo
-                </Button>
+              <Button
+                variant='contained'
+                component='span'
+                sx={{ border: 0 }}
+                style={{
+                  border: 'none',
+                  borderRadius: '5px',
+                  fontSize: '17px',
+                  textTransform: 'uppercase',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  backgroundColor: '#D34C4D',
+                  padding: '10px 20px',
+                  color: 'white',
+                  marginLeft: '10px'
+                }}
+              >
+                Delete Photo
+              </Button>
             </Grid>
           </Grid>
           <FormControl sx={{ width: '100%', marginTop: '2rem' }}>
-            <TextField
-              label='Name'
-              id='outlined-size-small'
-              size='small'
-              fullWidth
-            />
+            <TextField label='Name' id='outlined-size-small' size='small' fullWidth />
             <TextField
               label='Email'
               id='outlined-size-small'
@@ -194,8 +183,6 @@ const UserProfile = ({ data }) => {
         </CardActions>
       </Card>
     </>
-
-   
   )
 }
 
