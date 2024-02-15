@@ -4,13 +4,29 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import dynamic from 'next/dynamic'
 
-const MapMarkersComponent = dynamic(() => import('./MapMarkerComponent'), {
+const MapMarkersComponent = dynamic(() => import('src/pages/assets-management/sites/components/MapMarkerComponent'), {
   ssr: false // Disable server-side rendering for this component
 })
 
 const Map = ({ cities, selectedCity, flag }) => {
   const LatLngBounds = L.latLngBounds(cities?.map(city => [city?.lat, city?.lon]))
+
   const mapRef = useRef()
+  useEffect(() => {
+    // Check if window object is defined (client-side)
+    if (typeof window !== 'undefined') {
+      // Import Leaflet dynamically
+      import('leaflet')
+        .then(L => {
+          // Use Leaflet code here
+          const map = L.map('map').setView([51.505, -0.09], 13)
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
+        })
+        .catch(error => {
+          console.error('Error loading Leaflet:', error)
+        })
+    }
+  }, [])
 
   const calculateCenter = () => {
     if (cities && cities.length > 0) {
@@ -54,11 +70,13 @@ const Map = ({ cities, selectedCity, flag }) => {
         })
 
         return (
-          <Marker key={city.id} position={[city.lat, city.lon]} icon={customIcon}>
-            <Popup>
-              {city.name} <br /> Coordinates: {city.lat}, {city.lon}
-            </Popup>
-          </Marker>
+          <>
+            <Marker key={city.id} position={[city.lat, city.lon]} icon={customIcon}>
+              <Popup>
+                {city.name} <br /> Coordinates: {city.lat}, {city.lon}
+              </Popup>
+            </Marker>
+          </>
         )
       })}
     </MapContainer>

@@ -15,7 +15,6 @@ import themeConfig from 'src/configs/themeConfig'
 import Image from 'next/image'
 import logo from '../../../../../assest/images/kaptlogo.svg'
 
-
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',

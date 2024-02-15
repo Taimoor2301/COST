@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic'
 import { Flag } from '@mui/icons-material'
 
 const LeafletMapcomponents = dynamic(
-  () => import('./components/Map'),
+  () => import('src/pages/assets-management/sites/components/Map'),
   { ssr: false } // <-- Disable server-side rendering
 )
 
