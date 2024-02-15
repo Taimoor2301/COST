@@ -8,13 +8,14 @@ import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import { Typography, Grid, Switch } from '@mui/material'
 import Box from '@mui/material/Box'
-import { ChromePicker } from 'react-color'
-import Card from '@mui/material/Card'
+import api from 'src/hooks/useApi'
 import { useTranslation } from 'react-i18next'
 import CustomTextField from 'src/@core/components/mui/text-field'
 import Icon from 'src/@core/components/icon'
-import { CircularProgress } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+import { baseURL } from 'src/Constants/Constants'
+import { useRouter } from 'next/router'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -34,35 +35,44 @@ const Header = styled(Box)(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  routeName: yup
+  name: yup
     .string()
     .min(3, obj => showErrors('Route Name', obj.value.length, obj.min))
     .required(),
-  routeDescription: yup
+  description: yup
     .string()
     .min(3, obj => showErrors('Route Description', obj.value.length, obj.min))
-    .required()
+    .required(),
+  color: yup.string().required('Color is required')
 })
 
 const defaultValues = {
-  routeName: '',
-  routeDescription: ''
+  name: '',
+  description: '',
+  color: '#ffffff'
 }
 
 const AddRouteDrawer = ({ open, toggle }) => {
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
+  const [file, setFile] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const mutation = useMutation({
-    mutationKey: ['addNewRoute'],
-    mutationFn: data => api.post('/routes/route.createrouteasync', data),
+    mutationKey: ['addRoute'],
+    mutationFn: data =>
+      api.post('/routes/route.createrouteasync', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
     onSuccess: data => {
       queryClient.invalidateQueries(['routes'])
-      reset()
-      toggle()
+
+      // reset()
+      // toggle()
       toast.success('Route added') // Notify user of successful submission
     },
     onError: errors => {
-      toggle()
+      console.log(errors)
+
+      // toggle()
       toast.error(errors.response.data.messages[0] || 'Something went wrong')
     },
     retry: 0
@@ -80,17 +90,94 @@ const AddRouteDrawer = ({ open, toggle }) => {
   })
 
   const onSubmit = data => {
-    console.log('Submitted data:', data)
-    mutation.mutate({ name: data.routeName, description: data.routeDescription })
+    handleAdd(data)
   }
 
-  const [selectedColor, setSelectedColor] = useState('black')
-  const [showColorPicker, setShowColorPicker] = useState(false)
-  const { t } = useTranslation()
+  const router = useRouter()
+
+  const handleAdd = async data => {
+    const userToken = localStorage.getItem('accessToken')
+
+    if (!userToken) {
+      localStorage.clear()
+
+      return router.replace('/login')
+    }
+    let formData = new FormData()
+    formData.append('name', data.name)
+    formData.append('color', data.selectedColor)
+    formData.append('MarkerIcon', file)
+    formData.append('description', data.description)
+
+    const headers = {
+      Accept: 'application/json',
+      Authorization: `Bearer ${userToken}`
+    }
+
+    try {
+      setLoading(true)
+      await fetch(`${baseURL}/routes/route.createrouteasync`, {
+        method: 'POST',
+        headers: headers,
+        body: formData
+      })
+      toast.success('Successful route add')
+      queryClient.invalidateQueries(['routes'])
+      handleClose()
+    } catch (error) {
+      console.log(error)
+      toggle()
+      toast.error('Unsuccessful route add')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleClose = () => {
     toggle()
     reset()
+    setFile('')
+  }
+
+  function imageToBinaryString(file) {
+    return new Promise((resolve, reject) => {
+      // Create a new file reader
+      const reader = new FileReader()
+
+      // Set up event listeners for when the file is loaded
+      reader.onload = () => {
+        // The result property contains the file's data as a binary string
+        resolve(reader.result)
+      }
+
+      // If there's an error reading the file, reject the promise
+      reader.onerror = () => {
+        reject(new Error('Error reading file'))
+      }
+
+      // Read the file as a binary string
+      reader.readAsBinaryString(file)
+    })
+  }
+
+  async function handleFileChange(e) {
+    const file = e.target.files[0]
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        return toast.error('File size should less than 2MB')
+      }
+
+      // try {
+      //   const binary = await imageToBinaryString(file)
+      //   setFile(binary)
+      //   setFileInputVal(file)
+      // } catch (err) {
+      //   console.log(err)
+      //   setFile('')
+      // }
+
+      setFile(file)
+    }
   }
 
   return (
@@ -123,7 +210,7 @@ const AddRouteDrawer = ({ open, toggle }) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
           <Controller
-            name='routeName'
+            name='name'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -134,13 +221,13 @@ const AddRouteDrawer = ({ open, toggle }) => {
                 label='Route Name'
                 onChange={onChange}
                 placeholder='Route Name'
-                error={Boolean(errors.routeName)}
-                {...(errors.routeName && { helperText: errors.routeName.message })}
+                error={Boolean(errors.name)}
+                {...(errors.name && { helperText: errors.name.message })}
               />
             )}
           />
           <Controller
-            name='routeDescription'
+            name='description'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -151,40 +238,40 @@ const AddRouteDrawer = ({ open, toggle }) => {
                 label='Route Description'
                 onChange={onChange}
                 placeholder='Route Description'
-                error={Boolean(errors.routeDescription)}
-                {...(errors.routeDescription && { helperText: errors.routeDescription.message })}
+                error={Boolean(errors.description)}
+                {...(errors.description && { helperText: errors.description.message })}
               />
             )}
           />
+          <Controller
+            name='color'
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { value, onChange } }) => (
+              <div className='flex flex-col gap-2 py-4'>
+                <label htmlFor='route-add-color'>Route Color</label>
+                <input
+                  className='border-none aspect-square'
+                  type='color'
+                  id='route-add-color'
+                  value={value}
+                  onChange={onChange}
+                />
+              </div>
+            )}
+          />
           <Box sx={{ mb: 4 }}>
-            <Card>
-              <Typography variant='h5' sx={{ padding: '15px' }}>
-                {t('Marker Icon')}
-              </Typography>
-              <Box sx={{ mb: 2, padding: '15px' }}>
-                <CustomTextField fullWidth type='file' />
-              </Box>
-              <Box
-                sx={{
-                  mb: 4,
-                  padding: '15px',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}
-              >
-                <div style={{ height: '100px', width: '100px' }}>
-                  <img
-                    src=''
-                    alt='abc'
-                    style={{
-                      height: '100%',
-                      width: '100%',
-                      objectFit: 'cover'
-                    }}
-                  />
-                </div>
-              </Box>
-            </Card>
+            <div className=' flex flex-col gap-1 py-4'>
+              <label htmlFor='add-route-icon'>Route Icon</label>
+              <input
+                required
+                className='file:border-none file:bg-gray-500 file:text-white bg-gray-200 file:p-2 rounded'
+                type='file'
+                accept='.svg, .png, .jpg, .jpeg'
+                id='add-route-icon'
+                onChange={e => handleFileChange(e)}
+              />
+            </div>
           </Box>
           <>
             <Grid item sm={6}>
@@ -202,8 +289,8 @@ const AddRouteDrawer = ({ open, toggle }) => {
             </Grid>
           </>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button type='submit' variant='contained' sx={{ mr: 3 }}>
-              {mutation.isPending ? 'Loading...' : 'Submit'}
+            <Button disabled={loading} type='submit' variant='contained' sx={{ mr: 3 }}>
+              {loading ? 'Loading...' : 'Submit'}
             </Button>
             <Button variant='tonal' color='secondary' onClick={handleClose}>
               Cancel

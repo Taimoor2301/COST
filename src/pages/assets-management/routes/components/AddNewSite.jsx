@@ -55,8 +55,7 @@ const schema = yup.object().shape({
   lon: yup.string().min(2, 'longitude must be at least 6 characters').required('longitude is required'),
   maxCheckinVicinity: yup.string().required('Checkin Vicinity is required'),
   isOperational: yup.boolean().required(),
-  isActive: yup.boolean().required(),
-  routeId: yup.string().required()
+  isActive: yup.boolean().required()
 })
 
 const defaultValues = {
@@ -67,20 +66,17 @@ const defaultValues = {
   lon: '',
   maxCheckinVicinity: '',
   isActive: false,
-  isOperational: false,
-  routeId: ''
+  isOperational: false
 }
 
 const AddSiteDrawer = ({ open, toggle, route }) => {
   const queryClient = useQueryClient()
 
-  // const [selectedRoute, setSelectedRoute] = useState('')
-
   const mutation = useMutation({
     mutationKey: ['addNewSite'],
     mutationFn: data => api.post('/sites/sites.createsitesasync', data),
     onSuccess: data => {
-      queryClient.invalidateQueries(['sites'])
+      queryClient.invalidateQueries(['sites', 'routes'])
       handleClose()
       toast.success('Site Created')
     },
@@ -122,6 +118,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
 
     const postdata = {
       ...data,
+      routeId: route.id,
       lat: parseFloat(data.lat),
       lon: parseFloat(data.lon),
       maxCheckinVicinity: parseInt(data.maxCheckinVicinity, 10) || 0,
@@ -269,30 +266,8 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
               />
             )}
           />
-          <Controller
-            name='routeId'
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { value, onChange } }) => (
-              <div>
-                <InputLabel>Route</InputLabel>
-                <Select
-                  fullWidth
-                  label='Route'
-                  value={value}
-                  onChange={onChange}
-                  error={Boolean(errors.routeId)}
-                  {...(errors.routeId && { helperText: errors.routeId.message })}
-                >
-                  {route?.map(route => (
-                    <MenuItem key={route.id} value={route.id}>
-                      {route.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
-            )}
-          />
+
+          <CustomTextField placeholder={route.name} fullWidth value={route?.name} sx={{ mb: 4 }} label='Route' />
 
           <div className='flex items-center gap-5'>
             <Controller

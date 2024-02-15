@@ -62,7 +62,6 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
     mutationKey: ['updateSite'],
     mutationFn: data => api.post('/sites/sites.updatesitesasync', data),
     onSuccess: data => {
-      console.log(data)
       queryClient.invalidateQueries(['sites'])
       handleClose()
       toast.success('Site Updated')

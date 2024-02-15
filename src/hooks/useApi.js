@@ -46,7 +46,9 @@ api.interceptors.response.use(
         if (!accessToken || !refreshToken) {
           // Redirect to login URL if tokens are not available
           localStorage.clear()
-          window.location.href = '/login'
+          setTimeout(() => {
+            window.location.href = '/login'
+          }, 100);
 
           return Promise.reject(error)
         }
@@ -80,7 +82,9 @@ api.interceptors.response.use(
         } catch (refreshError) {
           // Clear tokens and redirect to login URL if refresh token fails
           localStorage.clear()
-          window.location.href = '/login'
+          setTimeout(() => {
+            window.location.href = '/login'
+          }, 100);
 
           return Promise.reject(refreshError)
         }

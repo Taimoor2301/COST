@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
@@ -10,7 +12,6 @@ import AccordionItem from './components/AccordinaItem'
 import AddSiteDrawer from './components/AddSiteDrawer'
 import EditSiteDrawer from './components/EditSiteDrawer'
 import dynamic from 'next/dynamic'
-import { Flag } from '@mui/icons-material'
 
 const LeafletMapcomponents = dynamic(
   () => import('./components/Map'),

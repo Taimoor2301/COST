@@ -5,8 +5,7 @@ import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -19,10 +18,11 @@ import { useForm, Controller } from 'react-hook-form'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
-import { Select } from '@mui/material'
-import { Switch } from '@mui/material'
+import { ButtonBase, Switch } from '@mui/material'
+import { useDebugValue, useEffect, useState } from 'react'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -42,47 +42,53 @@ const Header = styled(Box)(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  name: yup
+  firstName: yup
     .string()
-    .min(3, obj => showErrors('Name', obj.value.length, obj.min))
+    .min(3, obj => showErrors('First Name', obj.value.length, obj.min))
     .required(),
-  internalId: yup
+  lastName: yup
     .string()
-    .min(3, obj => showErrors('Internal ID', obj.value.length, obj.min))
+    .min(3, obj => showErrors('Last Name', obj.value.length, obj.min))
     .required(),
-  description: yup.string().required(),
-  lat: yup.string().min(2, 'latitude must be at least 6 characters').required('latitude is required'),
-  lon: yup.string().min(2, 'longitude must be at least 6 characters').required('longitude is required'),
-  maxCheckinVicinity: yup.string().required('Checkin Vicinity is required'),
-  isOperational: yup.boolean().required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password')], 'Passwords must match')
+    .required('Confirm password is required'),
+  phoneNumber: yup
+    .string()
+    .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, 'Phone number is not valid')
+    .required('Phone number is required'),
   isActive: yup.boolean().required(),
-  routeId: yup.string().required()
+  imageUrl: yup.string(),
+  username: yup.string().min(3, 'Username is requires').required()
 })
 
 const defaultValues = {
-  name: '',
-  internalId: '',
-  description: '',
-  lat: '',
-  lon: '',
-  maxCheckinVicinity: '',
-  isActive: false,
-  isOperational: false,
-  routeId: ''
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  phoneNumber: '',
+  isActive: true,
+  imageUrl: '',
+  username: ''
 }
 
-const AddSiteDrawer = ({ open, toggle, route }) => {
+const AddRoleDrawer = ({ open, toggle }) => {
   const queryClient = useQueryClient()
 
-  // const [selectedRoute, setSelectedRoute] = useState('')
-
   const mutation = useMutation({
-    mutationKey: ['addNewSite'],
-    mutationFn: data => api.post('/sites/sites.createsitesasync', data),
+    mutationKey: ['addNewRole'],
+    mutationFn: data => api.post('/users/users.createnewuserasync', data),
     onSuccess: data => {
-      queryClient.invalidateQueries(['sites'])
-      handleClose()
-      toast.success('Site Created')
+      console.log(data)
+      queryClient.invalidateQueries(['users'])
+      reset()
+      toggle()
+      toast.success('User Created')
     },
     onError: errors => {
       console.log(errors)
@@ -91,6 +97,17 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
     },
     retry: 0
   })
+
+  const [image, setImage] = useState(null)
+  const [localImageUrl, setLoacalImageUrl] = useState(null)
+
+  useEffect(() => {
+    if (image) {
+      setLoacalImageUrl(URL.createObjectURL(image))
+    } else {
+      setLoacalImageUrl(null)
+    }
+  }, [image])
 
   const {
     reset,
@@ -104,35 +121,14 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
   })
 
   const onSubmit = data => {
-    const qrstring = [
-      {
-        site_name: data.name,
-        site_name_ar: data.name,
-        internal_id: data.internalId,
-        is_operational: data.isOperational
-      }
-    ]
-    const jsonString = JSON.stringify(qrstring)
+    mutation.mutate(data)
 
-    // Convert the JSON string to a Buffer
-    const bufferData = Buffer.from(jsonString, 'utf-8')
-
-    // Encode the buffer to base64
-    const base64String = bufferData.toString('base64')
-
-    const postdata = {
-      ...data,
-      lat: parseFloat(data.lat),
-      lon: parseFloat(data.lon),
-      maxCheckinVicinity: parseInt(data.maxCheckinVicinity, 10) || 0,
-      qrCode: base64String, // Use base64String instead of qrCode
-      qrCodeStr: jsonString // Use jsonString instead of qrCodeStr
-    }
-
-    mutation.mutate(postdata)
+    // console.log(data)
   }
 
   const handleClose = () => {
+    setImage(null)
+    setLoacalImageUrl(null)
     toggle()
     reset()
   }
@@ -147,7 +143,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Add New Site</Typography>
+        <Typography variant='h5'>Add New User</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -166,9 +162,37 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
       </Header>
 
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
+        <div className=' flex items-center justify-start gap-2 flex-col py-6'>
+          {localImageUrl ? (
+            <CustomAvatar src={localImageUrl} sx={{ mr: 2.5, width: 80, height: 80 }} />
+          ) : (
+            <CustomAvatar
+              skin='light'
+              sx={{
+                mr: 2.5,
+                width: 80,
+                height: 80,
+                fontWeight: 500,
+                fontSize: theme => theme.typography.body1.fontSize
+              }}
+            ></CustomAvatar>
+          )}
+
+          <input type='file' id='userImage' className='hidden' onChange={e => setImage(e.target.files[0])} />
+
+          <Button
+            type='submit'
+            variant='contained'
+            onClick={() => document.getElementById('userImage').click()}
+            sx={{ mr: 3 }}
+          >
+            Upload
+          </Button>
+        </div>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
-            name='name'
+            name='firstName'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -176,16 +200,16 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Name'
+                label='First Name'
                 onChange={onChange}
-                placeholder='site name'
-                error={Boolean(errors.name)}
-                {...(errors.name && { helperText: errors.name.message })}
+                placeholder='jhon'
+                error={Boolean(errors.firstName)}
+                {...(errors.firstName && { helperText: errors.firstName.message })}
               />
             )}
           />
           <Controller
-            name='internalId'
+            name='lastName'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -193,16 +217,16 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Internal ID'
+                label='Last Name'
                 onChange={onChange}
                 placeholder='doe'
-                error={Boolean(errors.internalId)}
-                {...(errors.internalId && { helperText: errors.internalId.message })}
+                error={Boolean(errors.lastName)}
+                {...(errors.lastName && { helperText: errors.lastName.message })}
               />
             )}
           />
           <Controller
-            name='description'
+            name='username'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -210,16 +234,16 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Description'
+                label='Username'
                 onChange={onChange}
-                placeholder='description'
-                error={Boolean(errors.description)}
-                {...(errors.description && { helperText: errors.description.message })}
+                placeholder='username'
+                error={Boolean(errors.username)}
+                {...(errors.username && { helperText: errors.username.message })}
               />
             )}
           />
           <Controller
-            name='lat'
+            name='email'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -227,16 +251,16 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Latitude'
+                label='Email'
                 onChange={onChange}
-                placeholder='23.334'
-                error={Boolean(errors.lat)}
-                {...(errors.lat && { helperText: errors.lat.message })}
+                placeholder='example@email.com'
+                error={Boolean(errors.email)}
+                {...(errors.email && { helperText: errors.email.message })}
               />
             )}
           />
           <Controller
-            name='lon'
+            name='password'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -244,16 +268,16 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Lonitude'
+                label='Password'
                 onChange={onChange}
-                placeholder='23.334'
-                error={Boolean(errors.lon)}
-                {...(errors.lon && { helperText: errors.lon.message })}
+                placeholder='password'
+                error={Boolean(errors.password)}
+                {...(errors.password && { helperText: errors.password.message })}
               />
             )}
           />
           <Controller
-            name='maxCheckinVicinity'
+            name='confirmPassword'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
@@ -261,75 +285,49 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Checkin Vicinity'
+                label='Confirm Password'
                 onChange={onChange}
-                placeholder='23.334'
-                error={Boolean(errors.maxCheckinVicinity)}
-                {...(errors.maxCheckinVicinity && { helperText: errors.maxCheckinVicinity.message })}
+                placeholder='confirm password'
+                error={Boolean(errors.confirmPassword)}
+                {...(errors.confirmPassword && { helperText: errors.confirmPassword.message })}
               />
             )}
           />
           <Controller
-            name='routeId'
+            name='phoneNumber'
             control={control}
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
-              <div>
-                <InputLabel>Route</InputLabel>
-                <Select
-                  fullWidth
-                  label='Route'
-                  value={value}
-                  onChange={onChange}
-                  error={Boolean(errors.routeId)}
-                  {...(errors.routeId && { helperText: errors.routeId.message })}
-                >
-                  {route?.map(route => (
-                    <MenuItem key={route.id} value={route.id}>
-                      {route.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
+              <CustomTextField
+                fullWidth
+                value={value}
+                sx={{ mb: 4 }}
+                label='Phone Number'
+                onChange={onChange}
+                placeholder='123456789'
+                error={Boolean(errors.phoneNumber)}
+                {...(errors.phoneNumber && { helperText: errors.phoneNumber.message })}
+              />
             )}
           />
 
-          <div className='flex items-center gap-5'>
-            <Controller
-              name='isActive'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <div className='flex items-center pb-5'>
-                  <Switch
-                    checked={value}
-                    label='Active'
-                    onChange={onChange}
-                    error={errors.isActive}
-                    {...(errors.isActive && { helperText: errors.isActive.message })}
-                  />
-                  <Typography sx={{ ml: 2 }}>{'Active'}</Typography>
-                </div>
-              )}
-            />
-            <Controller
-              name='isOperational'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <div className='flex items-center pb-5'>
-                  <Switch
-                    checked={value}
-                    label='Operational'
-                    onChange={onChange}
-                    error={errors.isOperational}
-                    {...(errors.isOperational && { helperText: errors.isOperational.message })}
-                  />
-                  <Typography sx={{ ml: 2 }}>{'Operational'}</Typography>
-                </div>
-              )}
-            />
-          </div>
+          <Controller
+            name='isActive'
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { value, onChange } }) => (
+              <div className='flex items-center pb-5'>
+                <Switch
+                  checked={value}
+                  label='Active'
+                  onChange={onChange}
+                  error={errors.isActive}
+                  {...(errors.isActive && { helperText: errors.isActive.message })}
+                />
+                <Typography sx={{ ml: 2 }}>{'Active'}</Typography>
+              </div>
+            )}
+          />
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button type='submit' variant='contained' sx={{ mr: 3 }}>
@@ -345,4 +343,4 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
   )
 }
 
-export default AddSiteDrawer
+export default AddRoleDrawer

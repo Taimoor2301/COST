@@ -13,6 +13,7 @@ import authConfig from 'src/configs/auth'
 import { baseURL } from 'src/Constants/Constants'
 import toast from 'react-hot-toast'
 import permissions from 'src/store/apps/permissions'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Defaults
 const defaultProvider = {
@@ -38,14 +39,12 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = window.localStorage.getItem('accessToken')
-      if (storedToken) {
+
+      if (storedToken && !user) {
         setLoading(true)
         try {
           // const res = await api.get(`/users/users.getuserdetailsbyidasync`, { params: { id:JSON.parse(localStorage.getItem('userData')).id } });
           const res = await api.get(`/personal/personal.getcurrentuserdetailasync`)
-
-          // console.log(res2.data,'from res 2')
-          // console.log(res.data,'from res 1')
           setUser({ ...res.data, role: 'admin' })
           setUserPermissions(JSON.parse(localStorage.getItem('userPermissions')))
           setUserRoles(JSON.parse(localStorage.getItem('userRoles')))
@@ -53,16 +52,17 @@ const AuthProvider = ({ children }) => {
           if (error.response?.status === 401) {
             localStorage.removeItem('accessToken')
             localStorage.removeItem('refreshToken')
+            localStorage.removeItem('userData')
             router.replace('/login')
           } else {
             console.log(error)
-            toast.error('Something went wrong')
             router.replace('/login')
           }
         } finally {
           setLoading(false)
         }
       } else {
+        setUser(null)
         setLoading(false)
       }
     }
@@ -107,11 +107,12 @@ const AuthProvider = ({ children }) => {
 
   const handleLogout = () => {
     setUser(null)
-    window.localStorage.clear()
 
-    // window.localStorage.removeItem('accessToken');
-    // window.localStorage.removeItem('refreshToken');
-    // window.localStorage.removeItem('userData');
+    // window.localStorage.clear()
+
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('refreshToken');
+    window.localStorage.removeItem('userData');
     router.push('/login')
   }
 

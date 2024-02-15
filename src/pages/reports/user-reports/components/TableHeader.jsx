@@ -1,10 +1,15 @@
+// ** MUI Imports
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+
+// ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
-import Icon from 'src/@core/components/icon'
+
+// ** Icon Imports
+import { Typography } from '@mui/material'
 
 const TableHeader = props => {
-  const { handleFilter, toggle, value } = props
+  // ** Props
+  const { handleFilter, value } = props
 
   return (
     <Box
@@ -16,9 +21,11 @@ const TableHeader = props => {
         display: 'flex',
         flexWrap: 'wrap',
         alignItems: 'center',
-        justifyContent: 'end'
+        justifyContent: 'space-between'
       }}
     >
+      <Typography sx={{ fontSize: '1.125rem', fontWeight: '500' }}>Users List</Typography>
+
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <CustomTextField
           value={value}
@@ -26,11 +33,6 @@ const TableHeader = props => {
           placeholder='Search User'
           onChange={e => handleFilter(e.target.value)}
         />
-
-        <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
-          <Icon fontSize='1.125rem' icon='tabler:plus' />
-          Add New Routes
-        </Button>
       </Box>
     </Box>
   )
