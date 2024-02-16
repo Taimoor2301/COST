@@ -237,7 +237,7 @@ const QuestionnairesList = () => {
   ]
 
   return (
-    <Grid  container spacing={6.5}>
+    <Grid container spacing={6.5}>
       {/* <Grid item xs={12}>
         {cardData && (
           <Grid container spacing={6}>

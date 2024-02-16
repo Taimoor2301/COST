@@ -8,7 +8,7 @@ const MapMarkersComponent = dynamic(() => import('./MapMarkersComponent'), {
   ssr: false // Disable server-side rendering for this component
 })
 
-const Map = ({ cities, selectedCity, flag  }) => {
+const Map = ({ cities, selectedCity, flag }) => {
   const LatLngBounds = L.latLngBounds(cities?.map(city => [city.lat, city.lon]))
 
   const mapRef = useRef()
@@ -57,14 +57,11 @@ const Map = ({ cities, selectedCity, flag  }) => {
         })
 
         return (
-
-            <Marker key={city.id} position={[city.lat, city.lon]} icon={customIcon}>
-              <Popup>
-                {city.name} <br /> Coordinates: {city.lat}, {city.lon}
-              </Popup>
-            </Marker>
-
-
+          <Marker key={city.id} position={[city.lat, city.lon]} icon={customIcon}>
+            <Popup>
+              {city.name} <br /> Coordinates: {city.lat}, {city.lon}
+            </Popup>
+          </Marker>
         )
       })}
     </MapContainer>

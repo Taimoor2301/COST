@@ -110,9 +110,9 @@ const AuthProvider = ({ children }) => {
 
     // window.localStorage.clear()
 
-    window.localStorage.removeItem('accessToken');
-    window.localStorage.removeItem('refreshToken');
-    window.localStorage.removeItem('userData');
+    window.localStorage.removeItem('accessToken')
+    window.localStorage.removeItem('refreshToken')
+    window.localStorage.removeItem('userData')
     router.push('/login')
   }
 

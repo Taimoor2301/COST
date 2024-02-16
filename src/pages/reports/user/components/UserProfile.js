@@ -12,10 +12,6 @@ import { getInitials } from 'src/@core/utils/get-initials'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-
-
-
-
 const UserProfile = ({ userData }) => {
   const userdata = userData == undefined ? [] : JSON.parse(userData)
 

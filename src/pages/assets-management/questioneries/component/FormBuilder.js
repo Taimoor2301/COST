@@ -18,7 +18,7 @@ const FormBuilder = () => {
 
   const { t } = useTranslation()
   const router = useRouter()
-  
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.jQuery = require('jquery')

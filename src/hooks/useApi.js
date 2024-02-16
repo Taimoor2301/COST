@@ -48,7 +48,7 @@ api.interceptors.response.use(
           localStorage.clear()
           setTimeout(() => {
             window.location.href = '/login'
-          }, 100);
+          }, 100)
 
           return Promise.reject(error)
         }
@@ -84,7 +84,7 @@ api.interceptors.response.use(
           localStorage.clear()
           setTimeout(() => {
             window.location.href = '/login'
-          }, 100);
+          }, 100)
 
           return Promise.reject(refreshError)
         }

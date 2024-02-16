@@ -192,7 +192,9 @@ const RowOptions = ({ row, fetchData, formData }) => {
             <CircularProgress />
           ) : (
             <>
-              <Button variant='contained' onClick={handleDelete}>Yes</Button>
+              <Button variant='contained' onClick={handleDelete}>
+                Yes
+              </Button>
               <Button variant='contained' onClick={handleClose}>
                 No
               </Button>
