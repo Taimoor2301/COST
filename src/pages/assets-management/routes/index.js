@@ -12,7 +12,7 @@ import { CircularProgress } from '@mui/material'
 import dynamic from 'next/dynamic'
 
 const LeafletMapcomponents = dynamic(
-  () => import('./components/Map/Map'),
+  () => import('../../../Maps/routemaps/Map'),
   { ssr: false } // <-- Disable server-side rendering
 )
 

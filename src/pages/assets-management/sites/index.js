@@ -14,7 +14,7 @@ import EditSiteDrawer from './components/EditSiteDrawer'
 import dynamic from 'next/dynamic'
 
 const LeafletMapcomponents = dynamic(
-  () => import('./components/Map'),
+  () => import('../../../Maps/sitemaps/Map'),
   { ssr: false } // <-- Disable server-side rendering
 )
 
