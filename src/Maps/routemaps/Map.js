@@ -1,4 +1,4 @@
-import React, { useRef , useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -9,7 +9,6 @@ const MapMarkersComponent = dynamic(() => import('./MapMarkersComponent'), {
 })
 
 const Map = ({ cities, selectedCity, flag }) => {
-
   const LatLngBounds = L.latLngBounds(cities?.map(city => [city.lat, city.lon]))
 
   const mapRef = useRef()
@@ -73,13 +72,11 @@ const Map = ({ cities, selectedCity, flag }) => {
         })
 
         return (
-          <>
-            <Marker key={city.id} position={[city.lat, city.lon]} icon={customIcon}>
-              <Popup>
-                {city.name} <br /> Coordinates: {city.lat}, {city.lon}
-              </Popup>
-            </Marker>
-          </>
+          <Marker key={city.id} position={[city.lat, city.lon]} icon={customIcon}>
+            <Popup>
+              {city.name} <br /> Coordinates: {city.lat}, {city.lon}
+            </Popup>
+          </Marker>
         )
       })}
     </MapContainer>
