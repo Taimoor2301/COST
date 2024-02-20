@@ -50,9 +50,12 @@ const AuthProvider = ({ children }) => {
           setUserRoles(JSON.parse(localStorage.getItem('userRoles')))
         } catch (error) {
           if (error.response?.status === 401) {
-            localStorage.removeItem('accessToken')
-            localStorage.removeItem('refreshToken')
-            localStorage.removeItem('userData')
+            window.localStorage.removeItem('accessToken')
+            window.localStorage.removeItem('refreshToken')
+            window.localStorage.removeItem('userPermissions')
+            window.localStorage.removeItem('userRoles')
+            window.localStorage.removeItem('userData')
+            localStorage.removeItem('userInfo')
             router.replace('/login')
           } else {
             console.log(error)
@@ -85,6 +88,7 @@ const AuthProvider = ({ children }) => {
         }
       )
 
+      localStorage.removeItem('userInfo')
       localStorage.setItem('accessToken', res.data.data.token.token)
       localStorage.setItem('refreshToken', res.data.data.token.refreshToken)
       localStorage.setItem('userPermissions', JSON.stringify(res.data.data.permissions))
@@ -106,13 +110,20 @@ const AuthProvider = ({ children }) => {
   }
 
   const handleLogout = () => {
-    setUser(null)
+
 
     // window.localStorage.clear()
 
     window.localStorage.removeItem('accessToken')
     window.localStorage.removeItem('refreshToken')
+    window.localStorage.removeItem('userPermissions')
+    window.localStorage.removeItem('userRoles')
     window.localStorage.removeItem('userData')
+    window.localStorage.removeItem('formBuilderTemplates')
+    localStorage.removeItem('userInfo')
+
+    setUser(null)
+
     router.push('/login')
   }
 

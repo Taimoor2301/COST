@@ -55,7 +55,7 @@ const RowOptions = ({ data }) => {
   }
 
   const handleDelete = id => {
-    const confirm = window.confirm(`Confirm delete user: ${data.username}`)
+    const confirm = window.confirm(`Confirm delete user: ${data?.firstName + ' ' + data.lastName}`)
     if (confirm) {
       mutation.mutate(id)
     } else {

@@ -143,7 +143,7 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
         </DialogTitle>
         <DialogContent>
           <Typography style={{ textAlign: 'center' }}>
-            Are you sure you want to delete this sites <br />
+            Are you sure you want to delete this Site <br />
             <span style={{ fontWeight: 'bold' }}>{site?.name}</span>
           </Typography>
         </DialogContent>

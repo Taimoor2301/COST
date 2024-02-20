@@ -45,7 +45,11 @@ api.interceptors.response.use(
 
         if (!accessToken || !refreshToken) {
           // Redirect to login URL if tokens are not available
-          localStorage.clear()
+          window.localStorage.removeItem('accessToken')
+            window.localStorage.removeItem('refreshToken')
+            window.localStorage.removeItem('userPermissions')
+            window.localStorage.removeItem('userRoles')
+            window.localStorage.removeItem('userData')
           setTimeout(() => {
             window.location.href = '/login'
           }, 100)
@@ -81,7 +85,11 @@ api.interceptors.response.use(
           return api.request(error.config)
         } catch (refreshError) {
           // Clear tokens and redirect to login URL if refresh token fails
-          localStorage.clear()
+          window.localStorage.removeItem('accessToken')
+            window.localStorage.removeItem('refreshToken')
+            window.localStorage.removeItem('userPermissions')
+            window.localStorage.removeItem('userRoles')
+            window.localStorage.removeItem('userData')
           setTimeout(() => {
             window.location.href = '/login'
           }, 100)

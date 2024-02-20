@@ -94,7 +94,7 @@ const QuestionnairesList = () => {
       flex: 0.1,
       minWidth: 320,
       field: 'name',
-      headerName: <Translations text={'Questionnaire Name'} />,
+      headerName: 'Questionnaire Name',
       renderCell: ({ row }) => {
         const { name } = row
 
@@ -118,11 +118,12 @@ const QuestionnairesList = () => {
         )
       }
     },
+
     {
       flex: 0.2,
       minWidth: 100,
       field: 'content',
-      headerName: <Translations text={'Content'} />,
+      headerName: 'Content',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap sx={{ color: 'text.secondary' }}>
@@ -136,7 +137,7 @@ const QuestionnairesList = () => {
       minWidth: 150,
       sortable: false,
       field: 'actions',
-      headerName: <Translations text={'Actions'} />,
+      headerName: 'Actions',
       renderCell: ({ row }) => {
         // localStorage.setItem('rowData', JSON.stringify(row))
         return <RowOptions row={row} fetchData={fetchData} />

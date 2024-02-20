@@ -5,8 +5,11 @@ import { useRouter } from 'next/router'
 import CustomTextField from 'src/@core/components/mui/text-field'
 import toast from 'react-hot-toast'
 import { baseURL } from 'src/Constants/Constants'
+import { useQuery } from '@tanstack/react-query'
+import api from 'src/hooks/useApi'
 
 const FormBuilder = () => {
+
   const questionData = JSON.parse(localStorage.getItem('rowData'))
   const editTrue = JSON.parse(localStorage.getItem('isEdit')) ?? false
   const fb = createRef()
@@ -19,6 +22,31 @@ const FormBuilder = () => {
   const { t } = useTranslation()
   const router = useRouter()
 
+  // templates
+
+  const [templates , setTemplates] = useState(JSON.parse(localStorage.getItem('formBuilderTemplates')));
+
+
+  const getTemplates = useQuery({
+    queryKey:['formBuilderTemplates'],
+    queryFn:() => api.get('/mobile/mobile.formbuilder.getalltemplatesasync'),
+    enabled:templates?.length < 1 || !templates
+  })
+
+  useEffect(()=>{
+    if(!templates || !templates.length){
+      if(getTemplates.data){
+        setTemplates(getTemplates?.data?.data?.data)
+        localStorage.setItem('formBuilderTemplates' , JSON.stringify(getTemplates?.data?.data?.data))
+      }
+    }
+  },[getTemplates.data , templates])
+
+
+
+
+  // templates
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.jQuery = require('jquery')
@@ -29,31 +57,49 @@ const FormBuilder = () => {
     }
   }, [])
 
+
   useEffect(() => {
-    if (editTrue && questionData) {
-      setName(questionData.name)
-      setQuestionId(questionData.id)
-      if (!formBuilder || !formBuilder.formData) {
-        const initialFormData = questionData.content || []
-        setFormData(initialFormData)
-        setFormBuilder(
-          $(fb.current).formBuilder({
-            disabledActionButtons: ['data', 'clear', 'save'],
-            formData: initialFormData
-          })
-        )
+
+    let fields = templates?.map(temp => temp.template[0]);
+
+    if(fields?.length){
+
+      if (editTrue && questionData) {
+        setName(questionData.name)
+        setQuestionId(questionData.id)
+        if (!formBuilder || !formBuilder.formData) {
+          const initialFormData = questionData.content || []
+          setFormData(initialFormData)
+          setFormBuilder(
+            $(fb.current).formBuilder({
+              disabledActionButtons: ['data', 'clear', 'save'],
+              formData: initialFormData,
+              fields
+            })
+          )
+        }
+      } else {
+        if (!formBuilder || !formBuilder.formData) {
+          setFormBuilder(
+            $(fb.current).formBuilder({
+              disabledActionButtons: ['data', 'clear', 'save'],
+              formData: [],
+              fields,
+
+            })
+          )
+        }
       }
-    } else {
-      if (!formBuilder || !formBuilder.formData) {
-        setFormBuilder(
-          $(fb.current).formBuilder({
-            disabledActionButtons: ['data', 'clear', 'save'],
-            formData: []
-          })
-        )
-      }
+
     }
-  }, [])
+
+
+
+
+
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [templates])
 
   async function saveData() {
     setFormData(formBuilder.formData)
@@ -75,6 +121,7 @@ const FormBuilder = () => {
       name: name,
       content: formBuilder.formData
     }
+
     try {
       const response = await fetch(`${baseURL}/questionnaire/questionnaire.createquestionnaireasync`, {
         method: 'POST',
@@ -110,6 +157,7 @@ const FormBuilder = () => {
       content: formBuilder.formData,
       isActive: false
     }
+
     try {
       const response = await fetch(`${baseURL}/questionnaire/questionnaire.updatequestionnaireasync`, {
         method: 'POST',

@@ -210,7 +210,7 @@ const ViewUserModel = ({ row }) => {
         </DialogTitle>
         <DialogContent>
           <Typography style={{ textAlign: 'center' }}>
-            Are you sure you want to delete this name<br></br>{' '}
+            Are you sure you want to delete this user<br></br>{' '}
             <span style={{ fontWeight: 'bold' }}>
               {row?.firstName} {row?.lastName}
             </span>

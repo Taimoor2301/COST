@@ -67,6 +67,7 @@ const Register = () => {
   // ** States
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage , setErrorMessage] = useState('')
+  const [loading , setLoading] = useState(false)
   const { t } = useTranslation()
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
@@ -96,20 +97,24 @@ const Register = () => {
     setErrorMessage('')
 
     try {
-      await axios.post(baseURL+'/users/users.createuseranonymouslyasync',{...data} , {headers: {
+      setLoading(true);
+
+      const res = await axios.post(baseURL+'/users/users.createuseranonymouslyasync',{...data} , {headers: {
         'Content-Type': 'application/json',
         accept: 'application/json',
         tenant: 'root'
       }})
 
-      // router.push(`/verifyemail?email=${data.email}`)
+      localStorage.setItem('userInfo',JSON.stringify({userId:res.data.data, userEmail:data.email, userPassword:data.password}))
 
-      toast.success("Please Check Your Email")
+      router.push('/enterOTP')
 
       // await auth.login({email:data.email , password:data.password}, () => toast.error('Login failed'))
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.messages[0] || 'Something went wrong')
+    } finally{
+      setLoading(false)
     }
 
   }
@@ -164,10 +169,10 @@ const Register = () => {
             </Box>
             <form   onSubmit={hanldeSubmit}>
               <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' value={data.userName} onChange={e => setData(p => ({...p , userName:e.target.value}))} />
-              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='First Name' placeholder='john' value={data.firstName} onChange={e => setData(p => ({...p , firstName:e.target.value}))} />
-              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='Last Name' placeholder='doe' value={data.lastName} onChange={e => setData(p => ({...p , lastName:e.target.value}))} />
-              <CustomTextField autoFocus required type="email" fullWidth sx={{ mb: 4 }} label='Email' placeholder='example@mail.com' value={data.email} onChange={e => setData(p => ({...p , email:e.target.value}))} />
-              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='Phone' placeholder='+555-555-555' value={data.phoneNumber} onChange={e => setData(p => ({...p , phoneNumber:e.target.value}))} />
+              <CustomTextField  required fullWidth sx={{ mb: 4 }} label='First Name' placeholder='john' value={data.firstName} onChange={e => setData(p => ({...p , firstName:e.target.value}))} />
+              <CustomTextField  required fullWidth sx={{ mb: 4 }} label='Last Name' placeholder='doe' value={data.lastName} onChange={e => setData(p => ({...p , lastName:e.target.value}))} />
+              <CustomTextField  required type="email" fullWidth sx={{ mb: 4 }} label='Email' placeholder='example@mail.com' value={data.email} onChange={e => setData(p => ({...p , email:e.target.value}))} />
+              <CustomTextField  required fullWidth sx={{ mb: 4 }} label='Phone' placeholder='+555-555-555' value={data.phoneNumber} onChange={e => setData(p => ({...p , phoneNumber:e.target.value}))} />
               <CustomTextField
                 fullWidth
                 required
@@ -213,8 +218,8 @@ const Register = () => {
                 }}
               />
 
-              <Button fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
-                Sign up
+              <Button fullWidth type='submit' disabled={loading} variant='contained' sx={{ mb: 4 }}>
+                {loading ? "Please wait..." : "Sign up"}
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ color: 'text.secondary', mr: 2 }}>Already have an account?</Typography>

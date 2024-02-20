@@ -176,32 +176,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
         isActive: singleRole.isActive
       })
     })
-
-    // console.log(postData)
-
     mutation.mutate(postData)
-  }
-
-  // useEffect(() => {
-  //   console.log(selectedRoles)
-  // }, [selectedRoles])
-
-  // ! role add and remove
-  function handleRoleChange(newItems) {
-    let freshItems = []
-    newItems.forEach(item => {
-      const existing = freshItems.find(el => el.roleId === item.roleId)
-      if (!existing?.roleId) {
-        freshItems = [...freshItems, item]
-      }
-    })
-    setSelectedRole(freshItems)
-  }
-
-  function handleRoleRemove(roleId) {
-    if (selectedRoles.length > 1) {
-      setSelectedRole(p => p.filter(el => el.roleId !== roleId))
-    }
   }
 
   //! validation errors
@@ -255,7 +230,13 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
             ></CustomAvatar>
           )}
 
-          <input type='file' id='userImage' className='hidden' onChange={e => setImage(e.target.files[0])} />
+          <input
+            type='file'
+            accept='image/*'
+            id='userImage'
+            className='hidden'
+            onChange={e => setImage(e.target.files[0])}
+          />
 
           <Button
             type='submit'

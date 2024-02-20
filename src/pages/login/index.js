@@ -98,17 +98,16 @@ const defaultValues = {
 const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
+  const [loading , setLoading] = useState(false)
   const { t } = useTranslation()
 
   // ** Hooks
   const auth = useAuth()
   const theme = useTheme()
-  const bgColors = useBgColor()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
   // ** Vars
-  const { skin } = settings
 
   const {
     control,
@@ -121,16 +120,20 @@ const LoginPage = () => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = data => {
+  const onSubmit = async  (data) => {
+    setLoading(true)
     const { email, password } = data
-    auth.login({ email, password, rememberMe }, () => {
+    await auth.login({ email, password, rememberMe }, () => {
+      setLoading(false)
       setError('email', {
         type: 'manual',
         message: 'Email or Password is invalid'
       })
     })
+    setLoading(false)
   }
-  const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
+
+
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -244,7 +247,7 @@ const LoginPage = () => {
                   {t('Forgot Password?')}
                 </Typography>
               </Box>
-              <Button fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
+              <Button fullWidth type='submit' disabled={loading} variant='contained' sx={{ mb: 4 }}>
                 {t('Login')}
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
