@@ -35,20 +35,14 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { useTranslation } from 'react-i18next'
+import { signUpCheck } from 'src/utils/utils'
+import axios from 'axios'
+import { baseURL } from 'src/Constants/Constants'
+import toast from 'react-hot-toast'
+import { useAuth } from 'src/hooks/useAuth'
+import { useRouter } from 'next/router'
 
-// ** Styled Components
-const RegisterIllustration = styled('img')(({ theme }) => ({
-  zIndex: 2,
-  maxHeight: 600,
-  marginTop: theme.spacing(12),
-  marginBottom: theme.spacing(12),
-  [theme.breakpoints.down(1540)]: {
-    maxHeight: 550
-  },
-  [theme.breakpoints.down('lg')]: {
-    maxHeight: 500
-  }
-}))
+
 
 const RightWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -68,27 +62,60 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   color: `${theme.palette.primary.main} !important`
 }))
 
-const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
-  marginTop: theme.spacing(1.5),
-  marginBottom: theme.spacing(1.75),
-  '& .MuiFormControlLabel-label': {
-    color: theme.palette.text.secondary
-  }
-}))
 
 const Register = () => {
   // ** States
   const [showPassword, setShowPassword] = useState(false)
+  const [errorMessage , setErrorMessage] = useState('')
   const { t } = useTranslation()
-
-  // ** Hooks
   const theme = useTheme()
-  const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
-  // ** Vars
-  const { skin } = settings
-  const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration'
+  const auth = useAuth()
+
+  const router = useRouter()
+
+
+  const [data , setData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    userName: '',
+    password: '',
+    confirmPassword: '',
+    phoneNumber: ''
+  })
+
+
+  async function hanldeSubmit(e){
+
+    e.preventDefault()
+    const errorMsg = signUpCheck(data)
+    if(errorMsg) return setErrorMessage(errorMsg)
+
+    setErrorMessage('')
+
+    try {
+      await axios.post(baseURL+'/users/users.createuseranonymouslyasync',{...data} , {headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+        tenant: 'root'
+      }})
+
+      // router.push(`/verifyemail?email=${data.email}`)
+
+      toast.success("Please Check Your Email")
+
+      // await auth.login({email:data.email , password:data.password}, () => toast.error('Login failed'))
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.messages[0] || 'Something went wrong')
+    }
+
+  }
+
+
+
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -131,15 +158,24 @@ const Register = () => {
               <Typography sx={{ color: 'text.secondary' }}>
                 {t('Please sign-up to your account and start the adventure')}
               </Typography>
+              {errorMessage && <Typography sx={{ color: 'red', textAlign:'center', py:'5px' }}>
+                {t(errorMessage)}
+              </Typography>}
             </Box>
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <CustomTextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
-              <CustomTextField fullWidth label='Email' sx={{ mb: 4 }} placeholder='user@email.com' />
+            <form   onSubmit={hanldeSubmit}>
+              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' value={data.userName} onChange={e => setData(p => ({...p , userName:e.target.value}))} />
+              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='First Name' placeholder='john' value={data.firstName} onChange={e => setData(p => ({...p , firstName:e.target.value}))} />
+              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='Last Name' placeholder='doe' value={data.lastName} onChange={e => setData(p => ({...p , lastName:e.target.value}))} />
+              <CustomTextField autoFocus required type="email" fullWidth sx={{ mb: 4 }} label='Email' placeholder='example@mail.com' value={data.email} onChange={e => setData(p => ({...p , email:e.target.value}))} />
+              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='Phone' placeholder='+555-555-555' value={data.phoneNumber} onChange={e => setData(p => ({...p , phoneNumber:e.target.value}))} />
               <CustomTextField
                 fullWidth
+                required
+                sx={{mb:4}}
                 label='Password'
-                id='auth-login-v2-password'
                 type={showPassword ? 'text' : 'password'}
+                value={data.password}
+                onChange={e => setData(p => ({...p , password:e.target.value}))}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -154,18 +190,29 @@ const Register = () => {
                   )
                 }}
               />
-              <FormControlLabel
-                control={<Checkbox />}
-                sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: theme.typography.body2.fontSize } }}
-                label={
-                  <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                    <Typography sx={{ color: 'text.secondary' }}>I agree to</Typography>
-                    <Typography component={LinkStyled} href='/' onClick={e => e.preventDefault()} sx={{ ml: 1 }}>
-                      privacy policy & terms
-                    </Typography>
-                  </Box>
-                }
+              <CustomTextField
+                fullWidth
+                required
+                value={data.confirmPassword}
+                sx={{mb:4}}
+                label='Confirm Password'
+                type={showPassword ? 'text' : 'password'}
+                onChange={e => setData(p => ({...p , confirmPassword:e.target.value}))}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        onMouseDown={e => e.preventDefault()}
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <Icon fontSize='1.25rem' icon={showPassword ? 'tabler:eye' : 'tabler:eye-off'} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
               />
+
               <Button fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
                 Sign up
               </Button>

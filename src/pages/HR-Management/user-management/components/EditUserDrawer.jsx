@@ -93,7 +93,14 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
 
   const mutation = useMutation({
     mutationKey: ['updateUser'],
-    mutationFn: data => api.post('/users/user.updateuserasync', data, { params: { id: data.id } }),
+    mutationFn: async data => {
+      await api.post(
+        '/users/users.toggleuserstatusasync',
+        { activateUser: data.isActive, userId: data.id },
+        { params: { id: data.id } }
+      )
+      await api.post('/users/user.updateuserasync', data, { params: { id: data.id } })
+    },
     onSuccess: () => {
       queryClient.invalidateQueries(['users', 'user'])
       toast.success('Updated')

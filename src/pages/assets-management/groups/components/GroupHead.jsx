@@ -13,7 +13,7 @@ export default function AccordianSummary({ data }) {
       id='form-layouts-collapsible-header-3'
       aria-controls='form-layouts-collapsible-content-3'
     >
-      <div className='grid grid-cols-1 md:grid-cols-4 pr-5 gap-x-5 text-xs lg:text-lg w-full'>
+      <div className='grid grid-cols-1 md:grid-cols-4 pr-5 gap-x-5 text-xs lg:text-sm w-full'>
         <div className='col-span-1'>Group Name: {name}</div>
         <div className='col-span-1'>Total Users : {userIds?.length || 0}</div>
         <div className='col-span-1'>Total Sites : {siteIds?.length || 0}</div>
