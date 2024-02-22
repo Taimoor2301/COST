@@ -12,6 +12,7 @@ import AccordionItem from './components/AccordinaItem'
 import AddSiteDrawer from './components/AddSiteDrawer'
 import EditSiteDrawer from './components/EditSiteDrawer'
 import dynamic from 'next/dynamic'
+import { CircularProgress } from '@mui/material'
 
 const LeafletMapcomponents = dynamic(
   () => import('src/Maps/sitemaps/Map'),
@@ -35,7 +36,7 @@ export default function Sites() {
 
   // cities
   const [flag, setflag] = useState(false)
-  const [selectedCity, setSelectedCity] = useState({})
+  const [selectedCity, setSelectedCity] = useState(null)
 
   const { data: routes } = useQuery({
     queryFn: () => api.get('/routes/route.getallrouteasync'),
@@ -81,8 +82,15 @@ export default function Sites() {
   }, [selectedRoute, allSites])
 
   const handleCityNameClick = city => {
-    setSelectedCity(city)
-    setflag(true)
+
+    if(city.id === selectedCity?.id){
+      setSelectedCity(null)
+      setflag(false)
+    } else{
+      setSelectedCity(city)
+      setflag(true)
+
+    }
   }
 
   return (
@@ -114,8 +122,8 @@ export default function Sites() {
             <Typography sx={{ fontSize: '16px', marginBottom: '30px' }}>
               Total Sites ({sitesToShow?.length || 0})
             </Typography>
-            <div className='overflow-x-hidden overflow-y-auto max-h-[25rem]'>
-              {sitesToShow?.map(site => (
+            <div className='overflow-x-hidden overflow-y-auto max-h-[25rem] p-1'>
+              {sitesLoading ? <div className='grid place-content-center'><CircularProgress/></div> : sitesToShow?.map(site => (
                 <AccordionItem
                   key={site.id}
                   site={site}

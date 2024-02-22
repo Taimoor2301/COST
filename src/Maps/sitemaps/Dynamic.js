@@ -55,7 +55,7 @@ export default function Dynamic({ cities, selectedCity, flag }) {
       center={flag ? [selectedCity?.lat, selectedCity?.lon] : calculateCenter()}
       bounds={LatLngBounds}
       style={{ width: '100%', height: '70vh' }}
-      zoom={flag ? 6 : 12} // Set the desired zoom level
+      zoom={selectedCity ? 19: 4} // Set the desired zoom level
       ref={mapRef}
     >
       <TileLayer

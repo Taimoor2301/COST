@@ -17,6 +17,7 @@ import DialogActions from '@mui/material/DialogActions'
 import toast from 'react-hot-toast'
 import CircularProgress from '@mui/material/CircularProgress'
 import api from 'src/hooks/useApi'
+import { QRCodeSVG } from 'qrcode.react'
 
 import { styled } from '@mui/material/styles'
 
@@ -62,7 +63,10 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
   return (
     <div>
       <Accordion>
-        <AccordionSummary expandIcon={<Icon fontSize='1.25rem' icon='tabler:chevron-down' />}>
+        <AccordionSummary
+          onClick={() => handleCityNameClick(site)}
+          expandIcon={<Icon fontSize='1.25rem' icon='tabler:chevron-down' />}
+        >
           <div className='w-5 flex justify-center items-center'>
             <img
               src={
@@ -76,7 +80,7 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
             />
           </div>
 
-          <Button variant='text' sx={{ cursor: 'pointer', ml: '5px' }} onClick={() => handleCityNameClick(site)}>
+          <Button variant='text' sx={{ cursor: 'pointer', ml: '5px' }}>
             {site?.name}
           </Button>
         </AccordionSummary>
@@ -122,7 +126,9 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
                   <Icon icon='tabler:location' fontSize={14} />
                 </CustomTimelineDot>
               </TimelineSeparator>
-              <TimelineContent sx={{ mt: '7px' }}>QrCode :{site?.qrCode}</TimelineContent>
+              <TimelineContent sx={{ mt: '7px' }}>
+                <QRCodeSVG value={site.qrCode} />
+              </TimelineContent>
             </TimelineItem>
           </Timeline>
         </AccordionDetails>
