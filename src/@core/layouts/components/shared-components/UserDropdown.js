@@ -92,8 +92,9 @@ const UserDropdown = props => {
           horizontal: 'right'
         }}
       >
-        <Avatar alt={user?.userName} src={user?.imageUrl} onClick={handleDropdownOpen} sx={{ width: 38, height: 38 }} />
+        <Avatar alt={user?.userName} src={`data:image/png;base64,${user.imageUrl}`} onClick={handleDropdownOpen} sx={{ width: 38, height: 38 }} />
       </Badge>
+
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -112,7 +113,7 @@ const UserDropdown = props => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt={user?.userName} src={user?.imageUrl} sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt={user?.userName} src={`data:image/png;base64,${user.imageUrl}`} sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 500 }}>
@@ -124,34 +125,14 @@ const UserDropdown = props => {
             </Box>
           </Box>
         </Box>
+
         <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/user-profile/profile')}>
+        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/user-profile')}>
           <Box sx={styles}>
             <Icon icon='tabler:user-check' />
             My Profile
           </Box>
         </MenuItemStyled>
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/account-settings/account')}>
-          <Box sx={styles}>
-            <Icon icon='tabler:settings' />
-            Settings
-          </Box>
-        </MenuItemStyled>
-
-        <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/help-center')}>
-          <Box sx={styles}>
-            <Icon icon='tabler:lifebuoy' />
-            Help
-          </Box>
-        </MenuItemStyled>
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/faq')}>
-          <Box sx={styles}>
-            <Icon icon='tabler:info-circle' />
-            FAQ
-          </Box>
-        </MenuItemStyled>
-
         <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
         <MenuItemStyled sx={{ p: 0 }} onClick={handleLogout}>
           <Box sx={styles}>

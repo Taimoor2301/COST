@@ -42,7 +42,7 @@ const CustomCloseButton = styled(IconButton)(({ theme }) => ({
 
 const renderClient = row => {
   if (row.imageUrl) {
-    return <CustomAvatar src={row.imageUrl} sx={{ mr: 2.5, width: 38, height: 38 }} />
+    return <CustomAvatar src={`data:image/png;base64,${row.imageUrl}`} sx={{ mr: 2.5, width: 38, height: 38 }} />
   } else {
     return (
       <CustomAvatar

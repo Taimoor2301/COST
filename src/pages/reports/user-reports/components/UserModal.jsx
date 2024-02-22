@@ -3,12 +3,11 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 const renderClient = row => {
   if (row.imageUrl) {
-    return <CustomAvatar src={row.imageUrl} sx={{ mr: 2.5, width: 38, height: 38 }} />
+    return <CustomAvatar src={`data:image/png;base64,${row.imageUrl}`} sx={{ mr: 2.5, width: 38, height: 38 }} />
   } else {
     return (
       <CustomAvatar

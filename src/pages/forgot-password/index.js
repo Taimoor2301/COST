@@ -23,20 +23,13 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { useTranslation } from 'react-i18next'
 import Image from 'next/image'
+import toast from 'react-hot-toast'
+import axios from 'axios'
+import { baseURL } from 'src/Constants/Constants'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 
-// Styled Components
-const ForgotPasswordIllustration = styled('img')(({ theme }) => ({
-  zIndex: 2,
-  maxHeight: 650,
-  marginTop: theme.spacing(12),
-  marginBottom: theme.spacing(12),
-  [theme.breakpoints.down(1540)]: {
-    maxHeight: 550
-  },
-  [theme.breakpoints.down('lg')]: {
-    maxHeight: 500
-  }
-}))
+
 
 const RightWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -65,8 +58,40 @@ const ForgotPassword = () => {
   const theme = useTheme()
   const { t } = useTranslation()
 
+  const router = useRouter()
+
   // ** Vars
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
+
+  const [email , setEmail] = useState('')
+
+  const [loading , setLoading] = useState(false)
+
+
+  async function handleSubmit(e){
+    e.preventDefault()
+
+      setLoading(true)
+
+    try {
+
+      const res = await axios.post(baseURL+ '/users/users.forgotpasswordasync', {email}, {headers:{
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+        tenant: 'root'
+      }})
+
+      localStorage.setItem('forgotPassCredentials', JSON.stringify(res.data?.data))
+
+    } catch (error) {
+      toast.error(`No User found with this Email`)
+      console.log(error)
+    } finally{
+      setLoading(false)
+    }
+  }
+
+
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -113,9 +138,9 @@ const ForgotPassword = () => {
                 {t("Enter your email and we'll send you instructions to reset your password")}
               </Typography>
             </Box>
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <CustomTextField fullWidth autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} />
-              <Button fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
+            <form autoComplete='off' onSubmit={handleSubmit}>
+              <CustomTextField fullWidth required value={email} onChange={e => setEmail(e.target.value)} autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} />
+              <Button fullWidth type='submit' disabled={loading} variant='contained' sx={{ mb: 4 }}>
                 Send reset link
               </Button>
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>

@@ -33,113 +33,77 @@ import themeConfig from 'src/configs/themeConfig'
 
 const defaultSuggestionsData = [
   {
-    category: 'Popular Searches',
+    category: 'HR Management',
     suggestions: [
       {
-        icon: 'tabler:chart-pie-2',
-        suggestion: 'Analytics',
-        link: '/dashboards/analytics'
+        suggestion: 'User Management',
+        link: '/HR-Management/user-management/'
       },
       {
-        icon: 'tabler:device-analytics',
-        suggestion: 'CRM',
-        link: '/dashboards/crm'
+        suggestion: 'Roles Management',
+        link: '/HR-Management/roles/'
       },
       {
-        icon: 'tabler:shopping-cart',
-        suggestion: 'eCommerce',
-        link: '/dashboards/ecommerce'
-      },
-      {
-        icon: 'tabler:users',
-        suggestion: 'User List',
-        link: '/apps/user/list'
+        suggestion: 'Permissions',
+        link: '/HR-Management/permissios/'
       }
     ]
   },
   {
-    category: 'Apps & Pages',
+    category: 'Assets Management',
     suggestions: [
       {
-        icon: 'tabler:calendar',
-        suggestion: 'Calendar',
-        link: '/apps/calendar'
+        suggestion: 'Routes',
+        link: '/assets-management/routes/'
       },
       {
-        icon: 'tabler:list-numbers',
-        suggestion: 'Invoice List',
-        link: '/apps/invoice/list'
+        suggestion: 'Sites',
+        link: '/assets-management/sites/'
       },
       {
-        icon: 'tabler:currency-dollar',
-        suggestion: 'Pricing',
-        link: '/pages/pricing'
+        suggestion: 'Questionnaries',
+        link: '/assets-management/questioneries'
       },
       {
-        icon: 'tabler:settings',
-        suggestion: 'Account Settings',
-        link: '/pages/account-settings/account'
-      }
+        suggestion: 'Groups',
+        link: '/assets-management/groups/'
+      },
+
     ]
   },
   {
-    category: 'User Interface',
+    category: 'Reports',
     suggestions: [
       {
-        icon: 'tabler:typography',
-        suggestion: 'Typography',
-        link: '/ui/typography'
+        suggestion: 'User Reports',
+        link: '/reports/user-reports'
       },
       {
-        icon: 'tabler:browser',
-        suggestion: 'Tabs',
-        link: '/components/tabs'
+        suggestion: 'Site Reports',
+        link: '/reports/site-reports'
       },
-      {
-        icon: 'tabler:hand-click',
-        suggestion: 'Buttons',
-        link: '/components/buttons'
-      },
-      {
-        icon: 'tabler:id',
-        suggestion: 'Advanced Cards',
-        link: '/ui/cards/advanced'
-      }
+
     ]
   },
   {
-    category: 'Forms & Tables',
+    category: 'Settings',
     suggestions: [
       {
-        icon: 'tabler:list-check',
-        suggestion: 'Select',
-        link: '/forms/form-elements/select'
+        suggestion: 'Settings',
+        link: '/setting'
       },
-      {
-        icon: 'tabler:space',
-        suggestion: 'Autocomplete',
-        link: '/forms/form-elements/autocomplete'
-      },
-      {
-        icon: 'tabler:layout-grid',
-        suggestion: 'Table',
-        link: '/tables/mui'
-      },
-      {
-        icon: 'tabler:calendar-event',
-        suggestion: 'Date Pickers',
-        link: '/forms/form-elements/pickers'
-      }
+
     ]
   }
 ]
 
 const categoryTitle = {
   dashboards: 'Dashboards',
-  appsPages: 'Apps & Pages',
-  userInterface: 'User Interface',
-  formsTables: 'Forms & Tables',
-  chartsMisc: 'Charts & Misc'
+
+  // appsPages: 'Apps & Pages',
+  // userInterface: 'User Interface',
+  // formsTables: 'Forms & Tables',
+  // chartsMisc: 'Charts & Misc'
 }
 
 // ** Styled Autocomplete component
@@ -228,63 +192,6 @@ const NoResult = ({ value, setOpenDialog }) => {
           {`"${value}"`}
         </Typography>
       </Typography>
-
-      <Typography variant='body2' sx={{ mb: 2.5, color: 'text.disabled' }}>
-        Try searching for
-      </Typography>
-      <List sx={{ py: 0 }}>
-        <ListItem sx={{ py: 2 }} disablePadding onClick={() => setOpenDialog(false)}>
-          <Box
-            component={Link}
-            href='/dashboards/ecommerce'
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              '&:hover > *': { color: 'primary.main' }
-            }}
-          >
-            <Box sx={{ mr: 2.5, display: 'flex', color: 'text.primary' }}>
-              <Icon icon='tabler:shopping-cart' />
-            </Box>
-            <Typography>eCommerce Dashboard</Typography>
-          </Box>
-        </ListItem>
-        <ListItem sx={{ py: 2 }} disablePadding onClick={() => setOpenDialog(false)}>
-          <Box
-            component={Link}
-            href='/pages/user-profile/profile'
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              '&:hover > *': { color: 'primary.main' }
-            }}
-          >
-            <Box sx={{ mr: 2.5, display: 'flex', color: 'text.primary' }}>
-              <Icon icon='tabler:user' />
-            </Box>
-            <Typography>User Profile</Typography>
-          </Box>
-        </ListItem>
-        <ListItem sx={{ py: 2 }} disablePadding onClick={() => setOpenDialog(false)}>
-          <Box
-            component={Link}
-            href='/pages/account-settings/account'
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              '&:hover > *': { color: 'primary.main' }
-            }}
-          >
-            <Box sx={{ mr: 2.5, display: 'flex', color: 'text.primary' }}>
-              <Icon icon='tabler:settings' />
-            </Box>
-            <Typography>Account Settings</Typography>
-          </Box>
-        </ListItem>
-      </List>
     </Box>
   )
 }
@@ -325,6 +232,8 @@ const DefaultSuggestions = ({ setOpenDialog }) => {
   )
 }
 
+const searchOptions = [{title:"Users Management", src:"/HR-Management/user-management"},{title:"Permissions", src:"/HR-Management/permissions"},{title:"Roles", src:"/HR-Management/roles"},{title:"Groups", src:"/assets-management/groups"},{title:"Questionnneries", src:"/assets-management/questioneries"},{title:"Routes", src:"/assets-management/routes"},{title:"Sites", src:"/assets-management/sites"}]
+
 const AutocompleteComponent = ({ hidden, settings }) => {
   // ** States
   const [isMounted, setIsMounted] = useState(false)
@@ -341,18 +250,10 @@ const AutocompleteComponent = ({ hidden, settings }) => {
 
   // Get all data using API
   useEffect(() => {
-    axios
-      .get('/app-bar/search', {
-        params: { q: searchValue }
-      })
-      .then(response => {
-        if (response.data && response.data.length) {
-          setOptions(response.data)
-        } else {
-          setOptions([])
-        }
-      })
+      setOptions(searchOptions.filter(o => o.title.toLowerCase().includes(searchValue.toLowerCase())))
   }, [searchValue])
+
+
   useEffect(() => {
     if (!openDialog) {
       setSearchValue('')
@@ -368,8 +269,8 @@ const AutocompleteComponent = ({ hidden, settings }) => {
   const handleOptionClick = obj => {
     setSearchValue('')
     setOpenDialog(false)
-    if (obj.url) {
-      router.push(obj.url)
+    if (obj.src) {
+      router.push(obj.src)
     }
   }
 

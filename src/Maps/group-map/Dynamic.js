@@ -99,7 +99,7 @@ export default function Dynamic({ cities, selectedCity, flag }) {
 
       center={calculateCenter()}
       bounds={LatLngBounds}
-      style={{ width: '100%', height: '70vh' }}
+      style={{ width: '100%', height: '50vh' }}
       zoom={10} // Set the desired zoom level
       ref={mapRef}
     >

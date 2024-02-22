@@ -12,7 +12,7 @@ import TableHeader from './components/TableHeader'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
 import { CircularProgress } from '@mui/material'
-import EditUserDrawer from './components/EditUserDrawer'
+import EditUserDrawer from '../../HR-Management/user-management/components/EditUserDrawer'
 import Tooltip from '@mui/material/Tooltip'
 
 // ** Custom Components Imports

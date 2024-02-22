@@ -23,10 +23,11 @@ const UserProfile = ({ userData }) => {
             <CustomAvatar
               skin='light'
               variant='rounded'
+              src={`data:image/png;base64,${userdata.imageUrl}`}
               color={'primary'}
               sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
             >
-              {getInitials(userdata?.firstName ? userdata?.firstName : ' ')}
+              {!userData.imageUrl && getInitials(userdata?.firstName ? userdata?.firstName : ' ')}
             </CustomAvatar>
             <Typography variant='h4' sx={{ mb: 3 }}>
               {`${userdata?.firstName} ${userdata?.lastName}`}

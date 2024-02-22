@@ -43,9 +43,10 @@ const AuthProvider = ({ children }) => {
       if (storedToken && !user) {
         setLoading(true)
         try {
-          // const res = await api.get(`/users/users.getuserdetailsbyidasync`, { params: { id:JSON.parse(localStorage.getItem('userData')).id } });
-          const res = await api.get(`/personal/personal.getcurrentuserdetailasync`)
-          setUser({ ...res.data, role: 'admin' })
+          const res = await api.get(`/users/users.getuserdetailsbyidasync`, { params: { id:JSON.parse(localStorage.getItem('userData')).id } });
+
+          // const res = await api.get(`/personal/personal.getcurrentuserdetailasync`)
+          setUser({ ...res.data?.data, role: 'admin' })
           setUserPermissions(JSON.parse(localStorage.getItem('userPermissions')))
           setUserRoles(JSON.parse(localStorage.getItem('userRoles')))
         } catch (error) {

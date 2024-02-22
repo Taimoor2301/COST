@@ -21,8 +21,6 @@ import CustomChip from 'src/@core/components/mui/chip'
 import toast from 'react-hot-toast'
 import UserModal from './components/UserModal'
 
-import EditDrawer from './components/EditDrawer'
-
 const RowOptions = ({ data }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)

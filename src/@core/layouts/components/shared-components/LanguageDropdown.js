@@ -40,17 +40,7 @@ const LanguageDropdown = ({ settings, saveSettings }) => {
             }
           }
         },
-        {
-          text: 'French',
-          menuItemProps: {
-            sx: { py: 2 },
-            selected: i18n.language === 'fr',
-            onClick: () => {
-              handleLangItemClick('fr')
-              saveSettings({ ...settings, direction: 'ltr' })
-            }
-          }
-        },
+
         {
           text: 'Arabic',
           menuItemProps: {

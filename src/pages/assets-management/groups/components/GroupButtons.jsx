@@ -50,6 +50,13 @@ export default function GroupButtons({ onCancel, group, selectedSites, selectedU
     update.mutate(data)
   }
 
+  function onDelete() {
+    const validate = window.confirm('Do you want to delete this group?')
+    if (validate) {
+      deleteGroup.mutate()
+    }
+  }
+
   return (
     <AccordionDetails>
       <div className='flex py-5 items-center justify-center gap-4'>
@@ -66,7 +73,7 @@ export default function GroupButtons({ onCancel, group, selectedSites, selectedU
             <Button variant='contained' onClick={() => setOpenEdit(p => !p)}>
               Edit Group info
             </Button>
-            <Button variant='contained' color='error' onClick={() => deleteGroup.mutate()}>
+            <Button variant='contained' color='error' onClick={onDelete}>
               Delete
             </Button>
           </>

@@ -62,54 +62,37 @@ const notifications = [
 ]
 
 const shortcuts = [
+
   {
-    title: 'Calendar',
-    url: '/apps/calendar',
-    icon: 'tabler:calendar',
-    subtitle: 'Appointments'
-  },
-  {
-    title: 'Invoice App',
-    url: '/apps/invoice/list',
+    title: 'Reports',
+    url: '/reports/site-reports',
     icon: 'tabler:file-invoice',
-    subtitle: 'Manage Accounts'
+    subtitle: 'Site Reports'
   },
   {
-    title: 'User App',
+    title: 'User',
     icon: 'tabler:users',
-    url: '/apps/user/list',
+    url: '/HR-Management/user-management',
     subtitle: 'Manage Users'
   },
   {
-    url: '/apps/roles',
+    url: '/HR-Management/permissions',
     icon: 'tabler:lock',
     subtitle: 'Permissions',
-    title: 'Role Management'
+    title: 'Permissions'
   },
   {
-    subtitle: 'CRM',
+    subtitle: 'Dashboard',
     title: 'Dashboard',
-    url: '/dashboards/crm',
+    url: '/dashboards',
     icon: 'tabler:device-analytics'
   },
   {
     title: 'Settings',
     icon: 'tabler:settings',
-    subtitle: 'Account Settings',
-    url: '/pages/account-settings/account'
+    url: '/setting'
   },
-  {
-    icon: 'tabler:help',
-    title: 'Help Center',
-    url: '/pages/help-center',
-    subtitle: 'FAQs & Articles'
-  },
-  {
-    title: 'Dialogs',
-    icon: 'tabler:square',
-    subtitle: 'Useful Popups',
-    url: '/pages/dialog-examples'
-  }
+
 ]
 
 const AppBarContent = props => {

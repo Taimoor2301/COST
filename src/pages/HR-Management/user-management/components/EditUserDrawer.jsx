@@ -24,7 +24,7 @@ import { useQuery } from '@tanstack/react-query'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
-import { checkValidation } from '../../../../utils/utils'
+import { checkValidation, uploadImage } from '../../../../utils/utils'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -58,10 +58,14 @@ const dataTemplate = {
 // ! start
 
 const AddRoleDrawer = ({ open, toggle, data }) => {
-  const [selectedRoles, setSelectedRole] = useState([])
   const [errorMsg, setErrorMsg] = useState('')
   const [userData, setUserData] = useState(dataTemplate)
   const queryClient = useQueryClient()
+
+  // ! image handling
+
+  const [file, setFile] = useState('')
+  const [localImageUrl, setLoacalImageUrl] = useState('')
 
   // todo her
   const [role, setrole] = useState([])
@@ -94,6 +98,11 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
   const mutation = useMutation({
     mutationKey: ['updateUser'],
     mutationFn: async data => {
+      if (file) {
+        const base64 = await uploadImage(file)
+        data.imageUrl = base64
+      }
+
       await api.post(
         '/users/users.toggleuserstatusasync',
         { activateUser: data.isActive, userId: data.id },
@@ -113,18 +122,13 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
     }
   })
 
-  // ! image handling
-
-  const [image, setImage] = useState('')
-  const [localImageUrl, setLoacalImageUrl] = useState('')
-
   useEffect(() => {
-    if (image) {
-      setLoacalImageUrl(URL.createObjectURL(image))
+    if (file) {
+      setLoacalImageUrl(URL.createObjectURL(file))
     } else {
-      setLoacalImageUrl(null)
+      setLoacalImageUrl(`data:image/png;base64,${data?.imageUrl}`)
     }
-  }, [image])
+  }, [file, data])
 
   // ! set initial data
 
@@ -141,6 +145,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
         userRoles: data.roles || ''
       })
       setrole(data.roles)
+      setLoacalImageUrl(`data:image/png;base64,${data.imageUrl}`)
     }
   }, [data])
 
@@ -184,31 +189,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
       })
     })
 
-    // console.log(postData)
-
     mutation.mutate(postData)
-  }
-
-  // useEffect(() => {
-  //   console.log(selectedRoles)
-  // }, [selectedRoles])
-
-  // ! role add and remove
-  function handleRoleChange(newItems) {
-    let freshItems = []
-    newItems.forEach(item => {
-      const existing = freshItems.find(el => el.roleId === item.roleId)
-      if (!existing?.roleId) {
-        freshItems = [...freshItems, item]
-      }
-    })
-    setSelectedRole(freshItems)
-  }
-
-  function handleRoleRemove(roleId) {
-    if (selectedRoles.length > 1) {
-      setSelectedRole(p => p.filter(el => el.roleId !== roleId))
-    }
   }
 
   //! validation errors
@@ -262,12 +243,12 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
             ></CustomAvatar>
           )}
 
-          <input type='file' id='userImage' className='hidden' onChange={e => setImage(e.target.files[0])} />
+          <input type='file' id='userImageEdit' className='hidden' onChange={e => setFile(e.target.files[0])} />
 
           <Button
             type='submit'
             variant='contained'
-            onClick={() => document.getElementById('userImage').click()}
+            onClick={() => document.getElementById('userImageEdit').click()}
             sx={{ mr: 3 }}
           >
             Upload

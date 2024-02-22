@@ -18,11 +18,11 @@ import { useForm, Controller } from 'react-hook-form'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
-import { ButtonBase, Switch } from '@mui/material'
-import { useDebugValue, useEffect, useState } from 'react'
+import { Switch } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { uploadImage } from 'src/utils/utils'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -79,12 +79,19 @@ const defaultValues = {
 
 const AddRoleDrawer = ({ open, toggle }) => {
   const queryClient = useQueryClient()
+  const [file, setFile] = useState('')
+  const [localImageUrl, setLoacalImageUrl] = useState('')
 
   const mutation = useMutation({
     mutationKey: ['addNewRole'],
-    mutationFn: data => api.post('/users/users.createnewuserasync', data),
+    mutationFn: async data => {
+      if (file) {
+        const base64 = await uploadImage(file)
+        data.imageUrl = base64
+      }
+      await api.post('/users/users.createnewuserasync', data)
+    },
     onSuccess: data => {
-      console.log(data)
       queryClient.invalidateQueries(['users'])
       reset()
       toggle()
@@ -98,16 +105,13 @@ const AddRoleDrawer = ({ open, toggle }) => {
     retry: 0
   })
 
-  const [image, setImage] = useState(null)
-  const [localImageUrl, setLoacalImageUrl] = useState(null)
-
   useEffect(() => {
-    if (image) {
-      setLoacalImageUrl(URL.createObjectURL(image))
+    if (file) {
+      setLoacalImageUrl(URL.createObjectURL(file))
     } else {
-      setLoacalImageUrl(null)
+      setLoacalImageUrl('')
     }
-  }, [image])
+  }, [file])
 
   const {
     reset,
@@ -178,12 +182,12 @@ const AddRoleDrawer = ({ open, toggle }) => {
             ></CustomAvatar>
           )}
 
-          <input type='file' id='userImage' className='hidden' onChange={e => setImage(e.target.files[0])} />
+          <input type='file' id='userImageNew' className='hidden' onChange={e => setFile(e.target.files[0])} />
 
           <Button
             type='submit'
             variant='contained'
-            onClick={() => document.getElementById('userImage').click()}
+            onClick={() => document.getElementById('userImageNew').click()}
             sx={{ mr: 3 }}
           >
             Upload

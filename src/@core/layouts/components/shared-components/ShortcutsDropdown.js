@@ -114,11 +114,7 @@ const ShortcutsDropdown = props => {
             }}
           >
             <Typography variant='h5'>Shortcuts</Typography>
-            <Tooltip title='Add Shortcut' placement='top'>
-              <IconButton size='small'>
-                <Icon fontSize='1.5rem' icon='tabler:apps' />
-              </IconButton>
-            </Tooltip>
+
           </Box>
         </MenuItem>
         <Divider sx={{ my: '0 !important' }} />
