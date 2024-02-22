@@ -99,6 +99,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
     },
     onError: errors => {
       console.log(errors)
+      setFile('')
       toggle()
       toast.error(errors.response.data.messages[0] || 'Something went wrong')
     },
@@ -131,8 +132,8 @@ const AddRoleDrawer = ({ open, toggle }) => {
   }
 
   const handleClose = () => {
-    setImage(null)
-    setLoacalImageUrl(null)
+    setFile('')
+    setLoacalImageUrl('')
     toggle()
     reset()
   }

@@ -113,6 +113,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
     onSuccess: () => {
       queryClient.invalidateQueries(['users', 'user'])
       toast.success('Updated')
+      setFile('')
       toggle()
     },
     onError: errors => {
