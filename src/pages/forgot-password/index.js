@@ -83,9 +83,10 @@ const ForgotPassword = () => {
 
       localStorage.setItem('forgotPassCredentials', JSON.stringify(res.data?.data))
 
+      router.push('/forgot-password/reset-password')
+
     } catch (error) {
       toast.error(`No User found with this Email`)
-      console.log(error)
     } finally{
       setLoading(false)
     }

@@ -14,6 +14,7 @@ import { baseURL } from 'src/Constants/Constants'
 import toast from 'react-hot-toast'
 import permissions from 'src/store/apps/permissions'
 import { useAuth } from 'src/hooks/useAuth'
+import { useQuery } from '@tanstack/react-query'
 
 // ** Defaults
 const defaultProvider = {
@@ -47,14 +48,11 @@ const AuthProvider = ({ children }) => {
 
           // const res = await api.get(`/personal/personal.getcurrentuserdetailasync`)
           setUser({ ...res.data?.data, role: 'admin' })
-          setUserPermissions(JSON.parse(localStorage.getItem('userPermissions')))
-          setUserRoles(JSON.parse(localStorage.getItem('userRoles')))
+
         } catch (error) {
           if (error.response?.status === 401) {
             window.localStorage.removeItem('accessToken')
             window.localStorage.removeItem('refreshToken')
-            window.localStorage.removeItem('userPermissions')
-            window.localStorage.removeItem('userRoles')
             window.localStorage.removeItem('userData')
             localStorage.removeItem('userInfo')
             router.replace('/login')
@@ -74,6 +72,7 @@ const AuthProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
   const handleLogin = async (params, errorCallback) => {
     const { email, password } = params
     try {
@@ -92,8 +91,6 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem('userInfo')
       localStorage.setItem('accessToken', res.data.data.token.token)
       localStorage.setItem('refreshToken', res.data.data.token.refreshToken)
-      localStorage.setItem('userPermissions', JSON.stringify(res.data.data.permissions))
-      localStorage.setItem('userRoles', JSON.stringify(res.data.data.roles))
       localStorage.setItem('userData', JSON.stringify({ ...res.data.data.user, role: 'admin' }))
       setUser({ ...res.data.data.user, role: 'admin' })
 

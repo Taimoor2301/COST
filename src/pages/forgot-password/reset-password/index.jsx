@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -26,6 +26,11 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import axios from 'axios'
+import { Route } from '@mui/icons-material'
+import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
+import { baseURL } from 'src/Constants/Constants'
 
 // ** Styled Components
 const ResetPasswordIllustration = styled('img')(({ theme }) => ({
@@ -65,11 +70,17 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 const ResetPasswordV2 = () => {
   // ** States
   const [values, setValues] = useState({
+    OTP: '',
     newPassword: '',
     showNewPassword: false,
     confirmNewPassword: '',
     showConfirmNewPassword: false
   })
+
+  const [loading, setLoading] = useState(false)
+  const [errMsg, setErrMsg] = useState('')
+
+  const router = useRouter()
 
   // ** Hooks
   const theme = useTheme()
@@ -93,6 +104,71 @@ const ResetPasswordV2 = () => {
 
   const handleClickShowConfirmNewPassword = () => {
     setValues({ ...values, showConfirmNewPassword: !values.showConfirmNewPassword })
+  }
+
+  const handleOTPChange = event => {
+    setValues(p => ({ ...p, OTP: event.target.value }))
+  }
+
+  const payload = JSON.parse(localStorage.getItem('forgotPassCredentials'))
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem('forgotPassCredentials')).code
+
+    if (!token) {
+      router.replace('/login')
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  async function handelSubmit(e) {
+    e.preventDefault()
+    const { newPassword, confirmNewPassword, OTP } = values
+
+    if (!OTP || OTP.length < 6) {
+      return setErrMsg('Please enter a valid OTP')
+    }
+
+    if (newPassword.length < 6) {
+      return setErrMsg('Password must be atleast 6 characters long')
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      return setErrMsg('Password are not matching')
+    }
+
+    setErrMsg('')
+
+    try {
+      setLoading(true)
+
+      await axios.post(
+        baseURL + '/users/users.resetpasswordasync',
+        {
+          email: payload.email,
+          token: payload.code,
+          otp: OTP,
+          password: newPassword
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+            tenant: 'root'
+          }
+        }
+      )
+
+      localStorage.removeItem('forgotPassCredentials')
+      toast.success('Password Changed')
+      router.push('/login')
+    } catch (error) {
+      console.log(error)
+      toast.error('Error reseting password')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -129,18 +205,30 @@ const ResetPasswordV2 = () => {
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
             <Image alt='company logo' src={logo} width={180} />
-            <Box sx={{ my: 6 }}>
+            <Box sx={{ my: 6, display: 'flex', flexDirection: 'column' }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
                 Reset Password 🔒
               </Typography>
-              <Typography sx={{ display: 'flex' }}>
-                for{' '}
-                <Typography component='span' sx={{ ml: 1, fontWeight: 500 }}>
-                  john.doe@email.com
-                </Typography>
+
+              <Typography component='span' sx={{ ml: 1, fontWeight: 500 }}>
+                Please check your email for OPT
               </Typography>
+              {errMsg && (
+                <Typography component='span' color='red' sx={{ ml: 1, fontWeight: 500 }}>
+                  {errMsg}
+                </Typography>
+              )}
             </Box>
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+            <form noValidate autoComplete='off' onSubmit={handelSubmit}>
+              <CustomTextField
+                fullWidth
+                autoFocus
+                label='OTP'
+                value={values.OTP}
+                placeholder='OTP'
+                sx={{ display: 'flex', mb: 4 }}
+                onChange={handleOTPChange}
+              />
               <CustomTextField
                 fullWidth
                 autoFocus
@@ -193,7 +281,7 @@ const ResetPasswordV2 = () => {
                   )
                 }}
               />
-              <Button fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
+              <Button fullWidth disabled={loading} type='submit' variant='contained' sx={{ mb: 4 }}>
                 Set New Password
               </Button>
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
