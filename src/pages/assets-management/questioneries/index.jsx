@@ -91,7 +91,7 @@ const QuestionnairesList = () => {
 
   const columns = [
     {
-      flex: 0.1,
+      flex: 1,
       minWidth: 320,
       field: 'name',
       headerName: 'Questionnaire Name',
@@ -119,19 +119,19 @@ const QuestionnairesList = () => {
       }
     },
 
-    {
-      flex: 0.2,
-      minWidth: 100,
-      field: 'content',
-      headerName: 'Content',
-      renderCell: ({ row }) => {
-        return (
-          <Typography noWrap sx={{ color: 'text.secondary' }}>
-            {JSON.stringify(row.content)}
-          </Typography>
-        )
-      }
-    },
+    // {
+    //   flex: 0.2,
+    //   minWidth: 100,
+    //   field: 'content',
+    //   headerName: 'Content',
+    //   renderCell: ({ row }) => {
+    //     return (
+    //       <Typography noWrap sx={{ color: 'text.secondary' }}>
+    //         {JSON.stringify(row.content)}
+    //       </Typography>
+    //     )
+    //   }
+    // },
     {
       flex: 0.1,
       minWidth: 150,

@@ -30,7 +30,7 @@ const FooterContent = () => {
       <Typography sx={{ mr: 2, display: 'flex', color: 'text.secondary' }}>
         {`© ${new Date().getFullYear()}, Made with `}
         {`by`}
-        <Typography sx={{ ml: 1 }} target='_blank' href='https://www.machknowsoft.net/#' component={StyledCompanyName}>
+        <Typography sx={{ ml: 1 }} target='_blank' href='https://www.machknowsoft.net' component={StyledCompanyName}>
           MachKnow Soft
         </Typography>
       </Typography>

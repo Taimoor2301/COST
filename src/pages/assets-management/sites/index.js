@@ -139,7 +139,7 @@ export default function Sites() {
 
       <Grid item xs={12} md={8}>
         <Card>
-          <LeafletMapcomponents cities={allSites} selectedCity={selectedCity} flag={flag} />
+          <LeafletMapcomponents cities={sitesToShow} selectedCity={selectedCity} flag={flag} />
         </Card>
       </Grid>
 

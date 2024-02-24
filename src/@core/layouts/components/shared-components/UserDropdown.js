@@ -19,6 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
+import { useTranslation } from 'react-i18next'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -36,6 +37,8 @@ const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
 }))
 
 const UserDropdown = props => {
+  const {t} = useTranslation()
+
   // ** Props
   const { settings } = props
 
@@ -120,7 +123,7 @@ const UserDropdown = props => {
                 <span className='capitalize'>{user?.firstName + ' ' + user?.lastName}</span>
               </Typography>
               <Typography variant='body2' className='capitalize'>
-                {user.role}
+                {t(user.role)}
               </Typography>
             </Box>
           </Box>
@@ -130,14 +133,14 @@ const UserDropdown = props => {
         <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/user-profile')}>
           <Box sx={styles}>
             <Icon icon='tabler:user-check' />
-            My Profile
+            {t('My Profile')}
           </Box>
         </MenuItemStyled>
         <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
         <MenuItemStyled sx={{ p: 0 }} onClick={handleLogout}>
           <Box sx={styles}>
             <Icon icon='tabler:logout' />
-            Sign Out
+            {t('Sign Out')}
           </Box>
         </MenuItemStyled>
       </Menu>

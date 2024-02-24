@@ -8,8 +8,11 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { Typography } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 const TableHeader = props => {
+  const { t } = useTranslation()
+
   // ** Props
   const { handleFilter, toggle, value } = props
 
@@ -26,13 +29,13 @@ const TableHeader = props => {
         justifyContent: 'space-between'
       }}
     >
-      <Typography sx={{ fontSize: '1.125rem', fontWeight: '500' }}>Users List</Typography>
+      <Typography sx={{ fontSize: '1.125rem', fontWeight: '500' }}>{t('Users List')}</Typography>
 
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <CustomTextField
           value={value}
           sx={{ mr: 4 }}
-          placeholder='Search User'
+          placeholder={t('Search User')}
           onChange={e => handleFilter(e.target.value)}
         />
 

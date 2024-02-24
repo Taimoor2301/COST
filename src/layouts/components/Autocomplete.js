@@ -30,6 +30,7 @@ import CustomAutocomplete from 'src/@core/components/mui/autocomplete'
 
 // ** Configs Imports
 import themeConfig from 'src/configs/themeConfig'
+import { useTranslation } from 'react-i18next'
 
 const defaultSuggestionsData = [
   {
@@ -40,7 +41,7 @@ const defaultSuggestionsData = [
         link: '/HR-Management/user-management/'
       },
       {
-        suggestion: 'Roles Management',
+        suggestion: 'Roles',
         link: '/HR-Management/roles/'
       },
       {
@@ -50,7 +51,7 @@ const defaultSuggestionsData = [
     ]
   },
   {
-    category: 'Assets Management',
+    category: 'Assets',
     suggestions: [
       {
         suggestion: 'Routes',
@@ -75,11 +76,11 @@ const defaultSuggestionsData = [
     category: 'Reports',
     suggestions: [
       {
-        suggestion: 'User Reports',
+        suggestion: 'Users Reports',
         link: '/reports/user-reports'
       },
       {
-        suggestion: 'Site Reports',
+        suggestion: 'Sites Reports',
         link: '/reports/site-reports'
       },
 
@@ -181,13 +182,15 @@ const Dialog = styled(MuiDialog)({
 })
 
 const NoResult = ({ value, setOpenDialog }) => {
+  const {t} = useTranslation()
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center' }}>
       <Box sx={{ mb: 2.5, color: 'text.primary' }}>
         <Icon icon='tabler:file-off' fontSize='5rem' />
       </Box>
       <Typography variant='h5' sx={{ mb: 11.5, wordWrap: 'break-word' }}>
-        No results for{' '}
+        {t('No results for')}
         <Typography variant='h5' component='span' sx={{ wordWrap: 'break-word' }}>
           {`"${value}"`}
         </Typography>
@@ -197,12 +200,15 @@ const NoResult = ({ value, setOpenDialog }) => {
 }
 
 const DefaultSuggestions = ({ setOpenDialog }) => {
+
+const {t} = useTranslation()
+
   return (
     <Grid container spacing={6} sx={{ ml: 0 }}>
       {defaultSuggestionsData.map((item, index) => (
         <Grid item xs={12} sm={6} key={index}>
           <Typography component='p' variant='overline' sx={{ lineHeight: 1.25, color: 'text.disabled' }}>
-            {item.category}
+            {t(item.category)}
           </Typography>
           <List sx={{ py: 2.5 }}>
             {item.suggestions.map((suggestionItem, index2) => (
@@ -221,7 +227,7 @@ const DefaultSuggestions = ({ setOpenDialog }) => {
                   }}
                 >
                   <Icon icon={suggestionItem.icon} />
-                  <Typography>{suggestionItem.suggestion}</Typography>
+                  <Typography>{t(suggestionItem.suggestion)}</Typography>
                 </Box>
               </ListItem>
             ))}
@@ -247,6 +253,8 @@ const AutocompleteComponent = ({ hidden, settings }) => {
   const { layout } = settings
   const wrapper = useRef(null)
   const fullScreenDialog = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const {t} = useTranslation()
 
   // Get all data using API
   useEffect(() => {
@@ -317,7 +325,7 @@ const AutocompleteComponent = ({ hidden, settings }) => {
           <Icon fontSize='1.625rem' icon='tabler:search' />
         </IconButton>
         {!hidden && layout === 'vertical' ? (
-          <Typography sx={{ userSelect: 'none', color: 'text.disabled' }}>Search (Ctrl+/)</Typography>
+          <Typography sx={{ userSelect: 'none', color: 'text.disabled' }}>{t('Search') +'(Ctrl+/)'}</Typography>
         ) : null}
         {openDialog && (
           <Dialog fullWidth open={openDialog} fullScreen={fullScreenDialog} onClose={() => setOpenDialog(false)}>
@@ -325,7 +333,7 @@ const AutocompleteComponent = ({ hidden, settings }) => {
               <Autocomplete
                 autoHighlight
                 disablePortal
-                options={options}
+                options={options?.map(o => ({...o , title:t(o.title)}))}
                 id='appBar-search'
                 isOptionEqualToValue={() => true}
                 onInputChange={(event, value) => setSearchValue(value)}
@@ -412,7 +420,7 @@ const AutocompleteComponent = ({ hidden, settings }) => {
                         }}
                       >
                         <Icon icon={option.icon || themeConfig.navSubItemIcon} />
-                        <Typography>{option.title}</Typography>
+                        <Typography>{t(option.title)}</Typography>
                       </ListItemButton>
                     </ListItem>
                   ) : null

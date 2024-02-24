@@ -205,15 +205,24 @@ const Roles = () => {
     setRolesToShow(allRoles?.filter(el => el.name.toLowerCase().includes(searchValue.toLowerCase())))
   }, [searchValue, allRoles])
 
+  // loading
+  const [dLoading, setDLoading] = useState(true)
+
+  useEffect(() => {
+    if (isLoading) {
+      setDLoading(true)
+    } else {
+      setTimeout(() => {
+        setDLoading(false)
+      }, 0)
+    }
+  }, [isLoading])
+
   return (
     <Grid container spacing={6.5}>
       <Grid item xs={12}>
-        {isLoading ? (
-          <div className='h-full w-full grid place-content-center'>
-            <CircularProgress />
-          </div>
-        ) : isError ? (
-          <Typography>Something went wrong! Please try again.</Typography>
+        {isError ? (
+          <div className='w-full my-5 text-center'>Something went wrong! Please try again.</div>
         ) : (
           <Card>
             <TableHeader
@@ -224,13 +233,17 @@ const Roles = () => {
             <DataGrid
               autoHeight
               rowHeight={62}
-              rows={rolesToShow?.map(el => ({
-                ...el,
-                editFn: data => {
-                  setItemToEdit(data)
-                  setEditRoleOpen(true)
-                }
-              }))}
+              rows={
+                rolesToShow?.map(el => ({
+                  ...el,
+                  editFn: data => {
+                    setItemToEdit(data)
+                    setEditRoleOpen(true)
+                  }
+                })) || []
+              }
+              loading={dLoading}
+              loadingOverlayComponent={<CircularProgress />}
               columns={columns}
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}

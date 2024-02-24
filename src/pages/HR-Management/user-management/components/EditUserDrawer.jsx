@@ -97,18 +97,28 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
 
   const mutation = useMutation({
     mutationKey: ['updateUser'],
-    mutationFn: async data => {
+    mutationFn: async uploadData => {
       if (file) {
         const base64 = await uploadImage(file)
-        data.imageUrl = base64
+        uploadData.imageUrl = base64
       }
 
-      await api.post(
-        '/users/users.toggleuserstatusasync',
-        { activateUser: data.isActive, userId: data.id },
-        { params: { id: data.id } }
-      )
-      await api.post('/users/user.updateuserasync', data, { params: { id: data.id } })
+      if (!data?.roles?.some(role => role.roleName.toLowerCase() === 'admin')) {
+        await api.post(
+          '/users/users.toggleuserstatusasync',
+          {
+            activateUser: uploadData.userRoles.some(role => role.enabled && role.roleName.toLowerCase() === 'admin')
+              ? true
+              : uploadData.isActive,
+            userId: uploadData.id
+          },
+          { params: { id: uploadData.id } }
+        )
+      } else {
+        uploadData.isActive = true
+      }
+
+      await api.post('/users/user.updateuserasync', uploadData, { params: { id: uploadData.id } })
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users', 'user'])
@@ -117,8 +127,8 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
       toggle()
     },
     onError: errors => {
-      // toggle()
-      toast.error(JSON.parse(errors.response.data).messages[0] || 'Something went wrong')
+      toast.error('User Update Failed')
+      toggle()
       console.log(errors)
     }
   })
@@ -334,38 +344,43 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
             )}
             MenuProps={MenuProps}
           >
-            {rolesList?.data?.data?.map(item => (
-              <MenuItem
-                key={item.id}
-                value={{
-                  roleId: item.id,
-                  roleName: item.name,
-                  description: item.description,
-                  enabled: false
-                }}
-                disabled={role.some(role => role.roleId === item.id && role.enabled === true)}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
+            {rolesList?.data?.data?.map(item =>
+              item.isActive ? (
+                <MenuItem
+                  key={item.id}
+                  value={{
+                    roleId: item.id,
+                    roleName: item.name,
+                    description: item.description,
+                    enabled: false
+                  }}
+                  disabled={role.some(role => role.roleId === item.id && role.enabled === true)}
+                >
+                  {item.name}
+                </MenuItem>
+              ) : null
+            )}
           </Select>
         </FormControl>
 
-        <Grid item sm={6}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <Switch
-              checked={userData.isActive || false}
-              onChange={() => setUserData(p => ({ ...p, isActive: !p.isActive }))}
-              inputProps={{ 'aria-label': 'role-controlled' }}
-              sx={{
-                '--Switch-thumbSize': '27px',
-                '--Switch-trackWidth': '100px',
-                '--Switch-trackHeight': '45px'
-              }}
-            />
-            <Typography sx={{ ml: 2 }}>Active</Typography>
-          </Box>
-        </Grid>
+        {!data?.roles?.some(role => role.roleName.toLowerCase() === 'admin') &&
+          !role.some(role => role.roleName.toLowerCase() === 'admin') && (
+            <Grid item sm={6}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Switch
+                  checked={userData.isActive || false}
+                  onChange={() => setUserData(p => ({ ...p, isActive: !p.isActive }))}
+                  inputProps={{ 'aria-label': 'role-controlled' }}
+                  sx={{
+                    '--Switch-thumbSize': '27px',
+                    '--Switch-trackWidth': '100px',
+                    '--Switch-trackHeight': '45px'
+                  }}
+                />
+                <Typography sx={{ ml: 2 }}>Active</Typography>
+              </Box>
+            </Grid>
+          )}
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button

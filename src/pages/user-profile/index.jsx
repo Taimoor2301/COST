@@ -217,7 +217,6 @@ const UserProfile = ({ data }) => {
               label='First Name'
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
-              id='outlined-size-small'
               size='small'
               fullWidth
             />
@@ -225,7 +224,6 @@ const UserProfile = ({ data }) => {
               label='Last Name'
               value={lastName}
               onChange={e => setLastName(e.target.value)}
-              id='outlined-size-small'
               size='small'
               fullWidth
               sx={{ width: '100%', marginTop: '2rem' }}
@@ -234,7 +232,6 @@ const UserProfile = ({ data }) => {
               label='Email'
               value={email}
               onChange={e => setEmail(e.target.value)}
-              id='outlined-size-small'
               size='small'
               fullWidth
               sx={{ width: '100%', marginTop: '2rem' }}
@@ -242,8 +239,8 @@ const UserProfile = ({ data }) => {
             <TextField
               label='Phone Number'
               value={phoneNumber}
+              placeholder='+96655455454'
               onChange={e => setPhoneNumber(e.target.value)}
-              id='outlined-size-small'
               size='small'
               fullWidth
               sx={{ width: '100%', marginTop: '2rem' }}

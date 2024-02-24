@@ -1,5 +1,30 @@
 {
-  "Dashboards": "لوحات القيادة",
+  "Dashboard": "لوحات القيادة",
+"User Management":"إدارةالمستخدم",
+"Routes":"الطرق",
+"Sites":"المواقع",
+"Questionnaires":"استبيانات",
+"Questionnaries":"استبيانات",
+"Settings":"إعدادات",
+"Assets":"إعدادات",
+"HR Management":"ادارة الموارد البشرية",
+"Reports":"التقارير",
+"Assets Management":"إدارة الأصول",
+"Manage Users":"ادارة المستخدمين",
+"Site Reports":"تقارير الموقع",
+"My Profile":"ملفي",
+"Sign Out":"خروج",
+"Users List":"قائمة المستخدمين",
+"User Name":"اسم المستخدم",
+"Active":"نشيط",
+"Verified":"تم التحقق",
+"Role":"دور",
+"Delete":"يمسح",
+"search User":"مستخدم البحث",
+
+"Users Reports":"تقارير المستخدم",
+"Sites Reports":"تقارير الموقع",
+"Groups":"مجموعات",
   "Analytics": "تحليلات",
   "CRM": "CRM",
   "eCommerce": "التجارة الإلكترونية",
@@ -130,5 +155,8 @@
   "Menu Level 3.2": "مستوى القائمة 3.2",
   "Disabled Menu": "قائمة المعوقين",
   "Raise Support": "رفع الدعم",
-  "Documentation": "توثيق"
+  "Documentation": "توثيق",
+  "Search" : "يبحث",
+  "No results for":"لا توجد نتائج ل"
+
 }

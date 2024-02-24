@@ -5,7 +5,7 @@ const MapMarkersComponent = ({ selectedCity }) => {
   const map = useMap()
 
   if (map && lat !== undefined && lon !== undefined) {
-    map.flyTo([lat, lon], 8)
+    map.flyTo([lat, lon], 12)
   }
 
   return null

@@ -49,6 +49,7 @@ export default function Dynamic({ cities, selectedCity, flag }) {
     }
   }
 
+
   return (
     <MapContainer
       key={Math.random()}
@@ -65,7 +66,9 @@ export default function Dynamic({ cities, selectedCity, flag }) {
 
       {flag && <MapMarkersComponent selectedCity={selectedCity} />}
 
-      {cities?.map(city => {
+
+
+      {!flag ? cities?.map(city => {
         const customIcon = new L.Icon({
           iconUrl: `data:image/png;base64,${city?.route?.markerIcon || ''}`,
           iconSize: [32, 32],
@@ -80,7 +83,25 @@ export default function Dynamic({ cities, selectedCity, flag }) {
             </Popup>
           </Marker>
         )
-      })}
+      }) : cities?.map(city => {
+        if(city?.id !== selectedCity?.id) return null;
+        else{
+          const customIcon = new L.Icon({
+            iconUrl: `data:image/png;base64,${city?.route?.markerIcon || ''}`,
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+            popupAnchor: [0, -32]
+          })
+
+          return (
+            <Marker key={city.id} position={[city.lat, city.lon]} icon={customIcon}>
+              <Popup>
+                {city.name} <br /> Coordinates: {city.lat}, {city.lon}
+              </Popup>
+            </Marker>
+          )
+        }
+      } )}
     </MapContainer>
   )
 }

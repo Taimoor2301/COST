@@ -23,7 +23,8 @@ const Map = ({ cities, selectedCity, flag }) => {
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map)
         })
         .catch(error => {
-          console.error('Error loading Leaflet:', error)
+
+          // console.error('Error loading Leaflet:', error)
         })
     }
   }, [])
@@ -50,10 +51,10 @@ const Map = ({ cities, selectedCity, flag }) => {
   return (
     <MapContainer
       key={Math.random()}
-      center={flag ? [selectedCity?.lat, selectedCity?.lon] : calculateCenter()}
+      center={calculateCenter()}
       bounds={LatLngBounds}
       style={{ width: '100%', height: '70vh' }}
-      zoom={flag ? 6 : 12} // Set the desired zoom level
+      zoom={5} // Set the desired zoom level
       ref={mapRef}
     >
       <TileLayer
@@ -61,7 +62,7 @@ const Map = ({ cities, selectedCity, flag }) => {
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
 
-      {flag && <MapMarkersComponent selectedCity={selectedCity} />}
+      {/* {flag && <MapMarkersComponent selectedCity={selectedCity} />} */}
 
       {cities?.map(city => {
         const customIcon = new L.Icon({

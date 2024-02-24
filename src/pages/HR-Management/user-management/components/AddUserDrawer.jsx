@@ -309,7 +309,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 sx={{ mb: 4 }}
                 label='Phone Number'
                 onChange={onChange}
-                placeholder='123456789'
+                placeholder='+920011232323'
                 error={Boolean(errors.phoneNumber)}
                 {...(errors.phoneNumber && { helperText: errors.phoneNumber.message })}
               />

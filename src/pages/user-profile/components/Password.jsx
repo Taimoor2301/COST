@@ -14,6 +14,8 @@ export default function Password() {
 
   const [errorMsg, setErrorMsg] = useState('')
 
+  const [type, setType] = useState('password')
+
   const mutation = useMutation({
     mutationKey: ['changeCurrentUserPassword'],
     mutationFn: () => api.put('/personal/personal.changepasswordasync', { password, newPassword, confirmNewPassword }),
@@ -54,27 +56,27 @@ export default function Password() {
 
         <FormControl sx={{ width: '100%', marginTop: '2rem' }}>
           <TextField
+            type={type}
             value={password}
             onChange={e => setPassword(e.target.value)}
             label='Current Password'
-            id='outlined-size-small'
             size='small'
             fullWidth
           />
           <TextField
+            type={type}
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
             label='New Password'
-            id='outlined-size-small'
             size='small'
             fullWidth
             style={{ marginTop: '2rem' }}
           />
           <TextField
+            type={type}
             value={confirmNewPassword}
             onChange={e => setConfirmNewPassword(e.target.value)}
             label='Confirm Password'
-            id='outlined-size-small'
             size='small'
             fullWidth
             style={{ marginTop: '2rem' }}
@@ -82,6 +84,13 @@ export default function Password() {
         </FormControl>
       </CardContent>
       <CardActions style={{ justifyContent: 'end' }}>
+        <Button
+          size='small'
+          onClick={() => setType(p => (p === 'text' ? 'password' : 'text'))}
+          className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] text-[12px] disabled:bg-gray-500'
+        >
+          {type === 'text' ? 'Hide Password' : 'Show Password'}
+        </Button>
         <Button
           size='small'
           disabled={mutation.isPending}

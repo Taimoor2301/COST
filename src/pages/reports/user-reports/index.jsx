@@ -206,6 +206,21 @@ const UserList = () => {
     )
   }, [searchValue, allUsers])
 
+  // loading
+
+  // loading
+  const [dLoading, setDLoading] = useState(true)
+
+  useEffect(() => {
+    if (isLoading) {
+      setDLoading(true)
+    } else {
+      setTimeout(() => {
+        setDLoading(false)
+      }, 0)
+    }
+  }, [isLoading])
+
   return (
     <Grid container spacing={6.5}>
       <Grid item xs={12}>
@@ -228,7 +243,7 @@ const UserList = () => {
                 })) || []
               }
               columns={columns}
-              loading={isLoading}
+              loading={dLoading}
               loadingOverlayComponent={<CircularProgress />}
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}

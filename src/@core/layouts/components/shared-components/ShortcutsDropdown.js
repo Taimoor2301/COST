@@ -22,6 +22,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Third Party Components
 import PerfectScrollbarComponent from 'react-perfect-scrollbar'
+import { useTranslation } from 'react-i18next'
 
 // ** Styled Menu component
 const Menu = styled(MuiMenu)(({ theme }) => ({
@@ -61,6 +62,8 @@ const ScrollWrapper = ({ children, hidden }) => {
 }
 
 const ShortcutsDropdown = props => {
+  const {t} = useTranslation()
+
   // ** Props
   const { shortcuts, settings } = props
 
@@ -113,7 +116,7 @@ const ShortcutsDropdown = props => {
               '& svg': { color: 'text.secondary' }
             }}
           >
-            <Typography variant='h5'>Shortcuts</Typography>
+            <Typography variant='h5'>{t('Shortcuts')}</Typography>
 
           </Box>
         </MenuItem>
@@ -153,9 +156,9 @@ const ShortcutsDropdown = props => {
                   <Avatar sx={{ mb: 2, width: 48, height: 48 }}>
                     <Icon fontSize='1.5rem' icon={shortcut.icon} />
                   </Avatar>
-                  <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>{shortcut.title}</Typography>
+                  <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>{t(shortcut.title)}</Typography>
                   <Typography variant='body2' sx={{ color: 'text.disabled' }}>
-                    {shortcut.subtitle}
+                    {t(shortcut.subtitle)}
                   </Typography>
                 </Box>
               </Grid>

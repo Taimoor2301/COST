@@ -80,9 +80,7 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
             />
           </div>
 
-          <Button variant='text' sx={{ cursor: 'pointer', ml: '5px' }}>
-            {site?.name}
-          </Button>
+          <div className='cursor-pointer pl-4'>{site?.name}</div>
         </AccordionSummary>
 
         <AccordionDetails>

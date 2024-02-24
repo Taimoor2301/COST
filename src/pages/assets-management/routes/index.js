@@ -88,7 +88,7 @@ const Routes = () => {
               px: 4
             }}
           >
-            <Grid item lg={4} md={6} xs={12}>
+            <Grid item xs={12} md={4}>
               <Card
                 sx={{
                   height: {
@@ -134,7 +134,7 @@ const Routes = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={12} md={8}>
+            <Grid item xs={12} md={8}>
               <Card>
                 <LeafletMapcomponents cities={site} selectedCity={selectedCity} flag={flag} />
               </Card>
