@@ -1,6 +1,7 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import { t } from 'i18next'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -26,19 +27,19 @@ const TableHeader = props => {
         justifyContent: 'space-between'
       }}
     >
-      <Typography sx={{ fontSize: '1.125rem', fontWeight: '500' }}>Roles List</Typography>
+      <Typography sx={{ fontSize: '1.125rem', fontWeight: '500' }}>{t('Roles List')}</Typography>
 
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <CustomTextField
           value={value}
           sx={{ mr: 4 }}
-          placeholder='Search Roles'
+          placeholder={t('Search Roles')}
           onChange={e => handleFilter(e.target.value)}
         />
 
-        <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
+        <Button onClick={toggle} variant='outlined' sx={{ '& svg': { mr: 2 } }}>
           <Icon fontSize='1.125rem' icon='tabler:plus' />
-          Add New Role
+          {t('Add New Role')}
         </Button>
       </Box>
     </Box>

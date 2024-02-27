@@ -6,9 +6,12 @@ import { Divider } from '@mui/material'
 import api from 'src/hooks/useApi'
 import SelectionContainer from '../inner-components/SelectedContainer'
 import SelctableItem from './SelectableItem'
+import { useTranslation } from 'react-i18next'
 
 export default function Users({ allUsers, selectedUsers, handleUserChange }) {
   const [selectedRole, setSelectedRole] = useState('All')
+
+  const { t } = useTranslation()
 
   const { data: roles } = useQuery({
     queryKey: ['roles'],
@@ -29,7 +32,7 @@ export default function Users({ allUsers, selectedUsers, handleUserChange }) {
     <div className='col-span-1 h-full w-full'>
       <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
         <div className='flex justify-between items-end gap-3 pl-4 pb-2'>
-          <span className='text-lg'>Roles</span>
+          <span className='text-lg'>{t('Roles')}</span>
           <Selection options={roles?.data?.data} selected={selectedRole} setSelected={setSelectedRole} />
         </div>
         <Divider />

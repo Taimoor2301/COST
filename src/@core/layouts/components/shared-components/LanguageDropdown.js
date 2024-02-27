@@ -15,6 +15,7 @@ const LanguageDropdown = ({ settings, saveSettings }) => {
   const { i18n } = useTranslation()
 
   const handleLangItemClick = lang => {
+    localStorage.setItem('language', lang)
     i18n.changeLanguage(lang)
   }
 

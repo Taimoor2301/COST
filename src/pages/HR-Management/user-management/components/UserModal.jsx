@@ -127,7 +127,7 @@ const ViewUserModel = ({ row }) => {
       >
         <DialogTitle id='customized-dialog-title' sx={{ p: 4 }}>
           <Typography variant='h6' component='span'>
-            {t(`Details of ${row.firstName} ${row.lastName}`)}
+            {t(`Details of`) + ' ' + `${row.firstName} ${row.lastName}`}
           </Typography>
           <CustomCloseButton aria-label='close' onClick={handleClickOpen}>
             <Icon icon='tabler:x' fontSize='1.25rem' />
@@ -210,7 +210,8 @@ const ViewUserModel = ({ row }) => {
         </DialogTitle>
         <DialogContent>
           <Typography style={{ textAlign: 'center' }}>
-            Are you sure you want to delete this user<br></br>{' '}
+            {t('Are you sure you want to delete this user')}
+            <br></br>{' '}
             <span style={{ fontWeight: 'bold' }}>
               {row?.firstName} {row?.lastName}
             </span>
@@ -222,11 +223,11 @@ const ViewUserModel = ({ row }) => {
             <CircularProgress />
           ) : (
             <>
-              <Button variant='contained' onClick={() => handleDelete()}>
-                Yes
+              <Button variant='outlined' onClick={() => handleDelete()}>
+                {t('Yes')}
               </Button>
-              <Button variant='contained' onClick={handleClose}>
-                No
+              <Button variant='outlined' onClick={handleClose}>
+                {t('No')}
               </Button>
             </>
           )}

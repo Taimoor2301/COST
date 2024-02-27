@@ -7,7 +7,7 @@ import logo from '../../../assest/images/kaptlogo.svg'
 import Image from 'next/image'
 
 // ** MUI Components
-import Button from '@mui/material/Button'
+import { Button } from '@mui/base'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
@@ -27,10 +27,10 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import axios from 'axios'
-import { Route } from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import { baseURL } from 'src/Constants/Constants'
+import { t } from 'i18next'
 
 // ** Styled Components
 const ResetPasswordIllustration = styled('img')(({ theme }) => ({
@@ -122,6 +122,8 @@ const ResetPasswordV2 = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const s = t('Success')
+
   async function handelSubmit(e) {
     e.preventDefault()
     const { newPassword, confirmNewPassword, OTP } = values
@@ -161,7 +163,7 @@ const ResetPasswordV2 = () => {
       )
 
       localStorage.removeItem('forgotPassCredentials')
-      toast.success('Password Changed')
+      toast.success(s)
       router.push('/login')
     } catch (error) {
       console.log(error)
@@ -207,11 +209,11 @@ const ResetPasswordV2 = () => {
             <Image alt='company logo' src={logo} width={180} />
             <Box sx={{ my: 6, display: 'flex', flexDirection: 'column' }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
-                Reset Password 🔒
+                {t('Reset Password')}
               </Typography>
 
               <Typography component='span' sx={{ ml: 1, fontWeight: 500 }}>
-                Please check your email for OPT
+                {t('Please check your email for') + ' ' + 'OPT'}
               </Typography>
               {errMsg && (
                 <Typography component='span' color='red' sx={{ ml: 1, fontWeight: 500 }}>
@@ -232,7 +234,7 @@ const ResetPasswordV2 = () => {
               <CustomTextField
                 fullWidth
                 autoFocus
-                label='New Password'
+                label={t('New Password')}
                 value={values.newPassword}
                 placeholder='············'
                 sx={{ display: 'flex', mb: 4 }}
@@ -256,7 +258,7 @@ const ResetPasswordV2 = () => {
               />
               <CustomTextField
                 fullWidth
-                label='Confirm Password'
+                label={t('Confirm Password')}
                 placeholder='············'
                 sx={{ display: 'flex', mb: 4 }}
                 value={values.confirmNewPassword}
@@ -281,13 +283,18 @@ const ResetPasswordV2 = () => {
                   )
                 }}
               />
-              <Button fullWidth disabled={loading} type='submit' variant='contained' sx={{ mb: 4 }}>
-                Set New Password
+              <Button
+                type='submit'
+                disabled={loading}
+                className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5'
+                sx={{ mb: 4 }}
+              >
+                {t('Reset my password')}
               </Button>
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
                 <Typography component={LinkStyled} href='/pages/auth/login-v2'>
                   <Icon fontSize='1.25rem' icon='tabler:chevron-left' />
-                  <span>Back to login</span>
+                  <span>{t('Back to login')}</span>
                 </Typography>
               </Typography>
             </form>

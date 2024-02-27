@@ -6,9 +6,12 @@ import { Divider } from '@mui/material'
 import api from 'src/hooks/useApi'
 import SelectionContainer from '../inner-components/SelectedContainer'
 import SelctableItem from './SelectableItem'
+import { useTranslation } from 'react-i18next'
 
 export default function Sites({ allSites, selectedSites, handleSiteChange }) {
   const [selectedRoute, setSelectedRoute] = useState('All')
+
+  const { t } = useTranslation()
 
   const { data: routes } = useQuery({
     queryFn: () => api.get('/routes/route.getallrouteasync'),
@@ -28,7 +31,7 @@ export default function Sites({ allSites, selectedSites, handleSiteChange }) {
     <div className='col-span-1 w-full h-full'>
       <Card className='h-full flex flex-col'>
         <div className='flex justify-between items-end gap-3 pl-4 pb-2'>
-          <span className='text-lg'>Routes List</span>
+          <span className='text-lg'>{t('Routes List')}</span>
           <Selection options={routes?.data?.data?.data} selected={selectedRoute} setSelected={setSelectedRoute} />
         </div>
         <Divider />
@@ -37,7 +40,7 @@ export default function Sites({ allSites, selectedSites, handleSiteChange }) {
           onSelect={handleSiteChange}
         />
         <Divider />
-        <span className='p-2'>Sites</span>
+        <span className='p-2'>{t('Sites')}</span>
         <Divider />
         <div className='overflow-auto flex-1'>
           {sitesToSHow.map(s => (

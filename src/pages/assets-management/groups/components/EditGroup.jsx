@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
+import { t } from 'i18next'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -26,6 +27,9 @@ const Header = styled(Box)(({ theme }) => ({
 const EditGroupInfo = ({ open, toggle, data }) => {
   const queryClient = useQueryClient()
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const [name, setName] = useState(data?.name || '')
   const [description, setdescription] = useState(data?.description || '')
 
@@ -35,12 +39,12 @@ const EditGroupInfo = ({ open, toggle, data }) => {
     onSuccess: () => {
       queryClient.invalidateQueries(['groups'])
       toggle()
-      toast.success('Update Success')
+      toast.success(s)
     },
     onError: err => {
       console.log(err)
       toggle()
-      toast.error('Update Error')
+      toast.error(f)
     }
   })
 
@@ -66,7 +70,7 @@ const EditGroupInfo = ({ open, toggle, data }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Add Group</Typography>
+        <Typography variant='h5'>{t('Edit Group')}</Typography>
         <IconButton
           size='small'
           onClick={toggle}
@@ -91,7 +95,7 @@ const EditGroupInfo = ({ open, toggle, data }) => {
             required
             value={name}
             sx={{ mb: 4 }}
-            label='Name'
+            label={t('Name')}
             onChange={e => setName(e.target.value)}
             placeholder='name'
           />
@@ -101,17 +105,17 @@ const EditGroupInfo = ({ open, toggle, data }) => {
             required
             value={description}
             sx={{ mb: 4 }}
-            label='Description'
+            label={t('Description')}
             onChange={e => setdescription(e.target.value)}
             placeholder='description'
           />
 
           <Box sx={{ display: 'flex', alignItems: 'center', paddingBlock: '10px' }}>
-            <Button type='submit' disabled={mutation.isPending} variant='contained' sx={{ mr: 3 }}>
-              {mutation.isPending ? 'Loading...' : 'Submit'}
+            <Button type='submit' disabled={mutation.isPending} variant='outlined' sx={{ mr: 3 }}>
+              {mutation.isPending ? t('Loading...') : t('Submit')}
             </Button>
             <Button variant='tonal' color='secondary' onClick={toggle}>
-              Cancel
+              {t('Cancel')}
             </Button>
           </Box>
         </form>

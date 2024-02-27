@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
 import TableHeader from './components/TableHeader'
 import { useQuery } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
@@ -13,11 +12,13 @@ import AddSiteDrawer from './components/AddSiteDrawer'
 import EditSiteDrawer from './components/EditSiteDrawer'
 import dynamic from 'next/dynamic'
 import { CircularProgress } from '@mui/material'
+import { t } from 'i18next'
 
 const LeafletMapcomponents = dynamic(
   () => import('src/Maps/sitemaps/Map'),
   { ssr: false } // <-- Disable server-side rendering
 )
+
 
 export default function Sites() {
   // routes
@@ -109,20 +110,11 @@ export default function Sites() {
       </Grid>
 
       <Grid item lg={4} md={4} xs={12}>
-        <Card
-          sx={{
-            height: {
-              md: 'calc(80vh - 4.0625rem)',
-              xs: 'calc(50vh - 4.0625rem)'
-            }
-          }}
-          className='m-5'
-        >
-          <CardContent>
+        <Card className='p-4 h-[70vh]'>
             <Typography sx={{ fontSize: '16px', marginBottom: '30px' }}>
-              Total Sites ({sitesToShow?.length || 0})
+              {t('Total Sites')} ({sitesToShow?.length || 0})
             </Typography>
-            <div className='overflow-x-hidden overflow-y-auto max-h-[25rem] p-1'>
+            <div className='overflow-x-hidden overflow-y-auto p-1 max-h-full pb-20'>
               {sitesLoading ? <div className='grid place-content-center'><CircularProgress/></div> : sitesToShow?.map(site => (
                 <AccordionItem
                   key={site.id}
@@ -133,7 +125,7 @@ export default function Sites() {
                 />
               ))}
             </div>
-          </CardContent>
+
         </Card>
       </Grid>
 

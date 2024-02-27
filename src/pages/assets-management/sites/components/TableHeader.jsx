@@ -41,7 +41,7 @@ const TableHeader = ({
                   value={selectedRoute}
                   onChange={e => setSelectedRoute(e.target.value)}
                 >
-                  <MenuItem value='All'>All</MenuItem>
+                  <MenuItem value='All'>{t('All')}</MenuItem>
                   {routesList?.map(option => (
                     <MenuItem key={option.id} value={option.id}>
                       {option.name}
@@ -57,9 +57,9 @@ const TableHeader = ({
                   value={activeFilter}
                   onChange={e => setActiveFilter(e.target.value)}
                 >
-                  <MenuItem value='All'>All</MenuItem>
-                  <MenuItem value={true}>Active</MenuItem>
-                  <MenuItem value={false}>Inactive</MenuItem>
+                  <MenuItem value='All'>{t('All')}</MenuItem>
+                  <MenuItem value={true}>{t('Active')}</MenuItem>
+                  <MenuItem value={false}>{t('Inactive')}</MenuItem>
                 </CustomTextField>
               </Grid>
               {/* Button */}
@@ -67,7 +67,7 @@ const TableHeader = ({
                 <CustomTextField
                   sx={{ mr: 4 }}
                   fullWidth
-                  placeholder='Search Site'
+                  placeholder={t('Search Site')}
                   onChange={e => setSearchValue(e.target.value.toLowerCase())}
                 />
               </Grid>
@@ -82,7 +82,7 @@ const TableHeader = ({
                     justifyContent: 'end'
                   }}
                 >
-                  <Button variant='contained' onClick={() => toggle()} sx={{ width: '100%' }}>
+                  <Button variant='outlined' onClick={() => toggle()} sx={{ width: '100%' }}>
                     <Icon fontSize='1.125rem' icon='tabler:plus' />
                     {t('Add new Site')}
                   </Button>

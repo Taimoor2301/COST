@@ -25,20 +25,24 @@ import { CircularProgress } from '@mui/material'
 import AddRoleDrawer from './components/AddRoleDeawer'
 import EditRoleDrawer from './components/EditRoleDrawer'
 import toast from 'react-hot-toast'
+import { t } from 'i18next'
 
 const RowOptions = ({ data }) => {
   const queryClient = useQueryClient()
+
+  const s = t('Deleted Successfully')
+  const f = t('Delete Request Failed')
 
   const mutaion = useMutation({
     mutationKey: ['deleteRole'],
     mutationFn: id => api.delete('/roles/roles.deleteroleasync', { params: { id } }),
     onError: error => {
       console.log(error)
-      toast.error('Delete Request Failed')
+      toast.error(f)
     },
     onSuccess: () => {
       handleRowOptionsClose()
-      toast.success('Deleted Successfully')
+      toast.success(s)
       queryClient.invalidateQueries(['roles'])
     }
   })
@@ -91,90 +95,90 @@ const RowOptions = ({ data }) => {
           sx={{ '& svg': { mr: 2 } }}
         >
           <Icon icon='tabler:edit' fontSize={20} />
-          Edit
+          {t('Edit')}
         </MenuItem>
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          {mutaion.isPending ? 'Deleting...' : 'Delete'}
+          {mutaion.isPending ? t('Deleting...') : t('Delete')}
         </MenuItem>
       </Menu>
     </>
   )
 }
 
-const columns = [
-  {
-    flex: 0.25,
-    minWidth: 280,
-    field: 'name',
-    headerName: 'Name',
-    renderCell: ({ row }) => {
-      const { name } = row
+const Roles = () => {
+  const columns = [
+    {
+      flex: 0.25,
+      minWidth: 280,
+      field: 'name',
+      headerName: t('Name'),
+      renderCell: ({ row }) => {
+        const { name } = row
 
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography
-              noWrap
-              sx={{
-                fontWeight: 500,
-                textDecoration: 'none',
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' }
-              }}
-            >
-              {name}
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                sx={{
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  color: 'text.secondary',
+                  '&:hover': { color: 'primary.main' }
+                }}
+              >
+                {name}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      field: 'description',
+      minWidth: 170,
+      headerName: t('Description'),
+      renderCell: ({ row }) => {
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+              {row.description}
             </Typography>
           </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    field: 'description',
-    minWidth: 170,
-    headerName: 'Description',
-    renderCell: ({ row }) => {
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-            {row.description}
-          </Typography>
-        </Box>
-      )
-    }
-  },
+        )
+      }
+    },
 
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: ({ row }) => {
-      return (
-        <CustomChip
-          rounded
-          skin='light'
-          size='small'
-          label={row.isActive ? 'Active' : 'Inactive'}
-          color={row.isActive ? 'success' : 'warning'}
-          sx={{ textTransform: 'capitalize' }}
-        />
-      )
+    {
+      flex: 0.1,
+      minWidth: 110,
+      field: 'status',
+      headerName: t('Status'),
+      renderCell: ({ row }) => {
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={row.isActive ? t('Active') : t('Inactive')}
+            color={row.isActive ? 'success' : 'warning'}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: t('Actions'),
+      renderCell: ({ row }) => <RowOptions data={row} />
     }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions data={row} />
-  }
-]
+  ]
 
-const Roles = () => {
   //  controller State
   const [searchValue, setSearchValue] = useState('')
   const [addRoleOpen, setAddRoleOpen] = useState(false)
@@ -187,8 +191,8 @@ const Roles = () => {
   const [rolesToShow, setRolesToShow] = useState([])
 
   // initial data
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['roles'],
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ['allRoles'],
     queryFn: () => api.get('/roles/roles.getlistofrolesasync')
   })
 
@@ -222,7 +226,7 @@ const Roles = () => {
     <Grid container spacing={6.5}>
       <Grid item xs={12}>
         {isError ? (
-          <div className='w-full my-5 text-center'>Something went wrong! Please try again.</div>
+          <div className='w-full my-5 text-center'>{t('Something went wrong! Please try again.')}</div>
         ) : (
           <Card>
             <TableHeader
@@ -255,7 +259,12 @@ const Roles = () => {
       </Grid>
 
       <AddRoleDrawer open={addRoleOpen} toggle={() => setAddRoleOpen(p => !p)} />
-      <EditRoleDrawer open={editRoleOpen} toggle={() => setEditRoleOpen(p => !p)} itemToEdit={itemToEdit} />
+      <EditRoleDrawer
+        open={editRoleOpen}
+        toggle={() => setEditRoleOpen(p => !p)}
+        itemToEdit={itemToEdit}
+        refetch={refetch}
+      />
     </Grid>
   )
 }

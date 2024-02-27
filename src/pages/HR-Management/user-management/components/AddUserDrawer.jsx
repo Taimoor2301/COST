@@ -23,6 +23,7 @@ import toast from 'react-hot-toast'
 import { Switch } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { uploadImage } from 'src/utils/utils'
+import { t } from 'i18next'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -82,6 +83,9 @@ const AddRoleDrawer = ({ open, toggle }) => {
   const [file, setFile] = useState('')
   const [localImageUrl, setLoacalImageUrl] = useState('')
 
+  const successText = t('User Created')
+  const failText = t('Something went wrong')
+
   const mutation = useMutation({
     mutationKey: ['addNewRole'],
     mutationFn: async data => {
@@ -95,13 +99,13 @@ const AddRoleDrawer = ({ open, toggle }) => {
       queryClient.invalidateQueries(['users'])
       reset()
       toggle()
-      toast.success('User Created')
+      toast.success(successText)
     },
     onError: errors => {
       console.log(errors)
       setFile('')
       toggle()
-      toast.error(errors.response.data.messages[0] || 'Something went wrong')
+      toast.error(errors.response.data.messages[0] || failText)
     },
     retry: 0
   })
@@ -148,7 +152,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Add New User</Typography>
+        <Typography variant='h5'>{t('Add New User')}</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -187,11 +191,11 @@ const AddRoleDrawer = ({ open, toggle }) => {
 
           <Button
             type='submit'
-            variant='contained'
+            variant='outlined'
             onClick={() => document.getElementById('userImageNew').click()}
             sx={{ mr: 3 }}
           >
-            Upload
+            {t('Upload')}
           </Button>
         </div>
 
@@ -205,7 +209,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='First Name'
+                label={t('First Name')}
                 onChange={onChange}
                 placeholder='jhon'
                 error={Boolean(errors.firstName)}
@@ -222,7 +226,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Last Name'
+                label={t('Last Name')}
                 onChange={onChange}
                 placeholder='doe'
                 error={Boolean(errors.lastName)}
@@ -239,9 +243,9 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Username'
+                label={t('Username')}
                 onChange={onChange}
-                placeholder='username'
+                placeholder={t('Username')}
                 error={Boolean(errors.username)}
                 {...(errors.username && { helperText: errors.username.message })}
               />
@@ -256,7 +260,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Email'
+                label={t('Email')}
                 onChange={onChange}
                 placeholder='example@email.com'
                 error={Boolean(errors.email)}
@@ -273,9 +277,9 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Password'
+                label={t('Password')}
                 onChange={onChange}
-                placeholder='password'
+                placeholder={t('Password')}
                 error={Boolean(errors.password)}
                 {...(errors.password && { helperText: errors.password.message })}
               />
@@ -290,9 +294,9 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Confirm Password'
+                label={t('Confirm Password')}
                 onChange={onChange}
-                placeholder='confirm password'
+                placeholder={t('Confirm Password')}
                 error={Boolean(errors.confirmPassword)}
                 {...(errors.confirmPassword && { helperText: errors.confirmPassword.message })}
               />
@@ -307,7 +311,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Phone Number'
+                label={t('Phone Number')}
                 onChange={onChange}
                 placeholder='+920011232323'
                 error={Boolean(errors.phoneNumber)}
@@ -324,22 +328,22 @@ const AddRoleDrawer = ({ open, toggle }) => {
               <div className='flex items-center pb-5'>
                 <Switch
                   checked={value}
-                  label='Active'
+                  label={t('Active')}
                   onChange={onChange}
                   error={errors.isActive}
                   {...(errors.isActive && { helperText: errors.isActive.message })}
                 />
-                <Typography sx={{ ml: 2 }}>{'Active'}</Typography>
+                <Typography sx={{ ml: 2 }}>{t('Active')}</Typography>
               </div>
             )}
           />
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button type='submit' variant='contained' sx={{ mr: 3 }}>
-              {mutation.isPending ? 'Loading...' : 'Submit'}
+            <Button type='submit' variant='outlined' sx={{ mr: 3 }}>
+              {mutation.isPending ? t('Loading...') : t('Submit')}
             </Button>
             <Button variant='tonal' color='secondary' onClick={handleClose}>
-              Cancel
+              {t('Cancel')}
             </Button>
           </Box>
         </form>

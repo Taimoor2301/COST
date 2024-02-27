@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import CustomChip from 'src/@core/components/mui/chip'
 import MenuItem from '@mui/material/MenuItem'
+import { t } from 'i18next'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -73,6 +74,9 @@ const MenuProps = {
 const AddRoleDrawer = ({ open, toggle }) => {
   const queryClient = useQueryClient()
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const { data: sites } = useQuery({ queryKey: ['sites'], queryFn: () => api.get('/sites/sites.getallsitesasync') })
 
   const { data: users } = useQuery({
@@ -95,11 +99,11 @@ const AddRoleDrawer = ({ open, toggle }) => {
     onSuccess: data => {
       queryClient.invalidateQueries(['groups'])
       handleClose()
-      toast.success('Group added')
+      toast.success(s)
     },
     onError: errors => {
       toggle()
-      toast.error(errors.response.data.messages[0] || 'Something went wrong')
+      toast.error(errors.response.data.messages[0] || f)
     },
     retry: 0
   })
@@ -111,7 +115,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
     formState: { errors }
   } = useForm({
     defaultValues,
-    mode: 'onChange',
+    mode: 'onSubmit',
     resolver: yupResolver(schema)
   })
 
@@ -146,7 +150,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Add Group</Typography>
+        <Typography variant='h5'>{t('Add Group')}</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -175,9 +179,9 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Name'
+                label={t('Name')}
                 onChange={onChange}
-                placeholder='name'
+                placeholder={t('Name')}
                 error={Boolean(errors.name)}
                 {...(errors.name && { helperText: errors.name.message })}
               />
@@ -192,9 +196,9 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Description'
+                label={t('Description')}
                 onChange={onChange}
-                placeholder='description'
+                placeholder={t('Description')}
                 error={Boolean(errors.description)}
                 {...(errors.description && { helperText: errors.description.message })}
               />
@@ -204,7 +208,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
           <CustomTextField
             select
             fullWidth
-            label='Sites'
+            label={t('Sites')}
             id='select-multiple-chip'
             SelectProps={{
               MenuProps,
@@ -234,7 +238,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
           <CustomTextField
             select
             fullWidth
-            label='Users'
+            label={t('Users')}
             id='select-multiple-chip'
             SelectProps={{
               MenuProps,
@@ -270,7 +274,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
           <CustomTextField
             select
             fullWidth
-            label='Questionneries'
+            label={t('Questionneries')}
             id='select-multiple-chip'
             SelectProps={{
               MenuProps,
@@ -298,11 +302,11 @@ const AddRoleDrawer = ({ open, toggle }) => {
           </CustomTextField>
 
           <Box sx={{ display: 'flex', alignItems: 'center', paddingBlock: '10px' }}>
-            <Button type='submit' disabled={mutation.isPending} variant='contained' sx={{ mr: 3 }}>
-              {mutation.isPending ? 'Loading...' : 'Submit'}
+            <Button type='submit' disabled={mutation.isPending} variant='outlined' sx={{ mr: 3 }}>
+              {mutation.isPending ? t('Loading...') : t('Submit')}
             </Button>
             <Button variant='tonal' color='secondary' onClick={handleClose}>
-              Cancel
+              {t('Cancel')}
             </Button>
           </Box>
         </form>

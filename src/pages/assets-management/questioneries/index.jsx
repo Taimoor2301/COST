@@ -9,7 +9,8 @@ import Grid from '@mui/material/Grid'
 
 import Typography from '@mui/material/Typography'
 import { DataGrid } from '@mui/x-data-grid'
-import Translations from 'src/layouts/components/Translations'
+
+import { t } from 'i18next'
 
 // ** Custom Components Imports
 
@@ -94,7 +95,7 @@ const QuestionnairesList = () => {
       flex: 1,
       minWidth: 320,
       field: 'name',
-      headerName: 'Questionnaire Name',
+      headerName: t('Questionnaire Name'),
       renderCell: ({ row }) => {
         const { name } = row
 
@@ -118,26 +119,12 @@ const QuestionnairesList = () => {
         )
       }
     },
-
-    // {
-    //   flex: 0.2,
-    //   minWidth: 100,
-    //   field: 'content',
-    //   headerName: 'Content',
-    //   renderCell: ({ row }) => {
-    //     return (
-    //       <Typography noWrap sx={{ color: 'text.secondary' }}>
-    //         {JSON.stringify(row.content)}
-    //       </Typography>
-    //     )
-    //   }
-    // },
     {
       flex: 0.1,
       minWidth: 150,
       sortable: false,
       field: 'actions',
-      headerName: 'Actions',
+      headerName: t('Actions'),
       renderCell: ({ row }) => {
         // localStorage.setItem('rowData', JSON.stringify(row))
         return <RowOptions row={row} fetchData={fetchData} />

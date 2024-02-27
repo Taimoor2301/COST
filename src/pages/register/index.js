@@ -6,16 +6,13 @@ import Link from 'next/link'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** MUI Components
-import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
-import Checkbox from '@mui/material/Checkbox'
+import {Button} from '@mui/base'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
-import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import logo from '../../assest/images/kaptlogo.svg'
 import Image from 'next/image'
 import signup from '../../assest/images/man_13.png'
@@ -30,7 +27,6 @@ import Icon from 'src/@core/components/icon'
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Hooks
-import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
@@ -72,7 +68,6 @@ const Register = () => {
   const theme = useTheme()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
-  const auth = useAuth()
 
   const router = useRouter()
 
@@ -158,7 +153,8 @@ const Register = () => {
             </Box>
             <Box sx={{ mb: 2, mt: -6 }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
-                {t(`Welcome to ${themeConfig.templateName}! 👋🏻`)}
+              {t('Welcome to') + " " + themeConfig.templateName + '!' + '👋🏻'}
+
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 {t('Please sign-up to your account and start the adventure')}
@@ -168,16 +164,16 @@ const Register = () => {
               </Typography>}
             </Box>
             <form   onSubmit={hanldeSubmit}>
-              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' value={data.userName} onChange={e => setData(p => ({...p , userName:e.target.value}))} />
-              <CustomTextField  required fullWidth sx={{ mb: 4 }} label='First Name' placeholder='john' value={data.firstName} onChange={e => setData(p => ({...p , firstName:e.target.value}))} />
-              <CustomTextField  required fullWidth sx={{ mb: 4 }} label='Last Name' placeholder='doe' value={data.lastName} onChange={e => setData(p => ({...p , lastName:e.target.value}))} />
-              <CustomTextField  required type="email" fullWidth sx={{ mb: 4 }} label='Email' placeholder='example@mail.com' value={data.email} onChange={e => setData(p => ({...p , email:e.target.value}))} />
-              <CustomTextField  required fullWidth sx={{ mb: 4 }} label='Phone' placeholder='+555-555-555' value={data.phoneNumber} onChange={e => setData(p => ({...p , phoneNumber:e.target.value}))} />
+              <CustomTextField autoFocus required fullWidth sx={{ mb: 4 }} label={t('Username')} placeholder='johndoe' value={data.userName} onChange={e => setData(p => ({...p , userName:e.target.value}))} />
+              <CustomTextField  required fullWidth sx={{ mb: 4 }} label={t('First Name')} placeholder='john' value={data.firstName} onChange={e => setData(p => ({...p , firstName:e.target.value}))} />
+              <CustomTextField  required fullWidth sx={{ mb: 4 }} label={t('Last Name' )} placeholder='doe' value={data.lastName} onChange={e => setData(p => ({...p , lastName:e.target.value}))} />
+              <CustomTextField  required type="email" fullWidth sx={{ mb: 4 }} label={t('Email')} placeholder='example@mail.com' value={data.email} onChange={e => setData(p => ({...p , email:e.target.value}))} />
+              <CustomTextField  required fullWidth sx={{ mb: 4 }} label={t('Phone Number')} placeholder='+555-555-555' value={data.phoneNumber} onChange={e => setData(p => ({...p , phoneNumber:e.target.value}))} />
               <CustomTextField
                 fullWidth
                 required
                 sx={{mb:4}}
-                label='Password'
+                label={t('Password')}
                 type={showPassword ? 'text' : 'password'}
                 value={data.password}
                 onChange={e => setData(p => ({...p , password:e.target.value}))}
@@ -200,7 +196,7 @@ const Register = () => {
                 required
                 value={data.confirmPassword}
                 sx={{mb:4}}
-                label='Confirm Password'
+                label={t('Confirm Password')}
                 type={showPassword ? 'text' : 'password'}
                 onChange={e => setData(p => ({...p , confirmPassword:e.target.value}))}
                 InputProps={{
@@ -218,13 +214,13 @@ const Register = () => {
                 }}
               />
 
-              <Button fullWidth type='submit' disabled={loading} variant='contained' sx={{ mb: 4 }}>
-                {loading ? "Please wait..." : "Sign up"}
+              <Button fullWidth type='submit' disabled={loading} className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5' sx={{ mb: 4 }}>
+                {t('Register')}
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ color: 'text.secondary', mr: 2 }}>Already have an account?</Typography>
+                <Typography sx={{ color: 'text.secondary', mr: 2 }}>{t('Already have an account?')}</Typography>
                 <Typography component={LinkStyled} href='/login'>
-                  Sign in instead
+                  {t('Sign in instead')}
                 </Typography>
               </Box>
             </form>

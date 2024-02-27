@@ -5,7 +5,7 @@ import { Button } from '@mui/base'
 import { useMutation } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
-import { error } from 'jquery'
+import { t } from 'i18next'
 
 export default function Password() {
   const [password, setPassword] = useState('')
@@ -16,17 +16,20 @@ export default function Password() {
 
   const [type, setType] = useState('password')
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const mutation = useMutation({
     mutationKey: ['changeCurrentUserPassword'],
     mutationFn: () => api.put('/personal/personal.changepasswordasync', { password, newPassword, confirmNewPassword }),
     onSuccess: () => {
-      toast.success('Password Updated Successfully')
+      toast.success(s)
       setPassword('')
       setConfirmNewPassword('')
       setNewPassword('')
     },
     onError: err => {
-      toast.error(err?.response?.data?.messages[0] || 'Error Changing Password')
+      toast.error(err?.response?.data?.messages[0] || f)
     }
   })
 
@@ -44,9 +47,9 @@ export default function Password() {
   return (
     <Card style={{ marginTop: '2rem' }}>
       <CardContent>
-        <Typography variant='h4'>Update Password</Typography>
+        <Typography variant='h4'>{t('Update Password')}</Typography>
         <Typography sx={{ fontSize: 16, mt: 4 }} color='text.secondary' gutterBottom>
-          Ensure your account is using a long, random password to stay secure.
+          {t('Ensure your account is using a long, random password to stay secure.')}
         </Typography>
         {errorMsg && (
           <Typography sx={{ fontSize: 16, mt: 4 }} color='red' gutterBottom>
@@ -59,7 +62,7 @@ export default function Password() {
             type={type}
             value={password}
             onChange={e => setPassword(e.target.value)}
-            label='Current Password'
+            label={t('Current Password')}
             size='small'
             fullWidth
           />
@@ -67,7 +70,7 @@ export default function Password() {
             type={type}
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
-            label='New Password'
+            label={t('New Password')}
             size='small'
             fullWidth
             style={{ marginTop: '2rem' }}
@@ -76,7 +79,7 @@ export default function Password() {
             type={type}
             value={confirmNewPassword}
             onChange={e => setConfirmNewPassword(e.target.value)}
-            label='Confirm Password'
+            label={t('Confirm Password')}
             size='small'
             fullWidth
             style={{ marginTop: '2rem' }}
@@ -89,7 +92,7 @@ export default function Password() {
           onClick={() => setType(p => (p === 'text' ? 'password' : 'text'))}
           className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] text-[12px] disabled:bg-gray-500'
         >
-          {type === 'text' ? 'Hide Password' : 'Show Password'}
+          {type === 'text' ? t('Hide Password') : t('Show Password')}
         </Button>
         <Button
           size='small'
@@ -97,7 +100,7 @@ export default function Password() {
           onClick={changePassword}
           className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] text-[12px] disabled:bg-gray-500'
         >
-          Save
+          {t('Save')}
         </Button>
       </CardActions>
     </Card>

@@ -25,6 +25,7 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import { checkValidation, uploadImage } from '../../../../utils/utils'
+import { t } from 'i18next'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -95,6 +96,9 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
     queryFn: () => api.get('/roles/roles.getlistofrolesasync')
   })
 
+  const successText = t('Updated')
+  const failText = t('User Update Failed')
+
   const mutation = useMutation({
     mutationKey: ['updateUser'],
     mutationFn: async uploadData => {
@@ -122,12 +126,12 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users', 'user'])
-      toast.success('Updated')
+      toast.success(successText)
       setFile('')
       toggle()
     },
     onError: errors => {
-      toast.error('User Update Failed')
+      toast.error(failText)
       toggle()
       console.log(errors)
     }
@@ -219,7 +223,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Edit User</Typography>
+        <Typography variant='h5'>{t('Edit User')}</Typography>
         <IconButton
           size='small'
           onClick={() => toggle()}
@@ -258,11 +262,11 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
 
           <Button
             type='submit'
-            variant='contained'
+            variant='outlined'
             onClick={() => document.getElementById('userImageEdit').click()}
             sx={{ mr: 3 }}
           >
-            Upload
+            {t('Upload')}
           </Button>
         </div>
       </Box>
@@ -272,10 +276,10 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
           <FormControl fullWidth>
             <CustomTextField
               fullWidth
-              label='First Name'
+              label={t('First Name')}
               value={userData.firstName}
               onChange={e => setUserData(p => ({ ...p, firstName: e.target.value }))}
-              placeholder='Enter first name'
+              placeholder='jhon'
             />
           </FormControl>
         </Box>
@@ -284,10 +288,10 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
           <FormControl fullWidth>
             <CustomTextField
               fullWidth
-              label='Last Name'
+              label={t('Last Name')}
               value={userData.lastName}
               onChange={e => setUserData(p => ({ ...p, lastName: e.target.value }))}
-              placeholder='Enter last name'
+              placeholder='doe'
             />
           </FormControl>
         </Box>
@@ -296,10 +300,10 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
           <FormControl fullWidth>
             <CustomTextField
               fullWidth
-              label='Email'
+              label={t('Email')}
               value={userData.email}
               onChange={e => setUserData(p => ({ ...p, email: e.target.value }))}
-              placeholder='Enter email'
+              placeholder='jhondoe@gmail.com'
             />
           </FormControl>
         </Box>
@@ -308,16 +312,16 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
           <FormControl fullWidth>
             <CustomTextField
               fullWidth
-              label='Phone Number'
+              label={t('Phone Number')}
               value={userData.phoneNumber}
               onChange={e => setUserData(p => ({ ...p, phoneNumber: e.target.value }))}
-              placeholder='Enter phone number'
+              placeholder={t('Phone Number')}
             />
           </FormControl>
         </Box>
 
         <FormControl sx={{ m: 1, width: '100%' }}>
-          <InputLabel id='demo-multiple-chip-label'>Role</InputLabel>
+          <InputLabel id='demo-multiple-chip-label'>{t('Role')}</InputLabel>
           <Select
             labelId='demo-multiple-chip-label'
             id='demo-multiple-chip'
@@ -332,7 +336,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
                     value.enabled && (
                       <Chip
                         key={value.roleId}
-                        label={value.roleName}
+                        label={t(value.roleName)}
                         onMouseDown={event => {
                           event.stopPropagation()
                         }}
@@ -356,7 +360,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
                   }}
                   disabled={role.some(role => role.roleId === item.id && role.enabled === true)}
                 >
-                  {item.name}
+                  {t(item.name)}
                 </MenuItem>
               ) : null
             )}
@@ -377,7 +381,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
                     '--Switch-trackHeight': '45px'
                   }}
                 />
-                <Typography sx={{ ml: 2 }}>Active</Typography>
+                <Typography sx={{ ml: 2 }}>{t('Active')}</Typography>
               </Box>
             </Grid>
           )}
@@ -386,14 +390,14 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
           <Button
             type='submit'
             onClick={onSubmit}
-            variant='contained'
+            variant='outlined'
             sx={{ mr: 3 }}
             disabled={Boolean(errorMsg) || mutation.isPending}
           >
-            {mutation.isPending ? 'Loading...' : 'Submit'}
+            {mutation.isPending ? t('Loading...') : t('Submit')}
           </Button>
           <Button variant='tonal' color='secondary' onClick={toggle}>
-            Cancel
+            {t('Cancel')}
           </Button>
         </Box>
       </Box>

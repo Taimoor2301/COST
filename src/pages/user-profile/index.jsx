@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 import Badge from '@mui/material/Badge'
 import Avatar from '@mui/material/Avatar'
+import { t } from 'i18next'
 
 // ** Demo Components
 import { Card, CardActions, CardContent, FormControl, Input, InputLabel, TextField } from '@mui/material'
@@ -68,6 +69,9 @@ const UserProfile = ({ data }) => {
 
   // mutation
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const mutation = useMutation({
     mutationKey: ['updateUserPersonal'],
     mutationFn: async () => {
@@ -88,10 +92,10 @@ const UserProfile = ({ data }) => {
       })
     },
     onSuccess: () => {
-      toast.success('Details Updated Successfully')
+      toast.success(s)
     },
     onError: e => {
-      toast.error('Failed to update')
+      toast.error(f)
     }
   })
 
@@ -110,10 +114,10 @@ const UserProfile = ({ data }) => {
     },
     onSuccess: () => {
       setImageUrl('')
-      toast.success('Image Deleted')
+      toast.success(s)
     },
     onError: e => {
-      toast.error('Failed to Delete')
+      toast.error(f)
     }
   })
 
@@ -132,9 +136,9 @@ const UserProfile = ({ data }) => {
     <>
       <Card>
         <CardContent>
-          <Typography variant='h4'>Profile Information</Typography>
+          <Typography variant='h4'>{t('Profile Information')}</Typography>
           <Typography sx={{ fontSize: 16, mt: 4 }} color='text.secondary' gutterBottom>
-            Update your account's profile information and email address.
+            {t("Update your account's profile information and email address.")}
           </Typography>
 
           {errMsg && (
@@ -151,7 +155,7 @@ const UserProfile = ({ data }) => {
                 sx={{ width: 80, height: 80 }}
               />
             </StyledBadge>
-            <Grid item xs={12} style={{ marginTop: '20px' }}>
+            <Grid item xs={12} style={{ marginTop: '20px' }} className='flex gap-3 flex-col md:flex-row text-center'>
               <input
                 accept='image/*'
                 onChange={e => setFile(e.target.files[0])}
@@ -169,7 +173,7 @@ const UserProfile = ({ data }) => {
                   color: '#BFC0C3',
                   borderRadius: '8px',
                   textAlign: 'center',
-                  fontSize: '16px'
+                  fontSize: '12px'
                 }}
               >
                 <Button
@@ -179,13 +183,13 @@ const UserProfile = ({ data }) => {
                   style={{
                     border: 'none',
                     borderRadius: '5px',
-                    fontSize: '17px',
+                    fontSize: '12px',
                     textTransform: 'uppercase',
                     fontWeight: '600',
                     cursor: 'pointer'
                   }}
                 >
-                  Select A New Photo
+                  {t('Select A New Photo')}
                 </Button>
               </label>
               <Button
@@ -197,7 +201,7 @@ const UserProfile = ({ data }) => {
                 style={{
                   border: 'none',
                   borderRadius: '5px',
-                  fontSize: '17px',
+                  fontSize: '12px',
                   textTransform: 'uppercase',
                   fontWeight: '600',
                   cursor: 'pointer',
@@ -207,21 +211,21 @@ const UserProfile = ({ data }) => {
                   marginLeft: '10px'
                 }}
               >
-                Delete Photo
+                {t('Delete Photo')}
               </Button>
             </Grid>
           </Grid>
 
           <FormControl sx={{ width: '100%', marginTop: '2rem' }}>
             <TextField
-              label='First Name'
+              label={t('First Name')}
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               size='small'
               fullWidth
             />
             <TextField
-              label='Last Name'
+              label={t('Last Name')}
               value={lastName}
               onChange={e => setLastName(e.target.value)}
               size='small'
@@ -229,7 +233,7 @@ const UserProfile = ({ data }) => {
               sx={{ width: '100%', marginTop: '2rem' }}
             />
             <TextField
-              label='Email'
+              label={t('Email')}
               value={email}
               onChange={e => setEmail(e.target.value)}
               size='small'
@@ -237,7 +241,7 @@ const UserProfile = ({ data }) => {
               sx={{ width: '100%', marginTop: '2rem' }}
             />
             <TextField
-              label='Phone Number'
+              label={t('Phone Number')}
               value={phoneNumber}
               placeholder='+96655455454'
               onChange={e => setPhoneNumber(e.target.value)}
@@ -255,7 +259,7 @@ const UserProfile = ({ data }) => {
             onClick={handleSubmit}
             className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] text-[12px] disabled:bg-gray-500'
           >
-            Save
+            {t('Save')}
           </Button>
         </CardActions>
       </Card>

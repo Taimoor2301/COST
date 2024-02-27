@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 // ** MUI Components
-import Button from '@mui/material/Button'
+import {Button} from '@mui/base'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -67,6 +67,8 @@ const ForgotPassword = () => {
 
   const [loading , setLoading] = useState(false)
 
+  const f = t('No User found with this Email')
+
 
   async function handleSubmit(e){
     e.preventDefault()
@@ -86,7 +88,7 @@ const ForgotPassword = () => {
       router.push('/forgot-password/reset-password')
 
     } catch (error) {
-      toast.error(`No User found with this Email`)
+      toast.error(f)
     } finally{
       setLoading(false)
     }
@@ -133,7 +135,7 @@ const ForgotPassword = () => {
             </Box>
             <Box sx={{ mb: 6, mt: -6 }}>
               <Typography sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.625rem', lineHeight: 1.385 }}>
-                {t('Forgot Password? 🔒')}
+                {t('Forgot Password?')}
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 {t("Enter your email and we'll send you instructions to reset your password")}
@@ -141,13 +143,13 @@ const ForgotPassword = () => {
             </Box>
             <form autoComplete='off' onSubmit={handleSubmit}>
               <CustomTextField fullWidth required value={email} onChange={e => setEmail(e.target.value)} autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} />
-              <Button fullWidth type='submit' disabled={loading} variant='contained' sx={{ mb: 4 }}>
-                Send reset link
+              <Button  type='submit' disabled={loading} className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5' sx={{ mb: 4 }}>
+                {t('Send reset link')}
               </Button>
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
                 <LinkStyled href='/login'>
                   <Icon fontSize='1.25rem' icon='tabler:chevron-left' />
-                  <span>Back to login</span>
+                  <span>{t('Back to login')}</span>
                 </LinkStyled>
               </Typography>
             </form>

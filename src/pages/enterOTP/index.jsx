@@ -6,7 +6,7 @@ import logo from '../../assest/images/kaptlogo.svg'
 import Link from 'next/link'
 
 // ** MUI Components
-import Button from '@mui/material/Button'
+import { Button } from '@mui/base'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -38,6 +38,7 @@ import { baseURL } from 'src/Constants/Constants'
 import toast from 'react-hot-toast'
 import { useAuth } from 'src/hooks/useAuth'
 import { ButtonBase } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 // ** Styled Components
 const TwoStepsIllustration = styled('img')(({ theme }) => ({
@@ -101,6 +102,8 @@ const TwoStepsV2 = () => {
   const [isBackspace, setIsBackspace] = useState(false)
   const [loading, setLoading] = useState(false)
   const [timer, setTimer] = useState(60)
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     const reducer = setInterval(() => {
@@ -268,14 +271,16 @@ const TwoStepsV2 = () => {
             <Image alt='company logo' src={logo} width={180} />
             <Box sx={{ my: 6 }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
-                Two-Step Verification
+                {t('Two-Step Verification')}
               </Typography>
               <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>
-                We sent an OTP to your email. Enter the code from the email in the field below.
+                {t('We sent an OTP to your email. Enter the code from the email in the field below.')}
               </Typography>
               <Typography variant='h6'>{userData.userEmail}</Typography>
             </Box>
-            <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>Type your 6 digit security code</Typography>
+            <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
+              {t('Type your 6 digit security code')}
+            </Typography>
             <form onSubmit={handleSubmit(verifyOTP)}>
               <CleaveWrapper
                 sx={{
@@ -294,11 +299,16 @@ const TwoStepsV2 = () => {
               </CleaveWrapper>
               {errorsArray.length ? (
                 <FormHelperText sx={{ color: 'error.main', fontSize: theme => theme.typography.body2.fontSize }}>
-                  Please enter a valid OTP
+                  {t('Please enter a valid OTP')}
                 </FormHelperText>
               ) : null}
-              <Button fullWidth type='submit' disabled={loading} variant='contained' sx={{ mt: 2 }}>
-                {loading ? 'Please wait...' : 'Verify My Account'}
+              <Button
+                className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5'
+                type='submit'
+                disabled={loading}
+                sx={{ mt: 2 }}
+              >
+                {t('Verify My Account')}
               </Button>
             </form>
             <Box
@@ -306,14 +316,13 @@ const TwoStepsV2 = () => {
             >
               <Typography sx={{ color: 'text.secondary' }}>Didn't get the code?</Typography>
               <Button
-                fullWidth
+                className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5'
                 type='submit'
                 onClick={resendCode}
                 disabled={timer > 0}
-                variant='contained'
                 sx={{ mt: 2 }}
               >
-                {timer > 0 ? `Wait for ${timer} seconds` : 'Resend Code'}
+                {timer > 0 ? `${t('Wait for')} ${timer} ${t('seconds')}` : t('Resend Code')}
               </Button>
             </Box>
           </Box>

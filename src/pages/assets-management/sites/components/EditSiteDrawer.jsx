@@ -31,7 +31,7 @@ import * as yup from 'yup'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
 import { useTranslation } from 'react-i18next'
-import { baseURL } from 'src/Constants/Constants'
+import { t } from 'i18next'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -58,18 +58,21 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
 
   const [defaultValues, setDefaultValues] = useState(emptyValues)
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const mutation = useMutation({
     mutationKey: ['updateSite'],
     mutationFn: data => api.post('/sites/sites.updatesitesasync', data),
     onSuccess: data => {
       queryClient.invalidateQueries(['sites'])
       handleClose()
-      toast.success('Site Updated')
+      toast.success(s)
     },
     onError: errors => {
       console.log(errors)
       toggle()
-      toast.error(errors.response.data.messages[0] || 'Something went wrong')
+      toast.error(errors.response.data.messages[0] || f)
     },
     retry: 0
   })
@@ -157,7 +160,6 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
           sx={{ mb: 4 }}
           label={t('Name')}
           onChange={e => setDefaultValues(p => ({ ...p, name: e.target.value }))}
-          placeholder='Enter Site Name/Label'
         />
 
         <CustomTextField
@@ -212,7 +214,7 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
             labelId='route-select-label'
             id='route-select'
             value={defaultValues.routeId}
-            label='Route'
+            label={t('Route')}
             onChange={e => setDefaultValues(p => ({ ...p, routeId: e.target.value }))}
           >
             {route?.map(route => (
@@ -234,10 +236,10 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
                 label={
                   <span>
                     <Typography component='span' level='inherit' sx={{ ml: '10px' }}>
-                      On
+                      {t('On')}
                     </Typography>
                     <Typography component='span' level='inherit' sx={{ mr: '8px' }}>
-                      Off
+                      {t('Off')}
                     </Typography>
                   </span>
                 }
@@ -265,7 +267,7 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
                   '--Switch-trackHeight': '45px'
                 }}
               />
-              <Typography sx={{ ml: 2 }}>{'Active'}</Typography>
+              <Typography sx={{ ml: 2 }}>{t('Active')}</Typography>
             </Box>
           </Grid>
         </Grid>
@@ -275,7 +277,7 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
             <CircularProgress style={{ display: 'flex', justifyContent: 'center', flex: 1 }} />
           ) : (
             <>
-              <Button type='submit' variant='contained' sx={{ mr: 3 }} onClick={() => onSubmit()}>
+              <Button type='submit' variant='outlined' sx={{ mr: 3 }} onClick={() => onSubmit()}>
                 {t('Update')}
               </Button>
               <Button variant='tonal' color='secondary' onClick={() => toggle()}>

@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
 import { CircularProgress } from '@mui/material'
 import dynamic from 'next/dynamic'
+import { t } from 'i18next'
 
 const LeafletMapcomponents = dynamic(
   () => import('../../../Maps/routemaps/Map'),
@@ -31,18 +32,25 @@ const Routes = () => {
   const [openAccordion, setOpenAccordion] = useState(null)
   const [flag, setflag] = useState(false)
 
-  const handleAccordionChange = panel => (_event, isExpanded) => {
-    setOpenAccordion(isExpanded ? panel : null)
-    if (!isExpanded) {
-      setflag(false)
+  const handleAccordionChange = (id) => {
+    if(openAccordion === id){
+      setOpenAccordion(null)
+    }else{
+      setOpenAccordion(id)
     }
   }
 
   const { data: sites } = useQuery({ queryKey: ['sites'], queryFn: () => api.get('/sites/sites.getallsitesasync') })
 
   useEffect(() => {
-    setSite(sites?.data?.data?.data)
-  }, [sites])
+    if(sites){
+        if(openAccordion){
+          setSite(sites?.data?.data?.data?.filter(site => site.route.id === openAccordion))
+        }else{
+          setSite(sites?.data?.data?.data)
+        }
+    }
+  }, [sites , openAccordion])
 
   // todo
 
@@ -66,9 +74,7 @@ const Routes = () => {
     setRoutesToShow(allRoutes?.filter(el => el.name.toLowerCase().includes(searchValue.toLowerCase())))
   }, [searchValue, allRoutes])
 
-  const handleSiteNameClick = (sitesOfRoute, markerIcon) => {
-    setSite(sitesOfRoute.map(s => ({ ...s, route: { ...s.route, markerIcon } })))
-  }
+
 
   return (
     <Grid container spacing={6.5}>
@@ -99,7 +105,7 @@ const Routes = () => {
               >
                 <CardContent>
                   <Typography sx={{ fontSize: '16px', marginBottom: '30px' }}>
-                    {'Route'} Total ({routesToShow?.length})
+                    {t('Route Total')} ({routesToShow?.length})
                   </Typography>
                   {isLoading ? (
                     <div className='w-full h-full min-h-[200px] flex justify-center items-center'>
@@ -110,11 +116,9 @@ const Routes = () => {
                   ) : routesToShow?.length > 0 ? (
                     routesToShow?.map((route, index) => (
                       <RoutesAccordion
-                        openAccordion={openAccordion}
-                        index={index}
-                        handleAccordionChange={handleAccordionChange}
-                        handleSiteNameClick={handleSiteNameClick}
                         key={route.id}
+                        openAccordion={openAccordion}
+                        handleAccordionChange={handleAccordionChange}
                         route={route}
                       />
                     ))
@@ -128,7 +132,7 @@ const Routes = () => {
                         justifyContent: 'center'
                       }}
                     >
-                      No Route found
+                     {t('No Route found')}
                     </Typography>
                   )}
                 </CardContent>

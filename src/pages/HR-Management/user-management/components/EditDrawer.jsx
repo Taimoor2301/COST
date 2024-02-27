@@ -607,7 +607,7 @@ const SidebarAddUser = props => {
 
           <label htmlFor='icon-upload' style={{ display: 'flex', alignItems: 'center' }}>
             <Input type='file' id='icon-upload' style={{ display: 'none' }} onChange={handleImageChange} />
-            <Button variant='contained' color='primary' component='span'>
+            <Button variant='outlined' color='primary' component='span'>
               Choose Image
             </Button>
           </label>
@@ -627,7 +627,7 @@ const SidebarAddUser = props => {
           </div>
           <label htmlFor='icon-upload' style={{ display: 'flex', alignItems: 'center' }}>
             <Input type='file' id='icon-upload' style={{ display: 'none' }} onChange={handleImageChange} />
-            <Button variant='contained' color='primary' component='span'>
+            <Button variant='outlined' color='primary' component='span'>
               Choose Image
             </Button>
           </label>
@@ -832,7 +832,7 @@ const SidebarAddUser = props => {
                   {' '}
                   <Button
                     type='submit'
-                    variant='contained'
+                    variant='outlined'
                     sx={{ mr: 3, p: 3, pt: 3, pb: 3 }}
                     style={{ textAlign: 'start', fontSize: '12.7px' }}
                     onClick={handleResetPasswordOpen}
@@ -876,10 +876,10 @@ const SidebarAddUser = props => {
                         <CircularProgress />
                       ) : (
                         <>
-                          <Button variant='contained' onClick={handleSendResetLink}>
+                          <Button variant='outlined' onClick={handleSendResetLink}>
                             Yes
                           </Button>
-                          <Button variant='contained' onClick={handleCloseResetPassword}>
+                          <Button variant='outlined' onClick={handleCloseResetPassword}>
                             No
                           </Button>
                         </>
@@ -892,7 +892,7 @@ const SidebarAddUser = props => {
               )}
               <Button
                 type='submit'
-                variant='contained'
+                variant='outlined'
                 sx={{ mr: 3 }}
                 onClick={row ? () => handleupdate(uploadImage) : handleAddUser}
               >

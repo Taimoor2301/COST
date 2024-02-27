@@ -18,6 +18,7 @@ import toast from 'react-hot-toast'
 import CircularProgress from '@mui/material/CircularProgress'
 import api from 'src/hooks/useApi'
 import { QRCodeSVG } from 'qrcode.react'
+import { t } from 'i18next'
 
 import { styled } from '@mui/material/styles'
 
@@ -45,18 +46,21 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
 
   // delete
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const mutation = useMutation({
     mutationKey: ['deleteSite'],
     mutationFn: () => api.post(`/sites/sites.deletesiteasync?Id=${site.id}`),
     onSuccess: () => {
       queryClient.invalidateQueries(['sites'])
       setDeleteOpen(false)
-      toast.success('Site Deleted')
+      toast.success(s)
     },
     onError: error => {
       console.log(error)
       setDeleteOpen(false)
-      toast.error('Something went wrong')
+      toast.error(f)
     }
   })
 
@@ -85,7 +89,7 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
 
         <AccordionDetails>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography sx={{ color: 'text.secondary' }}>Sites Info</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>{t('Sites Info')}</Typography>
             <Typography sx={{ marginTop: '-9px' }}>
               <IconButton
                 onClick={() => {
@@ -116,7 +120,9 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
                 </CustomTimelineDot>
                 <TimelineConnector />
               </TimelineSeparator>
-              <TimelineContent sx={{ mt: '7px' }}>CheckinVicinity : {site?.maxCheckinVicinity || 0}</TimelineContent>
+              <TimelineContent sx={{ mt: '7px' }}>
+                {t('Checkin Vicinity')} : {site?.maxCheckinVicinity || 0}
+              </TimelineContent>
             </TimelineItem>
             <TimelineItem>
               <TimelineSeparator>
@@ -147,7 +153,8 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
         </DialogTitle>
         <DialogContent>
           <Typography style={{ textAlign: 'center' }}>
-            Are you sure you want to delete this Site <br />
+            {t('Are you sure you want to delete this Site')}
+            <br />
             <span style={{ fontWeight: 'bold' }}>{site?.name}</span>
           </Typography>
         </DialogContent>
@@ -157,17 +164,16 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
             <CircularProgress />
           ) : (
             <>
-              <Button variant='contained' onClick={() => mutation.mutate()}>
-                Yes
+              <Button variant='outlined' onClick={() => mutation.mutate()}>
+                {t('Yes')}
               </Button>
-              <Button variant='contained' onClick={() => setDeleteOpen(false)}>
-                No
+              <Button variant='outlined' onClick={() => setDeleteOpen(false)}>
+                {t('No')}
               </Button>
             </>
           )}
         </DialogActions>
       </Dialog>
-      {/* <AddDrawer open={editOpen} toggle={() => setEditOpen(p => !p)} row={site} fetchData={fetchData} /> */}
     </div>
   )
 }

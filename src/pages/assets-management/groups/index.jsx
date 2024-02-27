@@ -34,10 +34,12 @@ export default function Groups() {
     }
   }, [data])
 
+  const language = localStorage.getItem('language')
+
   return (
     <div>
       <div className='flex items-center justify-end w-full'>
-        <Button variant='contained' onClick={() => toggle()}>
+        <Button variant={language === 'en' ? 'contained' : 'outlined'} color='primary' onClick={() => toggle()}>
           <Icon fontSize='1.125rem' icon='tabler:plus' />
           {t('Add new Group')}
         </Button>
@@ -47,7 +49,7 @@ export default function Groups() {
           <CircularProgress />
         </div>
       ) : isError ? (
-        <div className='w-full text-center'>Something went wrong</div>
+        <div className='w-full text-center'>{t('Something went wrong')}</div>
       ) : (
         allGroups.map((g, i) => (
           <MainGroup data={g} key={g.id} expanded={expanded} setExpanded={setExpanded} index={i} />

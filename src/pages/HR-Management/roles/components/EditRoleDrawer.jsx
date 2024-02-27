@@ -17,6 +17,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
+import { t } from 'i18next'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -25,23 +26,34 @@ const Header = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between'
 }))
 
-const AddRoleDrawer = ({ open, toggle, itemToEdit }) => {
+const AddRoleDrawer = ({ open, toggle, itemToEdit, refetch }) => {
   const queryClient = useQueryClient()
+  const [delay, setDelay] = useState(false)
+
+  const s = t('Success')
+  const f = t('Something went wrong')
 
   const mutation = useMutation({
     mutationKey: ['editRole'],
     mutationFn: data => {
+      setDelay(true)
       api.post('/roles/roles.createroleasync', data)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['roles'])
-      toggle()
-      toast.success('Success')
+      setTimeout(() => {
+        queryClient.invalidateQueries('allRoles', { refetchInactive: true })
+        setDelay(false)
+
+        toggle()
+
+        toast.success(s)
+      }, 2000)
     },
     onError: errors => {
       // toggle()
       console.log(errors)
-      toast.error(errors.response.data.messages[0] || 'Something went wrong')
+      setDelay(false)
+      toast.error(errors.response.data.messages[0] || f)
     }
   })
 
@@ -76,7 +88,7 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Edit Role</Typography>
+        <Typography variant='h5'>{t('Edit Role')}</Typography>
         <IconButton
           size='small'
           onClick={() => toggle()}
@@ -99,10 +111,10 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit }) => {
           <FormControl fullWidth required>
             <CustomTextField
               fullWidth
-              label='Role Name'
+              label={t('Role Name')}
               value={name}
               onChange={e => setName(e.target.value)}
-              placeholder='Enter Role Name'
+              placeholder={t('Role Name')}
             />
           </FormControl>
         </Box>
@@ -111,12 +123,12 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit }) => {
           <FormControl fullWidth required>
             <CustomTextField
               fullWidth
-              label='Role Description'
+              label={t('Role Description')}
               value={description}
               multiline
               rows={2}
               onChange={e => setDescription(e.target.value)}
-              placeholder='Enter Role Description'
+              placeholder={t('Role Description')}
             />
           </FormControl>
         </Box>
@@ -133,7 +145,7 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit }) => {
                 '--Switch-trackHeight': '45px'
               }}
             />
-            <Typography sx={{ ml: 2 }}>{isActive ? 'Active' : 'InActive'}</Typography>
+            <Typography sx={{ ml: 2 }}>{isActive ? t('Active') : t('InActive')}</Typography>
           </Box>
         </Grid>
 
@@ -141,14 +153,14 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit }) => {
           <Button
             type='submit'
             onClick={onSubmit}
-            disabled={description?.length < 3 || name?.length < 3 || !itemToEdit?.id || mutation.isPending}
-            variant='contained'
+            disabled={description?.length < 3 || name?.length < 3 || !itemToEdit?.id || mutation.isPending || delay}
+            variant='outlined'
             sx={{ mr: 3 }}
           >
-            {mutation.isPending ? 'Loading...' : 'Submit'}
+            {mutation.isPending || delay ? t('Loading...') : t('Submit')}
           </Button>
           <Button variant='tonal' color='secondary' onClick={toggle}>
-            Cancel
+            {t('Cancel')}
           </Button>
         </Box>
       </Box>

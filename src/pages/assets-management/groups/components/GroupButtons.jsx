@@ -6,22 +6,30 @@ import api from 'src/hooks/useApi'
 import CircularProgress from '@mui/material/CircularProgress'
 import toast from 'react-hot-toast'
 import EditGroupInfo from './EditGroup'
+import { useTranslation } from 'react-i18next'
 
 export default function GroupButtons({ onCancel, group, selectedSites, selectedUsers, selectedQuestionneries }) {
   const queryClient = useQueryClient()
 
+  const { t } = useTranslation()
+
   const [openEdit, setOpenEdit] = useState(false)
+
+  const s = t('Success')
+  const f = t('Something went wrong')
+
+  const language = localStorage.getItem('language')
 
   const update = useMutation({
     mutationKey: ['groupUpdate'],
     mutationFn: data => api.post('/group/group.updategroupasync', { ...data }),
     onSuccess: () => {
       queryClient.invalidateQueries(['groups'])
-      toast.success('Update Success')
+      toast.success(s)
     },
     onError: err => {
       console.log(err)
-      toast.error('Update Error')
+      toast.error(f)
     }
   })
 
@@ -30,11 +38,11 @@ export default function GroupButtons({ onCancel, group, selectedSites, selectedU
     mutationFn: () => api.post('/group/group.deletegroupasync', {}, { params: { id: group.id } }),
     onError: err => {
       console.log(err)
-      toast.error('Something went wrong')
+      toast.error(f)
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['groups'])
-      toast.success('Success')
+      toast.success(s)
     }
   })
 
@@ -64,17 +72,17 @@ export default function GroupButtons({ onCancel, group, selectedSites, selectedU
           <CircularProgress />
         ) : (
           <>
-            <Button variant='contained' onClick={onUpdate}>
-              Update
+            <Button variant={language === 'en' ? 'contained' : 'outlined'} onClick={onUpdate}>
+              {t('Update')}
             </Button>
-            <Button variant='contained' onClick={onCancel}>
-              Cancel
+            <Button variant={language === 'en' ? 'contained' : 'outlined'} onClick={onCancel}>
+              {t('Cancel')}
             </Button>
-            <Button variant='contained' onClick={() => setOpenEdit(p => !p)}>
-              Edit Group info
+            <Button variant={language === 'en' ? 'contained' : 'outlined'} onClick={() => setOpenEdit(p => !p)}>
+              {t('Edit Group info')}
             </Button>
-            <Button variant='contained' color='error' onClick={onDelete}>
-              Delete
+            <Button variant={language === 'en' ? 'contained' : 'outlined'} color='error' onClick={onDelete}>
+              {t('Delete')}
             </Button>
           </>
         )}

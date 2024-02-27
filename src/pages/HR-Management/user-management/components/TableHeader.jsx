@@ -39,9 +39,9 @@ const TableHeader = props => {
           onChange={e => handleFilter(e.target.value)}
         />
 
-        <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
+        <Button onClick={toggle} variant='outlined' sx={{ '& svg': { mr: 2 } }}>
           <Icon fontSize='1.125rem' icon='tabler:plus' />
-          Add New User
+          {t('Add New User')}
         </Button>
       </Box>
     </Box>

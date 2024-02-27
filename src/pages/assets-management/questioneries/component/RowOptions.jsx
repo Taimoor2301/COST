@@ -18,14 +18,9 @@ import Link from 'next/link'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
-import Grid from '@mui/material/Grid'
-import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
-import { DataGrid } from '@mui/x-data-grid'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -33,19 +28,6 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components Imports
 import { useRouter } from 'next/router'
 
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import CustomTextField from 'src/@core/components/mui/text-field'
-import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
-
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Actions Imports
-
-// ** Third Party Components
-import axios from 'axios'
-
-// ** Custom Table Components Imports
 import { baseURL } from 'src/Constants/Constants'
 
 const CustomCloseButton = styled(IconButton)(({ theme }) => ({
@@ -71,7 +53,6 @@ const RowOptions = ({ row, fetchData, formData }) => {
 
   const { t } = useTranslation()
   const [anchorEl, setAnchorEl] = useState(null)
-  const [editOpen, setEditOpen] = useState(false)
   const rowOptionsOpen = Boolean(anchorEl)
   const [deleteopen, setdeleteOpen] = useState(false)
   const handleClickdeleteOpen = () => setdeleteOpen(true)
@@ -94,6 +75,9 @@ const RowOptions = ({ row, fetchData, formData }) => {
     })
   }
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const handleDelete = async () => {
     try {
       const userToken = localStorage.getItem('accessToken')
@@ -112,10 +96,10 @@ const RowOptions = ({ row, fetchData, formData }) => {
       const result = await response.json()
 
       if (response?.ok) {
-        toast.success('Data deleted successfully')
+        toast.success(s)
         handleClose()
       } else {
-        toast.error(response?.messages)
+        toast.error(response?.messages || f)
         setIsLoading(true)
       }
       fetchData()
@@ -125,7 +109,6 @@ const RowOptions = ({ row, fetchData, formData }) => {
     }
     handleRowOptionsClose()
   }
-  const handleEdit = async () => {}
 
   return (
     <>
@@ -169,7 +152,8 @@ const RowOptions = ({ row, fetchData, formData }) => {
         </DialogTitle>
         <DialogContent>
           <Typography style={{ textAlign: 'center' }}>
-            Are you sure you want to delete this Group<br></br> <span style={{ fontWeight: 'bold' }}>{row?.name}</span>
+            {t('Are you sure you want to delete this Group')}
+            <br></br> <span style={{ fontWeight: 'bold' }}>{row?.name}</span>
           </Typography>
         </DialogContent>
         <DialogContent>
@@ -192,17 +176,16 @@ const RowOptions = ({ row, fetchData, formData }) => {
             <CircularProgress />
           ) : (
             <>
-              <Button variant='contained' onClick={handleDelete}>
-                Yes
+              <Button variant='outlined' onClick={handleDelete}>
+                {t('Yes')}
               </Button>
-              <Button variant='contained' onClick={handleClose}>
-                No
+              <Button variant='outlined' onClick={handleClose}>
+                {t('No')}
               </Button>
             </>
           )}
         </DialogActions>
       </Dialog>
-      {/* <AddUserDrawer open={editOpen} row={row} toggle={toggleEditDrawer} fetchData={fetchData} /> */}
     </>
   )
 }

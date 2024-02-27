@@ -13,6 +13,7 @@ import Dialog from '@mui/material/Dialog'
 import CircularProgress from '@mui/material/CircularProgress'
 import AddNewSite from './AddNewSite'
 import EditRoute from './EditRoute'
+import { t } from 'i18next'
 
 import {
   Timeline,
@@ -38,40 +39,44 @@ const CustomCloseButton = styled(IconButton)(({ theme }) => ({
   boxShadow: theme.shadows[2],
   transform: 'translate(10px, -10px)',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: `${theme.palette.background.paper} !important`,
+  backgroundColor: `${theme.palette.background.default} !important`,
   transition: 'transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out',
   '&:hover': {
     transform: 'translate(7px, -5px)'
   }
 }))
 
-const RoutesAccordion = ({ route, handleSiteNameClick, openAccordion, handleAccordionChange, index }) => {
+const RoutesAccordion = ({ route, openAccordion, handleAccordionChange }) => {
   const [delOpen, setDelOpen] = useState(false)
   const [addSiteOpen, setAddSiteOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
 
   const queryClient = useQueryClient()
 
+  const s = t('Route Deleted')
+  const f = t('Request Failed')
+
   const deleteMutation = useMutation({
     mutationKey: ['delete route'],
     mutationFn: id => api.post('/routes/route.deleterouteasync', {}, { params: { id } }),
     onSuccess: () => {
       queryClient.invalidateQueries(['routes', 'sites'])
-      toast.success('Route Deleted')
+      toast.success(s)
       setDelOpen(false)
     },
     onError: err => {
       console.log(err)
-      toast.error('Request Failed')
+      toast.error(f)
     }
   })
 
   return (
     <>
       <Accordion
-        expanded={openAccordion === index}
-        onChange={handleAccordionChange(index)}
-        onClick={() => handleSiteNameClick(route?.sites, route?.markerIcon)}
+        expanded={openAccordion === route.id}
+        onChange={() => handleAccordionChange(route.id)}
+
+        // onClick={() => handleSiteNameClick(route?.sites, route?.markerIcon)}
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls='panel-content' id='panel-header'>
           <div className='flex items-center gap-6'>
@@ -96,7 +101,7 @@ const RoutesAccordion = ({ route, handleSiteNameClick, openAccordion, handleAcco
 
         <AccordionDetails>
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Typography sx={{ color: 'text.secondary' }}>Route Info</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>{t('Route Info')}</Typography>
             <Typography sx={{ marginTop: '-9px' }}>
               <IconButton onClick={() => setEditOpen(p => !p)}>
                 <EditIcon fontSize='small' />
@@ -124,7 +129,7 @@ const RoutesAccordion = ({ route, handleSiteNameClick, openAccordion, handleAcco
               </TimelineSeparator>
               <TimelineContent sx={{ mt: '7px' }}>
                 <Typography sx={{ display: 'flex', mr: 2, mb: 2 }} variant='h6'>
-                  Color:{' '}
+                  {t('Color')}:{' '}
                   <Box
                     sx={{
                       bgcolor: `${route?.color}`,
@@ -146,17 +151,19 @@ const RoutesAccordion = ({ route, handleSiteNameClick, openAccordion, handleAcco
                     fontSize: '14px'
                   }}
                 >
-                  <span>Sites: {route?.sites?.length || 0}</span>
+                  <span>
+                    {t('Sites')}: {route?.sites?.length || 0}
+                  </span>
                   <Button
                     onClick={() => setAddSiteOpen(p => !p)}
-                    variant='contained'
+                    variant='outlined'
                     style={{
                       marginRight: '-15px',
                       fontSize: '14px',
                       padding: '10px'
                     }}
                   >
-                    Add site
+                    {t('Add site')}
                   </Button>
                 </Typography>
               </TimelineContent>
@@ -178,7 +185,8 @@ const RoutesAccordion = ({ route, handleSiteNameClick, openAccordion, handleAcco
         </DialogTitle>
         <DialogContent>
           <Typography style={{ textAlign: 'center' }}>
-            Are you sure you want to delete this route <br /> <span style={{ fontWeight: 'bold' }}>{route?.name}</span>
+            {t('Are you sure you want to delete this route')} <br />{' '}
+            <span style={{ fontWeight: 'bold' }}>{route?.name}</span>
           </Typography>
         </DialogContent>
         <DialogContent>
@@ -201,11 +209,11 @@ const RoutesAccordion = ({ route, handleSiteNameClick, openAccordion, handleAcco
             <CircularProgress />
           ) : (
             <>
-              <Button variant='contained' onClick={() => deleteMutation.mutate(route?.id)}>
-                Yes
+              <Button variant='outlined' onClick={() => deleteMutation.mutate(route?.id)}>
+                {t('Yes')}
               </Button>
-              <Button variant='contained' onClick={() => setDelOpen(p => !p)}>
-                No
+              <Button variant='outlined' onClick={() => setDelOpen(p => !p)}>
+                {t('No')}
               </Button>
             </>
           )}

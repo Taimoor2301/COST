@@ -5,6 +5,7 @@ import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { t } from 'i18next'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -17,13 +18,12 @@ import { useForm, Controller } from 'react-hook-form'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import axios from 'axios'
 import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
-    return `${field} field is required`
+    return `field is required`
   } else if (valueLen > 0 && valueLen < min) {
     return `${field} must be at least ${min} characters`
   } else {
@@ -57,6 +57,9 @@ const defaultValues = {
 const AddRoleDrawer = ({ open, toggle }) => {
   const queryClient = useQueryClient()
 
+  const s = t('Role added')
+  const f = t('Something went wrong')
+
   const mutation = useMutation({
     mutationKey: ['addNewRole'],
     mutationFn: data => api.post('/roles/roles.createroleasync', data),
@@ -64,11 +67,11 @@ const AddRoleDrawer = ({ open, toggle }) => {
       queryClient.invalidateQueries(['roles'])
       reset()
       toggle()
-      toast.success('Role added')
+      toast.success(s)
     },
     onError: errors => {
       toggle()
-      toast.error(errors.response.data.messages[0] || 'Something went wrong')
+      toast.error(errors.response.data.messages[0] || f)
     },
     retry: 0
   })
@@ -103,7 +106,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Add Role</Typography>
+        <Typography variant='h5'>{t('Add Role')}</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -132,7 +135,7 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Role'
+                label={t('Role')}
                 onChange={onChange}
                 placeholder='admin'
                 error={Boolean(errors.roleName)}
@@ -149,9 +152,9 @@ const AddRoleDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Role Description'
+                label={t('Role Description')}
                 onChange={onChange}
-                placeholder='description'
+                placeholder={t('description')}
                 error={Boolean(errors.roleDescription)}
                 {...(errors.roleDescription && { helperText: errors.roleDescription.message })}
               />
@@ -159,11 +162,11 @@ const AddRoleDrawer = ({ open, toggle }) => {
           />
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button type='submit' variant='contained' sx={{ mr: 3 }}>
-              {mutation.isPending ? 'Loading...' : 'Submit'}
+            <Button type='submit' variant='outlined' sx={{ mr: 3 }}>
+              {mutation.isPending ? t('Loading...') : t('Submit')}
             </Button>
             <Button variant='tonal' color='secondary' onClick={handleClose}>
-              Cancel
+              {t('Cancel')}
             </Button>
           </Box>
         </form>

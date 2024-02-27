@@ -3,7 +3,10 @@ import Backend from 'i18next-http-backend'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
-i18n
+if(typeof window !== 'undefined'){
+  const language = localStorage.getItem('language')
+
+  i18n
 
   // Enables the i18next backend
   .use(Backend)
@@ -14,7 +17,7 @@ i18n
   // Enables the hook initialization module
   .use(initReactI18next)
   .init({
-    lng: 'en',
+    lng: language || 'en',
     backend: {
       /* translation file path */
       loadPath: '/locales/{{lng}}.json'
@@ -30,5 +33,8 @@ i18n
       formatSeparator: ','
     }
   })
+}
+
+
 
 export default i18n

@@ -1,22 +1,50 @@
 import { Card, TextField, Typography, Select, InputLabel, MenuItem } from '@mui/material'
 import { Button } from '@mui/base'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { timeZones } from 'src/utils/utils'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import api from 'src/hooks/useApi'
+import toast from 'react-hot-toast'
+import LoadingScreen from './LoadingScreen'
+import useSettingsData from 'src/hooks/useSettingsData'
+import { t } from 'i18next'
 
 export default function CompanyInfo() {
+  const [errMsg, setErrMsg] = useState('')
+
   const [data, setData] = useState({
     companyName: '',
-    companyPhoneNumber: '',
-    companyEmail: '',
+    officialPhoneNumber: '',
+    officialEmail: '',
     timeZone: ''
   })
-  const [errMsg, setErrMsg] = useState('')
+
+  const mutation = useMutation({
+    mutationKey: ['companyInfoUpdate'],
+    mutationFn: postData => api.post('/settings/settings.createsystemsettingsasync', postData),
+    onError: e => {
+      console.log(e)
+      toast.error('Something went wrong')
+    },
+    onSuccess: () => {
+      fetchData()
+      toast.success('Updated Successfully')
+    }
+  })
+
+  const { values, loading } = useSettingsData('Company Info')
+
+  useEffect(() => {
+    if (values) {
+      setData(values)
+    }
+  }, [values])
 
   function handleSubmit(e) {
     e.preventDefault()
     const isDataInvalid = checkValidation()
     if (!isDataInvalid) {
-      console.log(data)
+      mutation.mutate({ group: 'Company Info', name: 'Company Info', locked: true, payload: JSON.stringify(data) })
     }
   }
 
@@ -25,11 +53,11 @@ export default function CompanyInfo() {
       setErrMsg('Company name must be atleast 3 characters long')
 
       return true
-    } else if (/^\+(?:[0-9] ?){6,14}[0-9]$/.test(data.companyPhoneNumber) === false) {
+    } else if (/^\+(?:[0-9] ?){6,14}[0-9]$/.test(data.officialPhoneNumber) === false) {
       setErrMsg('Please enter a valid phone number')
 
       return true
-    } else if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.companyEmail) === false) {
+    } else if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(data.officialEmail) === false) {
       setErrMsg('Please enter a valid email')
 
       return true
@@ -46,38 +74,38 @@ export default function CompanyInfo() {
 
   return (
     <Card className='p-5 flex flex-col gap-3 justify-between'>
-      <h1 className='w-full text-center font-medium text-lg'>Company Information</h1>
+      <h1 className='w-full text-center font-medium text-lg'>{t('Company Information')}</h1>
       {errMsg && (
         <Typography color={'red'} textAlign={'center'}>
           {errMsg}
         </Typography>
       )}
-      <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
-        {' '}
+      <form onSubmit={handleSubmit} className='flex flex-col gap-2 relative'>
+        {loading && <LoadingScreen />}{' '}
         <TextField
-          label='Company Name'
+          label={t('Company Name')}
           value={data.companyName}
           onChange={e => setData(p => ({ ...p, companyName: e.target.value }))}
           size='small'
           fullWidth
         />
         <TextField
-          label='Official Phone Number'
-          value={data.companyPhoneNumber}
-          onChange={e => setData(p => ({ ...p, companyPhoneNumber: e.target.value }))}
+          label={t('Official Phone Number')}
+          value={data.officialPhoneNumber}
+          onChange={e => setData(p => ({ ...p, officialPhoneNumber: e.target.value }))}
           size='small'
           fullWidth
         />
         <TextField
-          label='Official Email'
+          label={t('Official Email')}
           typeof='email'
-          value={data.companyEmail}
-          onChange={e => setData(p => ({ ...p, companyEmail: e.target.value }))}
+          value={data.officialEmail}
+          onChange={e => setData(p => ({ ...p, officialEmail: e.target.value }))}
           size='small'
           fullWidth
         />
-        <InputLabel>Time Zone</InputLabel>
-        <Select>
+        <InputLabel>{t('Time Zone')}</InputLabel>
+        <Select value={data.timeZone} onChange={e => setData(p => ({ ...p, timeZone: e.target.value }))}>
           {timeZones.map((zone, i) => (
             <MenuItem key={i} value={zone.text}>
               {zone.text}
@@ -87,10 +115,10 @@ export default function CompanyInfo() {
         <Button
           type='submit'
           size='small'
-          disabled={false}
+          disabled={mutation.isPending}
           className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] disabled:bg-gray-500'
         >
-          Save
+          {t('Save')}
         </Button>
       </form>
     </Card>

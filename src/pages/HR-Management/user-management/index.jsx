@@ -55,7 +55,7 @@ const RowOptions = ({ data }) => {
   }
 
   const handleDelete = id => {
-    const confirm = window.confirm(`Confirm delete user: ${data?.firstName + ' ' + data.lastName}`)
+    const confirm = window.confirm(t('Confirm delete user') + ` : ${data?.firstName + ' ' + data.lastName}`)
     if (confirm) {
       mutation.mutate(id)
     } else {
@@ -91,11 +91,11 @@ const RowOptions = ({ data }) => {
           sx={{ '& svg': { mr: 2 } }}
         >
           <Icon icon='tabler:edit' fontSize={20} />
-          Edit
+          {t('Edit')}
         </MenuItem>
         <MenuItem onClick={() => handleDelete(data.id)} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          {mutation.isPending ? 'Deleting...' : 'Delete'}
+          {mutation.isPending ? t('Deleting') : t('Delete')}
         </MenuItem>
       </Menu>
     </>
@@ -124,7 +124,7 @@ const UserList = ({ apiData }) => {
             rounded
             skin='light'
             size='small'
-            label={row.isActive ? 'Active' : 'Inactive'}
+            label={row.isActive ? t('Active') : t('Inactive')}
             color={row.isActive ? 'success' : 'warning'}
             sx={{ textTransform: 'capitalize' }}
           />
@@ -161,7 +161,7 @@ const UserList = ({ apiData }) => {
             {row?.roles.map((role, index) => (
               <Tooltip key={index} title={row?.roles?.map(r => r.roleName).join(', ')}>
                 <span style={{ display: 'inline' }}>
-                  {role.roleName}
+                  {t(role.roleName)}
                   {index < row.roles.length - 1 && ', '}
                 </span>
               </Tooltip>
@@ -236,7 +236,7 @@ const UserList = ({ apiData }) => {
           />
 
           {isError ? (
-            <Typography>Something went wrong! Please try again.</Typography>
+            <div className='text-center w-full py-5'>{t('Something went wrong! Please try again.')}</div>
           ) : (
             <DataGrid
               autoHeight

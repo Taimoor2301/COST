@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { baseURL } from 'src/Constants/Constants'
 import { useRouter } from 'next/router'
+import { t } from 'i18next'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -58,26 +59,6 @@ const AddRouteDrawer = ({ open, toggle }) => {
   const [file, setFile] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const mutation = useMutation({
-    mutationKey: ['addRoute'],
-    mutationFn: data =>
-      api.post('/routes/route.createrouteasync', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
-    onSuccess: data => {
-      queryClient.invalidateQueries(['routes'])
-
-      // reset()
-      // toggle()
-      toast.success('Route added') // Notify user of successful submission
-    },
-    onError: errors => {
-      console.log(errors)
-
-      // toggle()
-      toast.error(errors.response.data.messages[0] || 'Something went wrong')
-    },
-    retry: 0
-  })
-
   const {
     reset,
     control,
@@ -85,7 +66,7 @@ const AddRouteDrawer = ({ open, toggle }) => {
     formState: { errors }
   } = useForm({
     defaultValues,
-    mode: 'onChange',
+    mode: 'onSubmit',
     resolver: yupResolver(schema)
   })
 
@@ -94,6 +75,9 @@ const AddRouteDrawer = ({ open, toggle }) => {
   }
 
   const router = useRouter()
+
+  const s = t('Success')
+  const f = t('Something went wrong')
 
   const handleAdd = async data => {
     const userToken = localStorage.getItem('accessToken')
@@ -121,13 +105,13 @@ const AddRouteDrawer = ({ open, toggle }) => {
         headers: headers,
         body: formData
       })
-      toast.success('Successful route add')
+      toast.success(s)
       queryClient.invalidateQueries(['routes'])
       handleClose()
     } catch (error) {
       console.log(error)
       toggle()
-      toast.error('Unsuccessful route add')
+      toast.error(f)
     } finally {
       setLoading(false)
     }
@@ -139,42 +123,12 @@ const AddRouteDrawer = ({ open, toggle }) => {
     setFile('')
   }
 
-  function imageToBinaryString(file) {
-    return new Promise((resolve, reject) => {
-      // Create a new file reader
-      const reader = new FileReader()
-
-      // Set up event listeners for when the file is loaded
-      reader.onload = () => {
-        // The result property contains the file's data as a binary string
-        resolve(reader.result)
-      }
-
-      // If there's an error reading the file, reject the promise
-      reader.onerror = () => {
-        reject(new Error('Error reading file'))
-      }
-
-      // Read the file as a binary string
-      reader.readAsBinaryString(file)
-    })
-  }
-
   async function handleFileChange(e) {
     const file = e.target.files[0]
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
         return toast.error('File size should less than 2MB')
       }
-
-      // try {
-      //   const binary = await imageToBinaryString(file)
-      //   setFile(binary)
-      //   setFileInputVal(file)
-      // } catch (err) {
-      //   console.log(err)
-      //   setFile('')
-      // }
 
       setFile(file)
     }
@@ -218,9 +172,9 @@ const AddRouteDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Route Name'
+                label={t('Route Name')}
                 onChange={onChange}
-                placeholder='Route Name'
+                placeholder={t('Route Name')}
                 error={Boolean(errors.name)}
                 {...(errors.name && { helperText: errors.name.message })}
               />
@@ -235,9 +189,9 @@ const AddRouteDrawer = ({ open, toggle }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Route Description'
+                label={t('Route Description')}
                 onChange={onChange}
-                placeholder='Route Description'
+                placeholder={t('Route Description')}
                 error={Boolean(errors.description)}
                 {...(errors.description && { helperText: errors.description.message })}
               />
@@ -249,7 +203,7 @@ const AddRouteDrawer = ({ open, toggle }) => {
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
               <div className='flex flex-col gap-2 py-4'>
-                <label htmlFor='route-add-color'>Route Color</label>
+                <label htmlFor='route-add-color'>{t('Route Color')}</label>
                 <input
                   className='border-none aspect-square'
                   type='color'
@@ -262,7 +216,7 @@ const AddRouteDrawer = ({ open, toggle }) => {
           />
           <Box sx={{ mb: 4 }}>
             <div className=' flex flex-col gap-1 py-4'>
-              <label htmlFor='add-route-icon'>Route Icon</label>
+              <label htmlFor='add-route-icon'>{t('Route Icon')}</label>
               <input
                 required
                 className='file:border-none file:bg-gray-500 file:text-white bg-gray-200 file:p-2 rounded'
@@ -284,16 +238,16 @@ const AddRouteDrawer = ({ open, toggle }) => {
                     '--Switch-trackHeight': '45px'
                   }}
                 />
-                <Typography sx={{ ml: 2 }}>Active</Typography>
+                <Typography sx={{ ml: 2 }}>{t('Active')}</Typography>
               </Box>
             </Grid>
           </>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button disabled={loading} type='submit' variant='contained' sx={{ mr: 3 }}>
-              {loading ? 'Loading...' : 'Submit'}
+            <Button disabled={loading} type='submit' variant='outlined' sx={{ mr: 3 }}>
+              {loading ? t('Loading...') : t('Submit')}
             </Button>
             <Button variant='tonal' color='secondary' onClick={handleClose}>
-              Cancel
+              {t('Cancel')}
             </Button>
           </Box>
         </Box>

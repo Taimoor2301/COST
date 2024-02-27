@@ -4,10 +4,12 @@ import { Divider } from '@mui/material'
 import CustomTextField from 'src/@core/components/mui/text-field'
 
 import SelctableItem from './SelectableItem'
+import { useTranslation } from 'react-i18next'
 
 export default function Questionneries({ allQuestionneries, selectedQuestionneries, handleQuestionneriesChange }) {
   const [questionneriesToShow, setQuestionneriesToShow] = useState(allQuestionneries)
   const [searchValue, setSearchValue] = useState('')
+  const { t } = useTranslation()
 
   useEffect(() => {
     setQuestionneriesToShow(allQuestionneries?.filter(el => el.name.toLowerCase().includes(searchValue.toLowerCase())))
@@ -17,8 +19,12 @@ export default function Questionneries({ allQuestionneries, selectedQuestionneri
     <div className='col-span-1 h-full'>
       <Card className='h-full flex flex-col py-4'>
         <div className='flex justify-between items-end gap-3 pl-4 pb-2'>
-          <span className='text-lg'>Questionneries</span>
-          <CustomTextField placeholder='Search' value={searchValue} onChange={e => setSearchValue(e.target.value)} />
+          <span className='text-lg'>{t('Questionneries')}</span>
+          <CustomTextField
+            placeholder={t('Search')}
+            value={searchValue}
+            onChange={e => setSearchValue(e.target.value)}
+          />
         </div>
         <Divider />
         <div className='flex-1 overflow-auto'>

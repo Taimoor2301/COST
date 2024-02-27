@@ -23,6 +23,7 @@ import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { Select } from '@mui/material'
 import { Switch } from '@mui/material'
+import { t } from 'i18next'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -76,18 +77,21 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
 
   // const [selectedRoute, setSelectedRoute] = useState('')
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const mutation = useMutation({
     mutationKey: ['addNewSite'],
     mutationFn: data => api.post('/sites/sites.createsitesasync', data),
     onSuccess: data => {
       queryClient.invalidateQueries(['sites'])
       handleClose()
-      toast.success('Site Created')
+      toast.success(s)
     },
     onError: errors => {
       console.log(errors)
       toggle()
-      toast.error(errors.response.data.messages[0] || 'Something went wrong')
+      toast.error(errors.response.data.messages[0] || f)
     },
     retry: 0
   })
@@ -147,7 +151,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>Add New Site</Typography>
+        <Typography variant='h5'>{t('Add New Site')}</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -176,7 +180,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Name'
+                label={t('Name')}
                 onChange={onChange}
                 placeholder='site name'
                 error={Boolean(errors.name)}
@@ -193,7 +197,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Internal ID'
+                label={t('Internal ID')}
                 onChange={onChange}
                 placeholder='doe'
                 error={Boolean(errors.internalId)}
@@ -210,7 +214,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Description'
+                label={t('Description')}
                 onChange={onChange}
                 placeholder='description'
                 error={Boolean(errors.description)}
@@ -227,7 +231,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Latitude'
+                label={t('Latitude')}
                 onChange={onChange}
                 placeholder='23.334'
                 error={Boolean(errors.lat)}
@@ -244,7 +248,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Lonitude'
+                label={t('Lonitude')}
                 onChange={onChange}
                 placeholder='23.334'
                 error={Boolean(errors.lon)}
@@ -261,7 +265,7 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 fullWidth
                 value={value}
                 sx={{ mb: 4 }}
-                label='Checkin Vicinity'
+                label={t('Checkin Vicinity')}
                 onChange={onChange}
                 placeholder='23.334'
                 error={Boolean(errors.maxCheckinVicinity)}
@@ -275,10 +279,10 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
             rules={{ required: true }}
             render={({ field: { value, onChange } }) => (
               <div>
-                <InputLabel>Route</InputLabel>
+                <InputLabel>{t('Route')}</InputLabel>
                 <Select
                   fullWidth
-                  label='Route'
+                  label={t('Route')}
                   value={value}
                   onChange={onChange}
                   error={Boolean(errors.routeId)}
@@ -303,12 +307,12 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 <div className='flex items-center pb-5'>
                   <Switch
                     checked={value}
-                    label='Active'
+                    label={t('Active')}
                     onChange={onChange}
                     error={errors.isActive}
                     {...(errors.isActive && { helperText: errors.isActive.message })}
                   />
-                  <Typography sx={{ ml: 2 }}>{'Active'}</Typography>
+                  <Typography sx={{ ml: 2 }}>{t('Active')}</Typography>
                 </div>
               )}
             />
@@ -320,23 +324,23 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                 <div className='flex items-center pb-5'>
                   <Switch
                     checked={value}
-                    label='Operational'
+                    label={t('Operational')}
                     onChange={onChange}
                     error={errors.isOperational}
                     {...(errors.isOperational && { helperText: errors.isOperational.message })}
                   />
-                  <Typography sx={{ ml: 2 }}>{'Operational'}</Typography>
+                  <Typography sx={{ ml: 2 }}>{t('Operational')}</Typography>
                 </div>
               )}
             />
           </div>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button type='submit' variant='contained' sx={{ mr: 3 }}>
-              {mutation.isPending ? 'Loading...' : 'Submit'}
+            <Button type='submit' variant='outlined' sx={{ mr: 3 }}>
+              {mutation.isPending ? t('Loading...') : t('Submit')}
             </Button>
             <Button variant='tonal' color='secondary' onClick={handleClose}>
-              Cancel
+              {t('Cancel')}
             </Button>
           </Box>
         </form>

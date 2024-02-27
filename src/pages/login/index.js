@@ -6,7 +6,6 @@ import Link from 'next/link'
 
 // ** MUI Components
 import Alert from '@mui/material/Alert'
-import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Checkbox from '@mui/material/Checkbox'
 import Typography from '@mui/material/Typography'
@@ -17,6 +16,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import { useTranslation } from 'react-i18next'
+import {Button} from '@mui/base'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -170,7 +170,7 @@ const LoginPage = () => {
             </Box>
             <Box sx={{ mb: 2, mt: -6 }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
-                {t(`Welcome to ${themeConfig.templateName}! 👋🏻`)}
+                {t('Welcome to') + " " + themeConfig.templateName + '!' + '👋🏻'}
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 {t('Please sign-in to your account and start the adventure')}
@@ -247,7 +247,7 @@ const LoginPage = () => {
                   {t('Forgot Password?')}
                 </Typography>
               </Box>
-              <Button fullWidth type='submit' disabled={loading} variant='contained' sx={{ mb: 4 }}>
+              <Button  type='submit' disabled={loading} className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5' sx={{ mb: 4 }}>
                 {t('Login')}
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>

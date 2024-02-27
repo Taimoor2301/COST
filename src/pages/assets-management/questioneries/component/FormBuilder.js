@@ -106,6 +106,11 @@ const FormBuilder = () => {
     editTrue ? handleUpdateQuestionnaires() : handleAddQuestionnaires()
   }
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+  const n = t('Name field must not be empty')
+
+
   function clearData() {
     formBuilder.actions.clearFields()
     setFormData([])
@@ -114,6 +119,7 @@ const FormBuilder = () => {
   }
 
   const handleAddQuestionnaires = async () => {
+    if(!name) return toast.error(n)
     setIsLoading(true)
     const userToken = localStorage.getItem('accessToken')
 
@@ -134,22 +140,26 @@ const FormBuilder = () => {
       })
       const responseData = await response.json()
       if (response.ok) {
-        toast.success('Questionnaires added successfully')
+        toast.success(s)
         localStorage.removeItem('rowData')
         router.push('/assets-management/questioneries')
       } else {
         toast.error(responseData?.messages)
       }
     } catch (error) {
-      toast.error('Error occurred while processing the request')
+      toast.error(f)
     } finally {
       setIsLoading(false)
     }
   }
 
   const handleUpdateQuestionnaires = async () => {
+
+
+    if(!name) return toast.error(n)
     setIsLoading(true)
     const userToken = localStorage.getItem('accessToken')
+
 
     const bodyParams = {
       id: questionid,
@@ -170,14 +180,16 @@ const FormBuilder = () => {
       })
       const responseData = await response.json()
       if (response.ok) {
-        toast.success('Questionnaires updated successfully')
+        toast.success(s)
         localStorage.removeItem('rowData')
         router.push('/assets-management/questioneries')
       } else {
-        toast.error(responseData?.messages)
+        toast.error(f)
+
       }
     } catch (error) {
-      toast.error('Error occurred while processing the request')
+      console.log(error)
+      toast.error(f)
     } finally {
       setIsLoading(false)
     }
@@ -200,10 +212,10 @@ const FormBuilder = () => {
             <CircularProgress style={{ display: 'flex', justifyContent: 'center', flex: 1 }} />
           ) : (
             <>
-              <Button variant='contained' sx={{ ml: 2 }} onClick={saveData}>
+              <Button variant='outlined' sx={{ ml: 2 }} onClick={saveData}>
                 {editTrue ? t('Edit') : t('Save')}
               </Button>
-              <Button variant='contained' sx={{ ml: 2 }} onClick={clearData}>
+              <Button variant='outlined' sx={{ ml: 2 }} onClick={clearData}>
                 {t('Clear')}
               </Button>
             </>

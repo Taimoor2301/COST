@@ -31,19 +31,6 @@ const TableHeader = props => {
         }
       }}
     >
-      {/* <Button color='secondary' variant='tonal' startIcon={<Icon icon='tabler:upload' />}>
-        {t('Export')}
-      </Button> */}
-      {/* <Box
-        sx={{
-          rowGap: 2,
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          textAlign: 'right',
-          justifyContent: 'end'
-        }}
-      > */}
       <CustomTextField
         value={value}
         sx={{ mr: 4 }}
@@ -51,11 +38,10 @@ const TableHeader = props => {
         onChange={e => handleFilter(e.target.value)}
       />
 
-      <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
+      <Button onClick={toggle} variant='outlined' sx={{ '& svg': { mr: 2 } }}>
         <Icon fontSize='1.125rem' icon='tabler:plus' />
         {`${t(btntitle)}`}
       </Button>
-      {/* </Box> */}
     </Box>
   )
 }

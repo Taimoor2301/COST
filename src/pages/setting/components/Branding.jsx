@@ -1,41 +1,59 @@
-import {
-  Avatar,
-  Card,
-  CardActions,
-  CardContent,
-  FormControl,
-  Grid,
-  Input,
-  Button as SmallButton,
-  Typography
-} from '@mui/material'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import Select from '@mui/material/Select'
+import { Avatar, Card, Grid, Input, Button as SmallButton, Typography } from '@mui/material'
+
 import React, { useEffect, useState } from 'react'
 import { SliderPicker } from 'react-color'
 import { Button } from '@mui/base'
+import LoadingScreen from './LoadingScreen'
+import useSettingsData from 'src/hooks/useSettingsData'
+
+import { t } from 'i18next'
 
 export default function SitesAndRoutes() {
   const [SelectedColor, SetSelectedColor] = useState('#4e83d9')
   const [SelectedSecondaryColor, SetSelectedSecondaryColor] = useState('#8ebbe8')
+  const [file, setFile] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
+  const [selectedImage, setSelectedImage] = useState('')
+
+  const { values, loading } = useSettingsData('Branding')
+
+  useEffect(() => {
+    if (values) {
+      SetSelectedColor(values?.primaryColor)
+      SetSelectedSecondaryColor(values?.secondaryColor)
+      setImageUrl(values?.logo)
+    }
+  }, [values])
+
+  useEffect(() => {
+    if (file) {
+      setSelectedImage(URL.createObjectURL(file))
+    }
+  }, [file])
 
   return (
     <Card className='p-5 flex flex-col gap-3 justify-between'>
-      <h1 className='w-full text-center font-medium text-lg'>Branding</h1>
+      <h1 className='w-full text-center font-medium text-lg'>{t('Branding')}</h1>
 
-      <section className='grid grid-cols-1 lg:grid-cols-2'>
+      <section className='grid grid-cols-1 lg:grid-cols-2 relative'>
+        {loading && <LoadingScreen />}
+
         <div className='flex flex-col gap-2 justify-center items-center col-span-1'>
           <Avatar
             alt='Uploaded Logo'
-            src={''}
+            src={selectedImage ? selectedImage : `data:image/png;base64,${imageUrl}`}
             sx={{ width: 100, height: 100, marginRight: '10px', textAlign: 'center' }}
           />
-          <Typography variant='body1'>Default Logo</Typography>
+          <Typography variant='body1'>{t('Default Logo')}</Typography>
           <label htmlFor='logo-upload' style={{ display: 'flex', alignItems: 'center' }}>
-            <Input type='file' id='logo-upload' style={{ display: 'none' }} />
+            <Input
+              type='file'
+              onChange={e => setFile(e.target.files[0])}
+              id='logo-upload'
+              style={{ display: 'none' }}
+            />
             <SmallButton variant='contained' color='primary' component='span'>
-              Choose Logo
+              {t('Choose Logo')}
             </SmallButton>
           </label>
         </div>
@@ -44,7 +62,7 @@ export default function SitesAndRoutes() {
           <div>
             <div>
               <label htmlFor='colorPicker' style={{ fontSize: '14px', marginBottom: '10px', display: 'block' }}>
-                Primary Color:
+                {t('Primary Color:')}
               </label>
               <SliderPicker
                 color={SelectedColor}
@@ -69,7 +87,7 @@ export default function SitesAndRoutes() {
           <div>
             <Grid>
               <label htmlFor='colorPicker' style={{ fontSize: '14px', marginBottom: '10px', display: 'block' }}>
-                Secondary Color:
+                {t('Secondary Color:')}
               </label>
               <SliderPicker
                 color={SelectedSecondaryColor}
@@ -99,7 +117,7 @@ export default function SitesAndRoutes() {
         disabled={false}
         className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] disabled:bg-gray-500'
       >
-        Save
+        {t('Save')}
       </Button>
     </Card>
   )

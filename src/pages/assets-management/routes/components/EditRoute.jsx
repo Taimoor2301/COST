@@ -44,6 +44,9 @@ const AddRouteDrawer = ({ open, toggle, row }) => {
 
   const router = useRouter()
 
+  const s = t('Success')
+  const f = t('Something went wrong')
+
   const handleupdate = async () => {
     const userToken = localStorage.getItem('accessToken')
     if (!userToken) {
@@ -73,10 +76,10 @@ const AddRouteDrawer = ({ open, toggle, row }) => {
       handleClose()
       handlereset()
       queryClient.invalidateQueries(['routes'])
-      toast.success('Success')
+      toast.success(s)
     } catch (error) {
       console.error('Error:', error.message)
-      toast.error('Unsuccessful')
+      toast.error(f)
     } finally {
       setIsLoading(false)
     }
@@ -86,14 +89,14 @@ const AddRouteDrawer = ({ open, toggle, row }) => {
     setname('')
     setdescription('')
     setSelectedColor('#ffffff')
-    setFile(new File([], ''))
+    setFile('')
     setIsActive(false)
   }
 
   const handleClose = () => {
     toggle()
 
-    // handlereset()
+    handlereset()
   }
 
   React.useEffect(() => {
@@ -201,19 +204,21 @@ const AddRouteDrawer = ({ open, toggle, row }) => {
             </Box>
             <Box sx={{ mb: 4, padding: '15px', display: 'flex', justifyContent: 'center' }}>
               <div style={{ height: '100px', width: '100px' }}>
-                <img
-                  src={
-                    file instanceof Blob
-                      ? URL.createObjectURL(file)
-                      : (file && `data:image/png;base64,${file}`) || undefined
-                  }
-                  alt='abc'
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    objectFit: 'cover'
-                  }}
-                />
+                {file && (
+                  <img
+                    src={
+                      file instanceof Blob
+                        ? URL.createObjectURL(file)
+                        : (file && `data:image/png;base64,${file}`) || undefined
+                    }
+                    alt='abc'
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                )}
               </div>
             </Box>
           </Card>
@@ -232,7 +237,7 @@ const AddRouteDrawer = ({ open, toggle, row }) => {
                   '--Switch-trackHeight': '45px'
                 }}
               />
-              <Typography sx={{ ml: 2 }}>{isActive ? 'Active' : 'InActive'}</Typography>
+              <Typography sx={{ ml: 2 }}>{isActive ? t('Active') : t('InActive')}</Typography>
             </Box>
           </Grid>
         </>
@@ -242,7 +247,7 @@ const AddRouteDrawer = ({ open, toggle, row }) => {
             <CircularProgress style={{ display: 'flex', justifyContent: 'center', flex: 1 }} />
           ) : (
             <>
-              <Button type='submit' variant='contained' sx={{ mr: 3 }} onClick={handleupdate}>
+              <Button type='submit' variant='outlined' sx={{ mr: 3 }} onClick={handleupdate}>
                 {t('Update')}
               </Button>
               <Button variant='tonal' color='secondary' onClick={handleClose}>

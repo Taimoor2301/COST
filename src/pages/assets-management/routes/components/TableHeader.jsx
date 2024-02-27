@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import CustomTextField from 'src/@core/components/mui/text-field'
 import Icon from 'src/@core/components/icon'
+import { t } from 'i18next'
 
 const TableHeader = props => {
   const { handleFilter, toggle, value } = props
@@ -23,13 +24,13 @@ const TableHeader = props => {
         <CustomTextField
           value={value}
           sx={{ mr: 4 }}
-          placeholder='Search User'
+          placeholder={t('Search Routes')}
           onChange={e => handleFilter(e.target.value)}
         />
 
-        <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
+        <Button onClick={toggle} variant='outlined' sx={{ '& svg': { mr: 2 } }}>
           <Icon fontSize='1.125rem' icon='tabler:plus' />
-          Add New Routes
+          {t('Add New Routes')}
         </Button>
       </Box>
     </Box>
