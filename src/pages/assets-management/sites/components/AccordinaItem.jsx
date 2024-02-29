@@ -131,7 +131,7 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
                 </CustomTimelineDot>
               </TimelineSeparator>
               <TimelineContent sx={{ mt: '7px' }}>
-                <QRCodeSVG value={site.qrCode} />
+                <QRCodeSVG value={site.internalId} />
               </TimelineContent>
             </TimelineItem>
           </Timeline>
