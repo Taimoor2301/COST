@@ -65,8 +65,9 @@ const RoutesAccordion = ({ route, openAccordion, handleAccordionChange }) => {
       setDelOpen(false)
     },
     onError: err => {
-      console.log(err)
-      toast.error(f)
+      console.log(err.response?.data?.exception)
+      setDelOpen(false)
+      toast.error(err.response?.data?.exception || f)
     }
   })
 
@@ -106,7 +107,14 @@ const RoutesAccordion = ({ route, openAccordion, handleAccordionChange }) => {
               <IconButton onClick={() => setEditOpen(p => !p)}>
                 <EditIcon fontSize='small' />
               </IconButton>
-              <IconButton onClick={() => setDelOpen(p => !p)}>
+              <IconButton
+                onClick={() => {
+                  if (route.sites?.length > 0) {
+                    return toast.error("Can't delete a route with Sites")
+                  }
+                  setDelOpen(p => !p)
+                }}
+              >
                 <DeleteIcon fontSize='small' />
               </IconButton>
             </Typography>

@@ -117,7 +117,6 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
       qrCode: base64String, // Use base64String instead of qrCode
       qrCodeStr: jsonString // Use jsonString instead of qrCodeStr
     }
-    console.log(postdata)
     mutation.mutate(postdata)
   }
 

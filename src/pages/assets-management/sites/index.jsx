@@ -19,7 +19,6 @@ const LeafletMapcomponents = dynamic(
   { ssr: false } // <-- Disable server-side rendering
 )
 
-
 export default function Sites() {
   // routes
   const [selectedRoute, setSelectedRoute] = useState('All')
@@ -83,14 +82,12 @@ export default function Sites() {
   }, [selectedRoute, allSites])
 
   const handleCityNameClick = city => {
-
-    if(city.id === selectedCity?.id){
+    if (city.id === selectedCity?.id) {
       setSelectedCity(null)
       setflag(false)
-    } else{
+    } else {
       setSelectedCity(city)
       setflag(true)
-
     }
   }
 
@@ -111,21 +108,30 @@ export default function Sites() {
 
       <Grid item lg={4} md={4} xs={12}>
         <Card className='p-4 h-[70vh]'>
-            <Typography sx={{ fontSize: '16px', marginBottom: '30px' }}>
-              {t('Total Sites')} ({sitesToShow?.length || 0})
-            </Typography>
-            <div className='overflow-x-hidden overflow-y-auto p-1 max-h-full pb-20'>
-              {sitesLoading ? <div className='grid place-content-center'><CircularProgress/></div> : sitesToShow?.map(site => (
-                <AccordionItem
-                  key={site.id}
-                  site={site}
-                  setSiteToEdit={setSiteToEdit}
-                  handleCityNameClick={handleCityNameClick}
-                  toggleEditor={() => setEditSiteOpen(true)}
-                />
-              ))}
+          {sitesLoading ? (
+            <div className='grid place-content-center py-10'>
+              <CircularProgress />
             </div>
-
+          ) : sitesError ? (
+            <div className='text-clip font-semibold py-5'>Error getting sites data</div>
+          ) : (
+            <>
+              <Typography sx={{ fontSize: '16px', marginBottom: '20px' }}>
+                {t('Total Sites')} ({sitesToShow?.length || 0})
+              </Typography>
+              <div className='overflow-x-hidden overflow-y-auto p-1 max-h-full pb-20'>
+                {sitesToShow?.map(site => (
+                  <AccordionItem
+                    key={site.id}
+                    site={site}
+                    setSiteToEdit={setSiteToEdit}
+                    handleCityNameClick={handleCityNameClick}
+                    toggleEditor={() => setEditSiteOpen(true)}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </Card>
       </Grid>
 

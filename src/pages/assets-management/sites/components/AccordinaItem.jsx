@@ -59,8 +59,8 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
     },
     onError: error => {
       console.log(error)
+      toast.error(error.response?.data?.exception || f)
       setDeleteOpen(false)
-      toast.error(f)
     }
   })
 

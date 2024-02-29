@@ -8,9 +8,10 @@ import AddRouteDrawer from './components/AddRouteDrawer'
 import TableHeader from './components/TableHeader'
 import { useQuery } from '@tanstack/react-query'
 import api from 'src/hooks/useApi'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, Divider } from '@mui/material'
 import dynamic from 'next/dynamic'
 import { t } from 'i18next'
+import { shadows } from '@mui/system'
 
 const LeafletMapcomponents = dynamic(
   () => import('../../../Maps/routemaps/Map'),
@@ -77,8 +78,8 @@ const Routes = () => {
 
 
   return (
-    <Grid container spacing={6.5}>
-      <Grid item xs={12}>
+    <>
+
         <Card>
           <TableHeader
             value={searchValue}
@@ -86,25 +87,17 @@ const Routes = () => {
             toggle={() => setAddRouteOpen(p => !p)}
           />
 
+          <Divider />
+
           <Grid
             container
             spacing={6}
             sx={{
-              py: 2,
-              px: 4
-            }}
-          >
+              p:4
+            }}>
             <Grid item xs={12} md={4}>
-              <Card
-                sx={{
-                  height: {
-                    md: 'calc(80vh - 4.0625rem)',
-                    xs: 'calc(50vh - 4.0625rem)'
-                  }
-                }}
-              >
-                <CardContent>
-                  <Typography sx={{ fontSize: '16px', marginBottom: '30px' }}>
+              <Card sx={{boxShadow:'none' , height:'70vh'}}>
+                  <Typography sx={{ fontSize: '16px', marginBottom: '20px' }}>
                     {t('Route Total')} ({routesToShow?.length})
                   </Typography>
                   {isLoading ? (
@@ -112,43 +105,40 @@ const Routes = () => {
                       <CircularProgress />
                     </div>
                   ) : isError ? (
-                    <Typography>Error fetching routes data</Typography>
+                    <div className='text-center py-5'>Error fetching routes data</div>
                   ) : routesToShow?.length > 0 ? (
-                    routesToShow?.map((route, index) => (
+                    <div className='max-h-full overflow-auto p-1 pb-10'>
+                      {routesToShow?.map((route, index) => (
                       <RoutesAccordion
                         key={route.id}
                         openAccordion={openAccordion}
                         handleAccordionChange={handleAccordionChange}
                         route={route}
                       />
-                    ))
+                    ))}
+                    </div>
                   ) : (
-                    <Typography
-                      sx={{
-                        fontSize: '16px',
-                        textAlign: 'center',
-                        alignItems: 'center',
-                        display: 'flex',
-                        justifyContent: 'center'
-                      }}
-                    >
+                    <div className='text-center py-5'>
                      {t('No Route found')}
-                    </Typography>
+                    </div>
                   )}
-                </CardContent>
-              </Card>
+
+                </Card>
+
             </Grid>
+
             <Grid item xs={12} md={8}>
-              <Card>
+              <Card className='border-2 border-black/20'>
                 <LeafletMapcomponents cities={site} selectedCity={selectedCity} flag={flag} />
               </Card>
             </Grid>
+
           </Grid>
+
         </Card>
-      </Grid>
 
       <AddRouteDrawer open={addRouteOpen} toggle={() => setAddRouteOpen(p => !p)} />
-    </Grid>
+    </>
   )
 }
 
