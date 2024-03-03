@@ -18,12 +18,12 @@ import TableBody from '@mui/material/TableBody'
 import Table from '@mui/material/Table'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import TableRow from '@mui/material/TableRow'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 
 // import RowOptions from 'src/views/apps/user/userManagement/list/RowOptions'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
+import useAPI from 'src/hooks/useNewApi'
 
 const CustomCloseButton = styled(IconButton)(({ theme }) => ({
   top: 0,
@@ -57,6 +57,7 @@ const renderClient = row => {
 
 const ViewUserModel = ({ row }) => {
   // ** State
+  const api = useAPI()
   const [open, setOpen] = useState(false)
   const [deleteopen, setdeleteOpen] = useState(false)
   const handleClickdeleteOpen = () => setdeleteOpen(true)

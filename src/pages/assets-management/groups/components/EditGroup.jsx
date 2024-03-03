@@ -12,10 +12,10 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -26,6 +26,7 @@ const Header = styled(Box)(({ theme }) => ({
 
 const EditGroupInfo = ({ open, toggle, data }) => {
   const queryClient = useQueryClient()
+  const api = useAPI()
 
   const s = t('Success')
   const f = t('Something went wrong')

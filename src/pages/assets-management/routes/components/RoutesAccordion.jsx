@@ -27,9 +27,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ArrowForkIcon from '@mui/icons-material/ArrowForward'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { styled } from '@mui/material/styles'
+import useAPI from 'src/hooks/useNewApi'
 
 const CustomCloseButton = styled(IconButton)(({ theme }) => ({
   top: 0,
@@ -50,6 +50,8 @@ const RoutesAccordion = ({ route, openAccordion, handleAccordionChange }) => {
   const [delOpen, setDelOpen] = useState(false)
   const [addSiteOpen, setAddSiteOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
+
+  const api = useAPI()
 
   const queryClient = useQueryClient()
 

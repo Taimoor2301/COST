@@ -14,8 +14,8 @@ import { useAuth } from 'src/hooks/useAuth'
 import { useEffect, useState } from 'react'
 import { checkPersonalUpdate, uploadImage } from 'src/utils/utils'
 import { useMutation } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
+import useAPI from 'src/hooks/useNewApi'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -47,6 +47,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }))
 
 const UserProfile = ({ data }) => {
+  const api = useAPI()
   const { user } = useAuth()
   const [firstName, setFirstName] = useState(user?.firstName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')

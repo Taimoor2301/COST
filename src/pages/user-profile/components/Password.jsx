@@ -3,11 +3,12 @@ import { Card, CardActions, CardContent, FormControl, Input, InputLabel, TextFie
 import Typography from '@mui/material/Typography'
 import { Button } from '@mui/base'
 import { useMutation } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 export default function Password() {
+  const api = useAPI()
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')

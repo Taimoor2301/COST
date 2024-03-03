@@ -56,6 +56,9 @@ import 'src/iconify-bundle/icons-bundle-react'
 // ** Global css styles
 import '../../styles/globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useEffect } from 'react'
+import { getMessaging, getToken, onMessage } from 'firebase/messaging'
+import { app } from 'src/Firebase'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -94,6 +97,30 @@ const queryClient = new QueryClient({
 
 // ** Configure JSS & ClassName
 const App = props => {
+
+
+  useEffect(()=>{
+    const messenging = getMessaging(app)
+
+    async function notify(){
+          const permissions = await Notification.requestPermission()
+          if(permissions === 'granted'){
+            const token = getToken(messenging, {
+              vapidKey: 'BNJd8ZFZED6pCtJZHkd9Hj1Or7u-Z7QW7DRZFARHfVeSRGDUjFtevdwkJd-j9GNHAliyDZ_XakpG_reD8XGc-Zo'
+            })
+          }
+    }
+    notify()
+    onMessage(messenging , payload => {
+      alert('Messege recieved')
+      console.log(payload)
+    })
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+
+
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   // Variables

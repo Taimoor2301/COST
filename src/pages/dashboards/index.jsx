@@ -16,8 +16,33 @@ import CrmEarningReportsWithTabs from 'src/views/dashboards/crm/CrmEarningReport
 // ** Custom Component Imports
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
+import { useEffect } from 'react'
+import app from '../../Firebase/index'
+import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 
 const CrmDashboard = () => {
+  // useEffect(() => {
+  //   const messaging = getMessaging(app)
+
+  //   function getNotificatios() {
+  //     Notification.requestPermission().then(r => {
+  //       if (r === 'granted') {
+  //         getToken(messaging, {
+  //           vapidKey: 'BNJd8ZFZED6pCtJZHkd9Hj1Or7u-Z7QW7DRZFARHfVeSRGDUjFtevdwkJd-j9GNHAliyDZ_XakpG_reD8XGc-Zo'
+  //         })
+  //           .then(r => console.log('FCM', r))
+  //           .catch(e => console.log(e))
+  //       }
+  //     })
+  //   }
+
+  //   onMessage(messaging, payload => {
+  //     console.log(payload)
+  //   })
+
+  //   getNotificatios()
+  // }, [])
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={2}>

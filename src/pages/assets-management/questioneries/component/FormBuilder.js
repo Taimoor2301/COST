@@ -6,9 +6,11 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 import toast from 'react-hot-toast'
 import { baseURL } from 'src/Constants/Constants'
 import { useQuery } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 
 const FormBuilder = () => {
+
+  const api = useApi()
+
 
   const questionData = JSON.parse(localStorage.getItem('rowData'))
   const editTrue = JSON.parse(localStorage.getItem('isEdit')) ?? false

@@ -6,13 +6,13 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import TableHeader from './components/TableHeader'
 import { useQuery } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import AccordionItem from './components/AccordinaItem'
 import AddSiteDrawer from './components/AddSiteDrawer'
 import EditSiteDrawer from './components/EditSiteDrawer'
 import dynamic from 'next/dynamic'
 import { CircularProgress } from '@mui/material'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 const LeafletMapcomponents = dynamic(
   () => import('src/Maps/sitemaps/Map'),
@@ -22,6 +22,8 @@ const LeafletMapcomponents = dynamic(
 export default function Sites() {
   // routes
   const [selectedRoute, setSelectedRoute] = useState('All')
+
+  const api = useAPI()
 
   // sites
   const [activeFilter, setActiveFilter] = useState('All')

@@ -18,8 +18,8 @@ import { useForm, Controller } from 'react-hook-form'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
+import useAPI from 'src/hooks/useNewApi'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -55,6 +55,7 @@ const defaultValues = {
 }
 
 const AddRoleDrawer = ({ open, toggle }) => {
+  const api = useAPI()
   const queryClient = useQueryClient()
 
   const s = t('Role added')

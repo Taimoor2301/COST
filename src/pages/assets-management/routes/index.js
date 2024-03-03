@@ -7,11 +7,11 @@ import RoutesAccordion from './components/RoutesAccordion'
 import AddRouteDrawer from './components/AddRouteDrawer'
 import TableHeader from './components/TableHeader'
 import { useQuery } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import { CircularProgress, Divider } from '@mui/material'
 import dynamic from 'next/dynamic'
 import { t } from 'i18next'
 import { shadows } from '@mui/system'
+import useAPI from 'src/hooks/useNewApi'
 
 const LeafletMapcomponents = dynamic(
   () => import('../../../Maps/routemaps/Map'),
@@ -26,6 +26,8 @@ const Routes = () => {
   const [routesToShow, setRoutesToShow] = useState([])
 
   // todo
+
+  const api = useAPI()
 
   const [selectedCity, setSelectedCity] = useState({})
   const [site, setSite] = useState([])

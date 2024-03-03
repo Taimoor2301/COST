@@ -3,13 +3,15 @@ import { useQuery } from '@tanstack/react-query'
 import Card from '@mui/material/Card'
 import Selection from '../inner-components/Selection'
 import { Divider } from '@mui/material'
-import api from 'src/hooks/useApi'
 import SelectionContainer from '../inner-components/SelectedContainer'
 import SelctableItem from './SelectableItem'
 import { useTranslation } from 'react-i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 export default function Sites({ allSites, selectedSites, handleSiteChange }) {
   const [selectedRoute, setSelectedRoute] = useState('All')
+
+  const api = useAPI()
 
   const { t } = useTranslation()
 

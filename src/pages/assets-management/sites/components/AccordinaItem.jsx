@@ -16,7 +16,6 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import toast from 'react-hot-toast'
 import CircularProgress from '@mui/material/CircularProgress'
-import api from 'src/hooks/useApi'
 import { QRCodeSVG } from 'qrcode.react'
 import { t } from 'i18next'
 
@@ -24,6 +23,7 @@ import { styled } from '@mui/material/styles'
 
 import Dialog from '@mui/material/Dialog'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import useAPI from 'src/hooks/useNewApi'
 
 const CustomCloseButton = styled(IconButton)(({ theme }) => ({
   top: 0,
@@ -45,6 +45,8 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
   const [deleteOpen, setDeleteOpen] = useState(false)
 
   // delete
+
+  const api = useAPI()
 
   const s = t('Success')
   const f = t('Something went wrong')

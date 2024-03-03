@@ -7,14 +7,16 @@ import Button from '@mui/material/Button'
 import Icon from 'src/@core/components/icon'
 import AddGroup from './components/AddGroup'
 
-import api from 'src/hooks/useApi'
 import { CircularProgress } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 export default function Groups() {
   const { t } = useTranslation()
   const [allGroups, setAllGroups] = useState([])
   const [expanded, setExpanded] = useState(null)
+
+  const api = useAPI()
 
   // add
 

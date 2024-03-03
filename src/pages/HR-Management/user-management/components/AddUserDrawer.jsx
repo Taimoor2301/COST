@@ -18,12 +18,13 @@ import { useForm, Controller } from 'react-hook-form'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
+
 import toast from 'react-hot-toast'
 import { Switch } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { uploadImage } from 'src/utils/utils'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -79,6 +80,7 @@ const defaultValues = {
 }
 
 const AddRoleDrawer = ({ open, toggle }) => {
+  const api = useAPI()
   const queryClient = useQueryClient()
   const [file, setFile] = useState('')
   const [localImageUrl, setLoacalImageUrl] = useState('')

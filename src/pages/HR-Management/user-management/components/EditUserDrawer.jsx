@@ -17,7 +17,6 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
@@ -26,6 +25,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import { checkValidation, uploadImage } from '../../../../utils/utils'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -59,6 +59,7 @@ const dataTemplate = {
 // ! start
 
 const AddRoleDrawer = ({ open, toggle, data }) => {
+  const api = useAPI()
   const [errorMsg, setErrorMsg] = useState('')
   const [userData, setUserData] = useState(dataTemplate)
   const queryClient = useQueryClient()

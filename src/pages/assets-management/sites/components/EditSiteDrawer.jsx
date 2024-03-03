@@ -29,9 +29,9 @@ import * as yup from 'yup'
 
 // ** Icon Imports
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import { useTranslation } from 'react-i18next'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -55,6 +55,7 @@ const emptyValues = {
 const EditSiteDrawer = ({ open, toggle, route, site }) => {
   const queryClient = useQueryClient()
   const { t } = useTranslation()
+  const api = useAPI()
 
   const [defaultValues, setDefaultValues] = useState(emptyValues)
 

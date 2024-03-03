@@ -7,10 +7,11 @@ import 'react-credit-cards/es/styles-compiled.css'
 import GroupBody from './GroupBody'
 import GroupButtons from './GroupButtons'
 import { useQuery } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
+import useAPI from 'src/hooks/useNewApi'
 
 export default function Groups({ data, index, expanded, setExpanded }) {
   const { name, siteIds, userIds, questionnaireIds } = data
+  const api = useAPI()
 
   // !sites
   const [allSites, setAllSites] = useState([])

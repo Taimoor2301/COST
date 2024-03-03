@@ -20,18 +20,19 @@ import CustomChip from 'src/@core/components/mui/chip'
 // ** Custom Table Components Imports
 import TableHeader from './components/TableHeader'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import { CircularProgress } from '@mui/material'
 import AddRoleDrawer from './components/AddRoleDeawer'
 import EditRoleDrawer from './components/EditRoleDrawer'
 import toast from 'react-hot-toast'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 const RowOptions = ({ data }) => {
   const queryClient = useQueryClient()
 
   const s = t('Deleted Successfully')
   const f = t('Delete Request Failed')
+  const api = useAPI()
 
   const mutaion = useMutation({
     mutationKey: ['deleteRole'],
@@ -107,6 +108,8 @@ const RowOptions = ({ data }) => {
 }
 
 const Roles = () => {
+  const api = useAPI()
+
   const columns = [
     {
       flex: 0.25,

@@ -21,10 +21,10 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import useAPI from 'src/hooks/useNewApi'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -72,6 +72,7 @@ const MenuProps = {
 }
 
 const AddRoleDrawer = ({ open, toggle }) => {
+  const api = useAPI()
   const queryClient = useQueryClient()
 
   const s = t('Success')

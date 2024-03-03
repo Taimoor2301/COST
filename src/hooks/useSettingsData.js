@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import api from './useApi';
+import useAPI from './useNewApi';
+
 
 export default function useSettingsData(groupName) {
   const [loading , setLoading] = useState(false);
   const [values , setValues] = useState('')
+
+  const api = useAPI()
 
   async function fetchData() {
     try {

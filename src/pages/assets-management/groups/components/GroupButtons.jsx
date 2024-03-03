@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import Button from '@mui/material/Button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import CircularProgress from '@mui/material/CircularProgress'
 import toast from 'react-hot-toast'
 import EditGroupInfo from './EditGroup'
 import { useTranslation } from 'react-i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 export default function GroupButtons({ onCancel, group, selectedSites, selectedUsers, selectedQuestionneries }) {
   const queryClient = useQueryClient()
+  const api = useAPI()
 
   const { t } = useTranslation()
 

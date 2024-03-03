@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'axios'
-import api from 'src/hooks/useApi'
 
 // ** Config
 import authConfig from 'src/configs/auth'
@@ -15,6 +14,7 @@ import toast from 'react-hot-toast'
 import permissions from 'src/store/apps/permissions'
 import { useAuth } from 'src/hooks/useAuth'
 import { useQuery } from '@tanstack/react-query'
+import useAPI from 'src/hooks/useNewApi'
 
 // ** Defaults
 const defaultProvider = {
@@ -37,11 +37,16 @@ const AuthProvider = ({ children }) => {
   // ** Hooks
   const router = useRouter()
 
+  const api = useAPI()
+
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = window.localStorage.getItem('accessToken')
 
+      console.log('init')
+
       if (storedToken && !user) {
+        console.log('init 2')
         setLoading(true)
         try {
           const res = await api.get(`/users/users.getuserdetailsbyidasync`, { params: { id:JSON.parse(localStorage.getItem('userData')).id } });
@@ -122,7 +127,7 @@ const AuthProvider = ({ children }) => {
 
     setUser(null)
 
-    router.push('/login')
+    router.replace('/login')
   }
 
   const values = {
