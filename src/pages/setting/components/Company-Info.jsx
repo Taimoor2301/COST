@@ -3,14 +3,15 @@ import { Button } from '@mui/base'
 import React, { useEffect, useState } from 'react'
 import { timeZones } from 'src/utils/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import toast from 'react-hot-toast'
 import LoadingScreen from './LoadingScreen'
 import useSettingsData from 'src/hooks/useSettingsData'
 import { t } from 'i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 export default function CompanyInfo() {
   const [errMsg, setErrMsg] = useState('')
+  const api = useAPI()
 
   const [data, setData] = useState({
     companyName: '',

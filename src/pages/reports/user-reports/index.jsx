@@ -10,7 +10,6 @@ import Icon from 'src/@core/components/icon'
 
 import TableHeader from './components/TableHeader'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import { CircularProgress } from '@mui/material'
 import EditUserDrawer from '../../HR-Management/user-management/components/EditUserDrawer'
 import Tooltip from '@mui/material/Tooltip'
@@ -19,8 +18,10 @@ import Tooltip from '@mui/material/Tooltip'
 import CustomChip from 'src/@core/components/mui/chip'
 import toast from 'react-hot-toast'
 import UserModal from './components/UserModal'
+import useAPI from 'src/hooks/useNewApi'
 
 const RowOptions = ({ data }) => {
+  const api = useAPI()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
 
