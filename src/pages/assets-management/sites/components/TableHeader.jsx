@@ -22,7 +22,8 @@ const TableHeader = ({
   setActiveFilter,
   searchValue,
   setSearchValue,
-  toggle
+  toggle,
+  closeAccordian
 }) => {
   const { t } = useTranslation()
 
@@ -32,7 +33,7 @@ const TableHeader = ({
         <CardContent sx={{ margin: 0 }}>
           <Grid item sm={12} xs={12}>
             <Grid container spacing={2} justifyContent='space-between'>
-              <Grid item sm={3} xs={12}>
+              <Grid item sm={3} xs={12} onClick={() => closeAccordian()}>
                 <CustomTextField
                   select
                   fullWidth
@@ -49,7 +50,7 @@ const TableHeader = ({
                   ))}
                 </CustomTextField>
               </Grid>
-              <Grid item sm={3} xs={12}>
+              <Grid item sm={3} xs={12} onClick={() => closeAccordian()}>
                 <CustomTextField
                   select
                   fullWidth

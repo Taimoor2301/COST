@@ -22,6 +22,7 @@ const LeafletMapcomponents = dynamic(
 export default function Sites() {
   // routes
   const [selectedRoute, setSelectedRoute] = useState('All')
+  const [openSite, setOpenSite] = useState(null)
 
   const api = useAPI()
 
@@ -52,8 +53,13 @@ export default function Sites() {
   } = useQuery({ queryKey: ['sites'], queryFn: () => api.get('/sites/sites.getallsitesasync') })
 
   useEffect(() => {
-    setAllSites(sites?.data?.data?.data)
-    setSitesToSHow(sites?.data?.data?.data)
+    if (sites) {
+      setAllSites(sites?.data?.data?.data)
+      setSitesToSHow(sites?.data?.data?.data)
+    } else {
+      setAllSites([])
+      setSitesToSHow([])
+    }
   }, [sites])
 
   useEffect(() => {
@@ -62,6 +68,7 @@ export default function Sites() {
 
   // change active or inactive
   useEffect(() => {
+    closeAccordian()
     if (activeFilter === 'All') {
       return setSitesToSHow(
         selectedRoute === 'All' ? allSites : allSites.filter(site => site.route.id === selectedRoute)
@@ -76,6 +83,7 @@ export default function Sites() {
 
   // change route
   useEffect(() => {
+    closeAccordian()
     setActiveFilter('All')
     if (selectedRoute === 'All') {
       return setSitesToSHow(allSites)
@@ -85,14 +93,20 @@ export default function Sites() {
 
   // todo map error
 
-  const handleCityNameClick = city => {
-    if (city.id === selectedCity?.id) {
-      setSelectedCity(null)
-      setflag(false)
+  function handleSiteClick(site) {
+    if (openSite === site.id) {
+      closeAccordian()
     } else {
-      setSelectedCity(city)
+      setOpenSite(site.id)
+      setSelectedCity(site)
       setflag(true)
     }
+  }
+
+  function closeAccordian() {
+    setOpenSite(null)
+    setSelectedCity(null)
+    setflag(false)
   }
 
   return (
@@ -107,6 +121,7 @@ export default function Sites() {
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           toggle={() => setAddDrawerOpen(p => !p)}
+          closeAccordian={closeAccordian}
         />
       </Grid>
 
@@ -129,7 +144,8 @@ export default function Sites() {
                     key={site.id}
                     site={site}
                     setSiteToEdit={setSiteToEdit}
-                    handleCityNameClick={handleCityNameClick}
+                    handleCityNameClick={handleSiteClick}
+                    openSite={openSite}
                     toggleEditor={() => setEditSiteOpen(true)}
                   />
                 ))}

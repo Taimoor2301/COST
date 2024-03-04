@@ -40,7 +40,7 @@ const CustomCloseButton = styled(IconButton)(({ theme }) => ({
   }
 }))
 
-const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor }) => {
+const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor, openSite }) => {
   const queryClient = useQueryClient()
   const [deleteOpen, setDeleteOpen] = useState(false)
 
@@ -68,11 +68,8 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
 
   return (
     <div>
-      <Accordion>
-        <AccordionSummary
-          onClick={() => handleCityNameClick(site)}
-          expandIcon={<Icon fontSize='1.25rem' icon='tabler:chevron-down' />}
-        >
+      <Accordion expanded={openSite === site.id} onChange={() => handleCityNameClick(site)}>
+        <AccordionSummary expandIcon={<Icon fontSize='1.25rem' icon='tabler:chevron-down' />}>
           <div className='w-5 flex justify-center items-center'>
             <img
               src={
@@ -133,7 +130,7 @@ const AccordionItem = ({ site, handleCityNameClick, setSiteToEdit, toggleEditor 
                 </CustomTimelineDot>
               </TimelineSeparator>
               <TimelineContent sx={{ mt: '7px' }}>
-                <QRCodeSVG value={site.internalId} />
+                <QRCodeSVG value={site.qrCodeStr} />
               </TimelineContent>
             </TimelineItem>
           </Timeline>
