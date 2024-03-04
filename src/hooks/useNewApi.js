@@ -33,17 +33,23 @@ export default function useAPI(){
       if(error.response.status === 401 ){
         const originalRequest = error.config;
 
-        const refresToken = localStorage.getItem('refreshToken')
-        const accessToken = localStorage.getItem('accessToken')
-        if(!refresToken || !accessToken) {
+        const oldRefreshToken = localStorage.getItem('refreshToken')
+        const oldAccessToken = localStorage.getItem('accessToken')
+
+        if(!oldRefreshToken || !oldAccessToken) {
               logout()
 
               return Promise.reject(error)
         }
 
         try {
-
-          const res = await axios.post(baseURL+'/tokens/token.getrefreshtokenasync' , {refresToken , token:accessToken})
+          const res = await axios.post(baseURL+'/tokens/token.getrefreshtokenasync' , {refreshToken:oldRefreshToken , token:oldAccessToken},{
+            headers: {
+              'Content-Type': 'application/json',
+              accept: 'application/json',
+              tenant: 'root'
+            }
+          })
           const {token , refreshToken} = res.data.data;
           localStorage.setItem('accessToken' , token)
           localStorage.setItem('refreshToken',refreshToken)
@@ -52,9 +58,10 @@ export default function useAPI(){
           return instance.request(originalRequest)
 
         } catch (error) {
+          console.log(error)
           logout()
 
-          return Promise.reject()
+          return Promise.reject(error)
         }
 
 

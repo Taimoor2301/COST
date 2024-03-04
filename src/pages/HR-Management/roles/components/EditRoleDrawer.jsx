@@ -34,29 +34,23 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit, refetch }) => {
   const s = t('Success')
   const f = t('Something went wrong')
 
-  const mutation = useMutation({
-    mutationKey: ['editRole'],
-    mutationFn: data => {
+  const editRole = async data => {
+    try {
       setDelay(true)
-      api.post('/roles/roles.createroleasync', data)
-    },
-    onSuccess: () => {
+      await api.post('/roles/roles.createroleasync', data)
       setTimeout(() => {
         queryClient.invalidateQueries('allRoles', { refetchInactive: true })
         setDelay(false)
-
         toggle()
-
         toast.success(s)
       }, 2000)
-    },
-    onError: errors => {
-      // toggle()
+    } catch (errors) {
       console.log(errors)
       setDelay(false)
-      toast.error(errors.response.data.messages[0] || f)
+      toast.error(errors.response?.data?.messages[0] || errors.response?.data?.exception || f)
+      toggle()
     }
-  })
+  }
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -71,7 +65,7 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit, refetch }) => {
   }, [itemToEdit])
 
   const onSubmit = () => {
-    mutation.mutate({
+    editRole({
       id: itemToEdit.id,
       name,
       description,
@@ -154,11 +148,11 @@ const AddRoleDrawer = ({ open, toggle, itemToEdit, refetch }) => {
           <Button
             type='submit'
             onClick={onSubmit}
-            disabled={description?.length < 3 || name?.length < 3 || !itemToEdit?.id || mutation.isPending || delay}
+            disabled={description?.length < 3 || name?.length < 3 || !itemToEdit?.id || delay}
             variant='outlined'
             sx={{ mr: 3 }}
           >
-            {mutation.isPending || delay ? t('Loading...') : t('Submit')}
+            {delay ? t('Loading...') : t('Submit')}
           </Button>
           <Button variant='tonal' color='secondary' onClick={toggle}>
             {t('Cancel')}

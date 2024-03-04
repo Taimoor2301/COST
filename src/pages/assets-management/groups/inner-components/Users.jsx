@@ -43,15 +43,17 @@ export default function Users({ allUsers, selectedUsers, handleUserChange }) {
         />
         <Divider />
         <div className='overflow-auto flex-1'>
-          {usersToShow.map(u => (
-            <SelctableItem
-              text={u.firstName + ' ' + u.lastName}
-              itemId={u.id}
-              key={u.id}
-              onSelect={handleUserChange}
-              selected={selectedUsers.some(e => e.id === u.id)}
-            />
-          ))}
+          {usersToShow
+            .filter(u => u.isActive)
+            .map(u => (
+              <SelctableItem
+                text={u.firstName + ' ' + u.lastName}
+                itemId={u.id}
+                key={u.id}
+                onSelect={handleUserChange}
+                selected={selectedUsers.some(e => e.id === u.id)}
+              />
+            ))}
         </div>
       </Card>
     </div>

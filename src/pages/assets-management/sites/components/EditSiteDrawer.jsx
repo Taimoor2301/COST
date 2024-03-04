@@ -208,7 +208,7 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
           onChange={e => setDefaultValues(p => ({ ...p, maxCheckinVicinity: e.target.value }))}
           placeholder='20'
         />
-        <FormControl fullWidth sx={{ mb: 1 }}>
+        <FormControl fullWidth sx={{ my: 4 }}>
           <InputLabel id='demo-simple-select-label'>Route</InputLabel>
           <Select
             labelId='route-select-label'
@@ -217,11 +217,13 @@ const EditSiteDrawer = ({ open, toggle, route, site }) => {
             label={t('Route')}
             onChange={e => setDefaultValues(p => ({ ...p, routeId: e.target.value }))}
           >
-            {route?.map(route => (
-              <MenuItem key={route.id} value={route.id}>
-                {route.name}
-              </MenuItem>
-            ))}
+            {route
+              ?.filter(r => r.isActive || r.id === site?.route?.id)
+              .map(route => (
+                <MenuItem key={route.id} value={route.id}>
+                  {route.name}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
 

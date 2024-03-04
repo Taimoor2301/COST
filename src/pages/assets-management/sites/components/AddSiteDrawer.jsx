@@ -290,11 +290,13 @@ const AddSiteDrawer = ({ open, toggle, route }) => {
                   error={Boolean(errors.routeId)}
                   {...(errors.routeId && { helperText: errors.routeId.message })}
                 >
-                  {route?.map(route => (
-                    <MenuItem key={route.id} value={route.id}>
-                      {route.name}
-                    </MenuItem>
-                  ))}
+                  {route
+                    ?.filter(r => r.isActive)
+                    .map(route => (
+                      <MenuItem key={route.id} value={route.id}>
+                        {route.name}
+                      </MenuItem>
+                    ))}
                 </Select>
               </div>
             )}

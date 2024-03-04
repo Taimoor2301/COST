@@ -105,9 +105,10 @@ const App = props => {
     async function notify(){
           const permissions = await Notification.requestPermission()
           if(permissions === 'granted'){
-            const token = getToken(messenging, {
+            const token = await getToken(messenging, {
               vapidKey: 'BNJd8ZFZED6pCtJZHkd9Hj1Or7u-Z7QW7DRZFARHfVeSRGDUjFtevdwkJd-j9GNHAliyDZ_XakpG_reD8XGc-Zo'
             })
+            console.log(`FCM ${token}`)
           }
     }
     notify()

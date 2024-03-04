@@ -45,15 +45,17 @@ export default function Sites({ allSites, selectedSites, handleSiteChange }) {
         <span className='p-2'>{t('Sites')}</span>
         <Divider />
         <div className='overflow-auto flex-1'>
-          {sitesToSHow.map(s => (
-            <SelctableItem
-              text={s.name}
-              itemId={s.id}
-              key={s.id}
-              onSelect={handleSiteChange}
-              selected={selectedSites.some(e => e.id === s.id)}
-            />
-          ))}
+          {sitesToSHow
+            .filter(i => i.isActive)
+            .map(s => (
+              <SelctableItem
+                text={s.name}
+                itemId={s.id}
+                key={s.id}
+                onSelect={handleSiteChange}
+                selected={selectedSites.some(e => e.id === s.id)}
+              />
+            ))}
         </div>
       </Card>
     </div>

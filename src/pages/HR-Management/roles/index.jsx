@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -208,9 +208,17 @@ const Roles = () => {
   }, [data])
 
   // handle case insensitive search
-  useEffect(() => {
-    setRolesToShow(allRoles?.filter(el => el.name.toLowerCase().includes(searchValue.toLowerCase())))
-  }, [searchValue, allRoles])
+  // useEffect(() => {
+  //   setRolesToShow(allRoles?.filter(el => el.name.toLowerCase().includes(searchValue.toLowerCase())))
+  // }, [searchValue, allRoles])
+
+  const searchRoles = useCallback(
+    text => {
+      setSearchValue(text)
+      setRolesToShow(allRoles?.filter(role => role.name.toLowerCase().includes(text.toLowerCase())))
+    },
+    [allRoles]
+  )
 
   // loading
   const [dLoading, setDLoading] = useState(true)
@@ -234,7 +242,7 @@ const Roles = () => {
           <Card>
             <TableHeader
               value={searchValue}
-              handleFilter={val => setSearchValue(val)}
+              handleFilter={val => searchRoles(val)}
               toggle={() => setAddRoleOpen(p => !p)}
             />
             <DataGrid

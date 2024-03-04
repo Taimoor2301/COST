@@ -1,5 +1,5 @@
 // ** React Imports
-import { createContext, use, useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -8,13 +8,9 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 
 // ** Config
-import authConfig from 'src/configs/auth'
-import { baseURL } from 'src/Constants/Constants'
 import toast from 'react-hot-toast'
-import permissions from 'src/store/apps/permissions'
-import { useAuth } from 'src/hooks/useAuth'
-import { useQuery } from '@tanstack/react-query'
 import useAPI from 'src/hooks/useNewApi'
+import { baseURL } from 'src/Constants/Constants'
 
 // ** Defaults
 const defaultProvider = {
@@ -43,10 +39,7 @@ const AuthProvider = ({ children }) => {
     const initAuth = async () => {
       const storedToken = window.localStorage.getItem('accessToken')
 
-      console.log('init')
-
       if (storedToken && !user) {
-        console.log('init 2')
         setLoading(true)
         try {
           const res = await api.get(`/users/users.getuserdetailsbyidasync`, { params: { id:JSON.parse(localStorage.getItem('userData')).id } });
@@ -55,14 +48,14 @@ const AuthProvider = ({ children }) => {
           setUser({ ...res.data?.data, role: 'admin' })
 
         } catch (error) {
-          if (error.response?.status === 401) {
+          if (error?.response?.status === 401) {
             window.localStorage.removeItem('accessToken')
             window.localStorage.removeItem('refreshToken')
             window.localStorage.removeItem('userData')
             localStorage.removeItem('userInfo')
             router.replace('/login')
           } else {
-            console.log(error)
+            setLoading(false)
             router.replace('/login')
           }
         } finally {

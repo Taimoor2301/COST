@@ -11,7 +11,6 @@ import Icon from 'src/@core/components/icon'
 import TableHeader from './components/TableHeader'
 import AddUserDrawer from './components/AddUserDrawer'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import api from 'src/hooks/useApi'
 import { CircularProgress } from '@mui/material'
 import EditUserDrawer from './components/EditUserDrawer'
 import Tooltip from '@mui/material/Tooltip'
@@ -22,10 +21,12 @@ import toast from 'react-hot-toast'
 import UserModal from './components/UserModal'
 import { t } from 'i18next'
 import { useTranslation } from 'react-i18next'
+import useAPI from 'src/hooks/useNewApi'
 
 const RowOptions = ({ data }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
+  const api = useAPI()
 
   // query
 
@@ -104,6 +105,7 @@ const RowOptions = ({ data }) => {
 
 const UserList = ({ apiData }) => {
   const { t } = useTranslation()
+  const api = useAPI()
 
   const columns = [
     {

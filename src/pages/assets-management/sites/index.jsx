@@ -83,6 +83,8 @@ export default function Sites() {
     setSitesToSHow(allSites.filter(site => site.route.id === selectedRoute))
   }, [selectedRoute, allSites])
 
+  // todo map error
+
   const handleCityNameClick = city => {
     if (city.id === selectedCity?.id) {
       setSelectedCity(null)

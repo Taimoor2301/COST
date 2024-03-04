@@ -63,6 +63,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
   const [errorMsg, setErrorMsg] = useState('')
   const [userData, setUserData] = useState(dataTemplate)
   const queryClient = useQueryClient()
+  const [delay, setDelay] = useState(false)
 
   // ! image handling
 
@@ -103,6 +104,7 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
   const mutation = useMutation({
     mutationKey: ['updateUser'],
     mutationFn: async uploadData => {
+      setDelay(true)
       if (file) {
         const base64 = await uploadImage(file)
         uploadData.imageUrl = base64
@@ -126,12 +128,16 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
       await api.post('/users/user.updateuserasync', uploadData, { params: { id: uploadData.id } })
     },
     onSuccess: () => {
-      queryClient.invalidateQueries(['users', 'user'])
-      toast.success(successText)
-      setFile('')
-      toggle()
+      setTimeout(() => {
+        queryClient.invalidateQueries(['users', 'user'])
+        toast.success(successText)
+        setFile('')
+        setDelay(false)
+        toggle()
+      }, 1200)
     },
     onError: errors => {
+      setDelay(false)
       toast.error(failText)
       toggle()
       console.log(errors)
@@ -393,9 +399,9 @@ const AddRoleDrawer = ({ open, toggle, data }) => {
             onClick={onSubmit}
             variant='outlined'
             sx={{ mr: 3 }}
-            disabled={Boolean(errorMsg) || mutation.isPending}
+            disabled={Boolean(errorMsg) || mutation.isPending || delay}
           >
-            {mutation.isPending ? t('Loading...') : t('Submit')}
+            {mutation.isPending || delay ? t('Loading...') : t('Submit')}
           </Button>
           <Button variant='tonal' color='secondary' onClick={toggle}>
             {t('Cancel')}
