@@ -1,6 +1,7 @@
 // ** Custom Navigation Components
 import HorizontalNavLink from './HorizontalNavLink'
 import HorizontalNavGroup from './HorizontalNavGroup'
+import { useAuth } from 'src/hooks/useAuth'
 
 const resolveComponent = item => {
   if (item.children) return HorizontalNavGroup
@@ -9,7 +10,11 @@ const resolveComponent = item => {
 }
 
 const HorizontalNavItems = props => {
-  const RenderMenuItems = props.horizontalNavItems?.map((item, index) => {
+  const { user } = useAuth()
+
+  const links = props.horizontalNavItems?.filter(el => el.role === user.role)
+
+  const RenderMenuItems = links.map((item, index) => {
     const TagName = resolveComponent(item)
 
     return <TagName {...props} key={index} item={item} />

@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -20,10 +20,7 @@ import PerfectScrollbarComponent from 'react-perfect-scrollbar'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-
-// ** Util Import
-import { getInitials } from 'src/@core/utils/get-initials'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Styled Menu component
 const Menu = styled(MuiMenu)(({ theme }) => ({
@@ -62,30 +59,6 @@ const PerfectScrollbar = styled(PerfectScrollbarComponent)({
   maxHeight: 349
 })
 
-// ** Styled Avatar component
-const Avatar = styled(CustomAvatar)({
-  width: 38,
-  height: 38,
-  fontSize: '1.125rem'
-})
-
-// ** Styled component for the title in MenuItems
-const MenuItemTitle = styled(Typography)({
-  fontWeight: 500,
-  flex: '1 1 100%',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis'
-})
-
-// ** Styled component for the subtitle in MenuItems
-const MenuItemSubtitle = styled(Typography)({
-  flex: '1 1 100%',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  textOverflow: 'ellipsis'
-})
-
 const ScrollWrapper = ({ children, hidden }) => {
   if (hidden) {
     return <Box sx={{ maxHeight: 349, overflowY: 'auto', overflowX: 'hidden' }}>{children}</Box>
@@ -95,17 +68,14 @@ const ScrollWrapper = ({ children, hidden }) => {
 }
 
 const NotificationDropdown = props => {
-  // ** Props
-  const { settings, notifications } = props
-
-  // ** States
+  const { settings } = props
+  const { direction } = settings
   const [anchorEl, setAnchorEl] = useState(null)
-
-  // ** Hook
   const hidden = useMediaQuery(theme => theme.breakpoints.down('lg'))
 
-  // ** Vars
-  const { direction } = settings
+  const [notifications, setNotifications] = useState([])
+  const [unRead, setUnRead] = useState([])
+  const { user } = useAuth()
 
   const handleDropdownOpen = event => {
     setAnchorEl(event.currentTarget)
@@ -115,32 +85,13 @@ const NotificationDropdown = props => {
     setAnchorEl(null)
   }
 
-  const RenderAvatar = ({ notification }) => {
-    const { avatarAlt, avatarImg, avatarIcon, avatarText, avatarColor } = notification
-    if (avatarImg) {
-      return <Avatar alt={avatarAlt} src={avatarImg} />
-    } else if (avatarIcon) {
-      return (
-        <Avatar skin='light' color={avatarColor}>
-          {avatarIcon}
-        </Avatar>
-      )
-    } else {
-      return (
-        <Avatar skin='light' color={avatarColor}>
-          {getInitials(avatarText)}
-        </Avatar>
-      )
-    }
-  }
-
   return (
     <Fragment>
       <IconButton color='inherit' aria-haspopup='true' onClick={handleDropdownOpen} aria-controls='customized-menu'>
         <Badge
           color='error'
           variant='dot'
-          invisible={!notifications.length}
+          invisible={!unRead.length}
           sx={{
             '& .MuiBadge-badge': { top: 4, right: 4, boxShadow: theme => `0 0 0 2px ${theme.palette.background.paper}` }
           }}
@@ -164,24 +115,17 @@ const NotificationDropdown = props => {
             <Typography variant='h5' sx={{ cursor: 'text' }}>
               Notifications
             </Typography>
-            <CustomChip skin='light' size='small' color='primary' label={`${notifications.length} New`} />
+            <CustomChip skin='light' size='small' color='primary' label={`${unRead.length} New`} />
           </Box>
         </MenuItem>
         <ScrollWrapper hidden={hidden}>
-          {notifications.map((notification, index) => (
-            <MenuItem key={index} disableRipple disableTouchRipple onClick={handleDropdownClose}>
-              <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-                <RenderAvatar notification={notification} />
-                <Box sx={{ mr: 4, ml: 2.5, flex: '1 1', display: 'flex', overflow: 'hidden', flexDirection: 'column' }}>
-                  <MenuItemTitle>{notification.title}</MenuItemTitle>
-                  <MenuItemSubtitle variant='body2'>{notification.subtitle}</MenuItemSubtitle>
-                </Box>
-                <Typography variant='body2' sx={{ color: 'text.disabled' }}>
-                  {notification.meta}
-                </Typography>
-              </Box>
-            </MenuItem>
-          ))}
+          {notifications.map((n, i) => {
+            return (
+              <div key={i} className='p-2 border-b-2 bg-gray-50 pl-5 cursor-pointer' onClick={() => null}>
+                {n.message}
+              </div>
+            )
+          })}
         </ScrollWrapper>
         <MenuItem
           disableRipple
@@ -194,8 +138,16 @@ const NotificationDropdown = props => {
             borderTop: theme => `1px solid ${theme.palette.divider}`
           }}
         >
-          <Button fullWidth variant='contained' onClick={handleDropdownClose}>
-            Read All Notifications
+          <Button
+            fullWidth
+            disabled={!unRead.length}
+            variant='contained'
+            onClick={() => {
+              handleDropdownClose()
+              setUnRead([])
+            }}
+          >
+            Mark All Notifications as Read
           </Button>
         </MenuItem>
       </Menu>

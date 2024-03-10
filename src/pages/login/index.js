@@ -4,9 +4,6 @@ import { useState } from 'react'
 // ** Next Imports
 import Link from 'next/link'
 
-// ** MUI Components
-import Alert from '@mui/material/Alert'
-import Divider from '@mui/material/Divider'
 import Checkbox from '@mui/material/Checkbox'
 import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
@@ -16,7 +13,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import { useTranslation } from 'react-i18next'
-import {Button} from '@mui/base'
+import { Button } from '@mui/material'
 
 // ** Custom Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'
@@ -43,22 +40,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import login from '../../assest/images/man_2.png'
-import logo from '../../assest/images/kaptlogo.svg'
 import Image from 'next/image'
-
-// ** Styled Components
-const LoginIllustration = styled('img')(({ theme }) => ({
-  zIndex: 2,
-  maxHeight: 680,
-  marginTop: theme.spacing(12),
-  marginBottom: theme.spacing(12),
-  [theme.breakpoints.down(1540)]: {
-    maxHeight: 550
-  },
-  [theme.breakpoints.down('lg')]: {
-    maxHeight: 500
-  }
-}))
 
 const RightWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -92,13 +74,13 @@ const schema = yup.object().shape({
 // todo : must be removed on production
 const defaultValues = {
   password: 'pakistan987',
-  email: 'sanaiqbal123876@gmail.com'
+  email: 'admin@gmail.com'
 }
 
 const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
 
   // ** Hooks
@@ -120,7 +102,7 @@ const LoginPage = () => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = async  (data) => {
+  const onSubmit = async data => {
     setLoading(true)
     const { email, password } = data
     await auth.login({ email, password, rememberMe }, () => {
@@ -132,8 +114,6 @@ const LoginPage = () => {
     })
     setLoading(false)
   }
-
-
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -166,11 +146,17 @@ const LoginPage = () => {
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
             <Box sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
-              <Image alt='company logo' src={logo} width={180} />
+              <Image
+                alt='company logo'
+                src={theme.palette.mode === 'dark' ? '/logos/logo-white.png' : '/logos/logo-black.png'}
+                width={100}
+                height={100}
+                className='mb-10'
+              />
             </Box>
             <Box sx={{ mb: 2, mt: -6 }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
-                {t('Welcome to') + " " + themeConfig.templateName + '!' + '👋🏻'}
+                {t('Welcome to') + ' ' + themeConfig.templateName + '!' + '👋🏻'}
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>
                 {t('Please sign-in to your account and start the adventure')}
@@ -247,7 +233,14 @@ const LoginPage = () => {
                   {t('Forgot Password?')}
                 </Typography>
               </Box>
-              <Button  type='submit' disabled={loading} className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5' sx={{ mb: 4 }}>
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                disabled={loading}
+                className={`bg-[${theme.palette.primary.main.toString()}] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5`}
+                sx={{ mb: 4 }}
+              >
                 {t('Login')}
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>

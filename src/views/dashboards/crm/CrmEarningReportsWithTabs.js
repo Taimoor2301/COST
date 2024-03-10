@@ -219,28 +219,6 @@ const CrmEarningReportsWithTabs = () => {
             }}
           >
             {renderTabs(value, theme)}
-            <Tab
-              disabled
-              value='add'
-              label={
-                <Box
-                  sx={{
-                    width: 110,
-                    height: 94,
-                    display: 'flex',
-                    alignItems: 'center',
-                    borderRadius: '10px',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    border: `1px dashed ${theme.palette.divider}`
-                  }}
-                >
-                  <Avatar variant='rounded' sx={{ width: 34, height: 34, backgroundColor: 'action.selected' }}>
-                    <Icon icon='tabler:plus' />
-                  </Avatar>
-                </Box>
-              }
-            />
           </TabList>
           {renderTabPanels(value, theme, options, colors)}
         </TabContext>

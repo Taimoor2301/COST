@@ -1,5 +1,27 @@
+import { CircularProgress } from '@mui/material'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useAuth } from 'src/hooks/useAuth'
+
 const Home = () => {
-  return <>Home Page</>
+  const { user } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!user) return router.push('/login')
+    if (user.role === 'admin') {
+      router.push('/admin/dashboards')
+    } else {
+      router.push('/vendor/dashboards')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return (
+    <div className='w-full h-full p-10 grid place-content-center'>
+      <CircularProgress />
+    </div>
+  )
 }
 
 export default Home

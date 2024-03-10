@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
-import { Card, CardActions, CardContent, FormControl, Input, InputLabel, TextField } from '@mui/material'
+import { Card, CardActions, CardContent, FormControl, Button, TextField } from '@mui/material'
 import Typography from '@mui/material/Typography'
-import { Button } from '@mui/base'
-import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { t } from 'i18next'
-import useAPI from 'src/hooks/useNewApi'
 
 export default function Password() {
-  const api = useAPI()
   const [password, setPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmNewPassword, setConfirmNewPassword] = useState('')
@@ -20,20 +16,6 @@ export default function Password() {
   const s = t('Success')
   const f = t('Something went wrong')
 
-  const mutation = useMutation({
-    mutationKey: ['changeCurrentUserPassword'],
-    mutationFn: () => api.put('/personal/personal.changepasswordasync', { password, newPassword, confirmNewPassword }),
-    onSuccess: () => {
-      toast.success(s)
-      setPassword('')
-      setConfirmNewPassword('')
-      setNewPassword('')
-    },
-    onError: err => {
-      toast.error(err?.response?.data?.messages[0] || f)
-    }
-  })
-
   function changePassword() {
     if (newPassword !== confirmNewPassword) {
       return setErrorMsg('Password are not matching.')
@@ -41,7 +23,6 @@ export default function Password() {
       setErrorMsg('Password must be alteast 6 characters long')
     } else {
       setErrorMsg('')
-      mutation.mutate()
     }
   }
 
@@ -87,20 +68,16 @@ export default function Password() {
           />
         </FormControl>
       </CardContent>
-      <CardActions style={{ justifyContent: 'end' }}>
+      <CardActions style={{ justifyContent: 'end', gap: 5 }}>
         <Button
           size='small'
+          variant='contained'
+          component='span'
           onClick={() => setType(p => (p === 'text' ? 'password' : 'text'))}
-          className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] text-[12px] disabled:bg-gray-500'
         >
           {type === 'text' ? t('Hide Password') : t('Show Password')}
         </Button>
-        <Button
-          size='small'
-          disabled={mutation.isPending}
-          onClick={changePassword}
-          className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] text-[12px] disabled:bg-gray-500'
-        >
+        <Button size='small' variant='contained' component='span' disabled={false} onClick={changePassword}>
           {t('Save')}
         </Button>
       </CardActions>

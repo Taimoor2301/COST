@@ -37,7 +37,7 @@ const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
 }))
 
 const UserDropdown = props => {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   // ** Props
   const { settings } = props
@@ -83,6 +83,8 @@ const UserDropdown = props => {
     handleDropdownClose()
   }
 
+  const fullName = user?.firstName + ' ' + user?.lastName
+
   return (
     <Fragment>
       <Badge
@@ -95,7 +97,7 @@ const UserDropdown = props => {
           horizontal: 'right'
         }}
       >
-        <Avatar alt={user?.userName} src={`data:image/png;base64,${user.imageUrl}`} onClick={handleDropdownOpen} sx={{ width: 38, height: 38 }} />
+        <Avatar alt={user?.userName || ''} src={''} onClick={handleDropdownOpen} sx={{ width: 38, height: 38 }} />
       </Badge>
 
       <Menu
@@ -116,14 +118,14 @@ const UserDropdown = props => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt={user?.userName} src={`data:image/png;base64,${user.imageUrl}`} sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar alt={user?.userName} src={``} sx={{ width: '2.5rem', height: '2.5rem' }} />
             </Badge>
             <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 500 }}>
-                <span className='capitalize'>{user?.firstName + ' ' + user?.lastName}</span>
+                <span className='capitalize'>{fullName || ''}</span>
               </Typography>
               <Typography variant='body2' className='capitalize'>
-                {t(user.role)}
+                {t(user.role) || ''}
               </Typography>
             </Box>
           </Box>

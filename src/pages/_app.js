@@ -25,7 +25,6 @@ import { Toaster } from 'react-hot-toast'
 
 // ** Component Imports
 import UserLayout from 'src/layouts/UserLayout'
-import AclGuard from 'src/@core/components/auth/AclGuard'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
 import AuthGuard from 'src/@core/components/auth/AuthGuard'
 import GuestGuard from 'src/@core/components/auth/GuestGuard'
@@ -56,7 +55,6 @@ import 'src/iconify-bundle/icons-bundle-react'
 // ** Global css styles
 import '../../styles/globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -95,9 +93,6 @@ const queryClient = new QueryClient({
 
 // ** Configure JSS & ClassName
 const App = props => {
-
-
-
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   // Variables
@@ -105,17 +100,17 @@ const App = props => {
 
   const getLayout =
     Component.getLayout ?? (page => <UserLayout contentHeightFixed={contentHeightFixed}>{page}</UserLayout>)
+
   const setConfig = Component.setConfig ?? undefined
   const authGuard = Component.authGuard ?? true
   const guestGuard = Component.guestGuard ?? false
-  const aclAbilities = Component.acl ?? defaultACLObj
 
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <CacheProvider value={emotionCache}>
           <Head>
-            <title>{'Kapt Cloud'}</title>
+            <title>{'COST'}</title>
             <meta
               name='description'
               content={`${themeConfig.templateName} – Material Design React Admin Dashboard Template – is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.`}
@@ -131,9 +126,7 @@ const App = props => {
                   return (
                     <ThemeComponent settings={settings}>
                       <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                        <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                          {getLayout(<Component {...pageProps} />)}
-                        </AclGuard>
+                        {getLayout(<Component {...pageProps} />)}
                       </Guard>
                       <ReactHotToast>
                         <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />

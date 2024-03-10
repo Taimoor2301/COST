@@ -3,66 +3,32 @@ const navigation = () => {
     {
       icon: 'tabler:smart-home',
       title: 'Dashboard',
-      path: '/dashboards'
+      path: '/vendor/dashboards',
+      role: 'vendor'
     },
     {
-      title: 'HR Management',
-      icon: 'tabler:users',
-      children: [
-        {
-          title: 'User Management',
-          path: '/HR-Management/user-management'
-        },
-        {
-          title: 'Roles',
-          path: '/HR-Management/roles'
-        },
-        {
-          title: 'Permissions',
-          path: '/HR-Management/permissions'
-        }
-      ]
+      icon: 'tabler:building-store',
+      title: 'Products Management',
+      path: '/vendor/products-management',
+      role: 'vendor'
     },
-
     {
-      icon: 'tabler:building',
-      title: 'Assets Management',
-      children: [
-        {
-          title: 'Routes',
-          path: '/assets-management/routes'
-        },
-        {
-          title: 'Sites',
-          path: '/assets-management/sites'
-        },
-
-        { title: 'Questionnaires', path: '/assets-management/questioneries' },
-        {
-          title: 'Groups',
-          path: '/assets-management/groups'
-        }
-      ]
-    },
-
-    {
-      title: 'Reports',
+      title: 'Orders',
+      path: '/vendor/orders',
       icon: 'tabler:checklist',
-      children: [
-        {
-          title: 'Users Reports',
-          path: '/reports/user-reports'
-        },
-        {
-          title: 'Sites Reports',
-          path: '/reports/site-reports'
-        }
-      ]
+      role: 'vendor'
     },
     {
       title: 'Settings',
+      path: '/vendor/setting',
       icon: 'tabler:settings',
-      path: '/setting'
+      role: 'vendor'
+    },
+    {
+      icon: 'tabler:smart-home',
+      title: 'Dashboard',
+      path: '/admin/dashboards',
+      role: 'admin'
     }
   ]
 }

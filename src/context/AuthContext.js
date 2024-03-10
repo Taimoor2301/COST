@@ -33,93 +33,37 @@ const AuthProvider = ({ children }) => {
   // ** Hooks
   const router = useRouter()
 
-  const api = useAPI()
-
   useEffect(() => {
     const initAuth = async () => {
-      const storedToken = window.localStorage.getItem('accessToken')
-
-      if (storedToken && !user) {
-        setLoading(true)
-        try {
-          const res = await api.get(`/users/users.getuserdetailsbyidasync`, { params: { id:JSON.parse(localStorage.getItem('userData')).id } });
-
-          // const res = await api.get(`/personal/personal.getcurrentuserdetailasync`)
-          setUser({ ...res.data?.data, role: 'admin' })
-
-        } catch (error) {
-          if (error?.response?.status === 401) {
-            window.localStorage.removeItem('accessToken')
-            window.localStorage.removeItem('refreshToken')
-            window.localStorage.removeItem('userData')
-            localStorage.removeItem('userInfo')
-            router.replace('/login')
-          } else {
-            setLoading(false)
-            router.replace('/login')
-          }
-        } finally {
-          setLoading(false)
-        }
-      } else {
-        setUser(null)
+      const data = window.localStorage.getItem('user')
+      if (data) {
+        setUser(JSON.parse(data))
         setLoading(false)
+      } else {
+        setLoading(false)
+        router.replace('/login')
       }
     }
     initAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-
   const handleLogin = async (params, errorCallback) => {
     const { email, password } = params
-    try {
-      const res = await axios.post(
-        `${baseURL + '/tokens/token.gettokenasync'}`,
-        { email, password },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            tenant: 'root'
-          }
-        }
-      )
+    const role = email === 'admin@gmail.com' ? 'admin' : 'vendor'
+    localStorage.setItem(
+      'user',
+      JSON.stringify({ email, password, role, id: '123', firstName: 'Taimoor', lastName: 'ali' })
+    )
+    setUser({ email, role, id: '123', firstName: 'Taimoor', lastName: 'ali' })
 
-      localStorage.removeItem('userInfo')
-      localStorage.setItem('accessToken', res.data.data.token.token)
-      localStorage.setItem('refreshToken', res.data.data.token.refreshToken)
-      localStorage.setItem('userData', JSON.stringify({ ...res.data.data.user, role: 'admin' }))
-      setUser({ ...res.data.data.user, role: 'admin' })
-
-      const returnUrl = router.query.returnUrl
-      const redirectURL = returnUrl && returnUrl !== '/dashboards' ? returnUrl : '/dashboards'
-      router.replace(redirectURL)
-    } catch (error) {
-      console.log(error)
-      if (error.response?.status === 401) {
-        errorCallback()
-      } else {
-        toast.error('Something went wrong')
-      }
-    }
+    role === 'admin' ? router.replace('/admin/dashboards') : router.replace('/vendor/dashboards')
   }
 
   const handleLogout = () => {
-
-
     // window.localStorage.clear()
-
-    window.localStorage.removeItem('accessToken')
-    window.localStorage.removeItem('refreshToken')
-    window.localStorage.removeItem('userPermissions')
-    window.localStorage.removeItem('userRoles')
-    window.localStorage.removeItem('userData')
-    window.localStorage.removeItem('formBuilderTemplates')
-    localStorage.removeItem('userInfo')
-
+    localStorage.removeItem('user')
     setUser(null)
-
     router.replace('/login')
   }
 

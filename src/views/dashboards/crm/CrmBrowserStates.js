@@ -13,44 +13,23 @@ const data = [
   {
     progress: 67,
     percentage: '54.4%',
-    title: 'Google Chrome',
-    progressColor: 'primary',
+    title: 'Completed',
+    progressColor: 'success',
     imgSrc: '/images/logos/google-chrome.png'
   },
   {
     progress: 40,
     percentage: '14.6%',
-    title: 'Apple Safari',
-    progressColor: 'success',
+    title: 'Pending',
+    progressColor: 'warning',
     imgSrc: '/images/logos/safari.png'
   },
   {
     progress: 30,
     percentage: '6.1%',
-    title: 'Mozilla Firefox',
-    progressColor: 'secondary',
-    imgSrc: '/images/logos/mozilla-firefox.png'
-  },
-  {
-    progress: 20,
-    percentage: '8.0%',
-    title: 'Opera Mini',
-    progressColor: 'info',
-    imgSrc: '/images/logos/opera-mini.png'
-  },
-  {
-    progress: 15,
-    percentage: '4.2%',
-    progressColor: 'warning',
-    title: 'Internet Explorer',
-    imgSrc: '/images/logos/internet-explorer.png'
-  },
-  {
-    progress: 15,
-    title: 'Brave',
-    percentage: '0.3%',
+    title: 'Cancelled',
     progressColor: 'error',
-    imgSrc: '/images/logos/brave.png'
+    imgSrc: '/images/logos/mozilla-firefox.png'
   }
 ]
 
@@ -58,7 +37,7 @@ const CrmBrowserStates = () => {
   return (
     <Card>
       <CardHeader
-        title='Browser States'
+        title='Order States'
         subheader={`Counter April ${new Date().getFullYear()}`}
         action={
           <OptionsMenu
@@ -79,7 +58,7 @@ const CrmBrowserStates = () => {
                 mb: index !== data.length - 1 ? 8.25 : undefined
               }}
             >
-              <img width={28} src={item.imgSrc} alt={item.title} />
+              {/* <img width={28} src={item.imgSrc} alt={item.title} /> */}
 
               <Box
                 sx={{

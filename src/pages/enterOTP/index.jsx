@@ -1,6 +1,5 @@
 // ** React Imports
 import { useEffect, useState } from 'react'
-import logo from '../../assest/images/kaptlogo.svg'
 
 // ** Next Import
 import Link from 'next/link'
@@ -268,7 +267,11 @@ const TwoStepsV2 = () => {
           }}
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
-            <Image alt='company logo' src={logo} width={180} />
+            <Image
+              alt='company logo'
+              src={theme.palette.mode === 'dark' ? '/logos/logo-white.png' : '/logos/logo-black.png'}
+              width={180}
+            />
             <Box sx={{ my: 6 }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
                 {t('Two-Step Verification')}

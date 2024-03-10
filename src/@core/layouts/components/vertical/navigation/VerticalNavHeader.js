@@ -11,9 +11,7 @@ import Typography from '@mui/material/Typography'
 import Icon from 'src/@core/components/icon'
 
 // ** Configs
-import themeConfig from 'src/configs/themeConfig'
 import Image from 'next/image'
-import logo from '../../../../../assest/images/kaptlogo.svg'
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
@@ -77,10 +75,16 @@ const VerticalNavHeader = props => {
         userNavMenuBranding(props)
       ) : (
         <LinkStyled href='/'>
-          <Image alt='kapt-logo' src={logo} width={70} />
-          <HeaderTitle variant='h4' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 0 }) }}>
+          <Image
+            alt='logo'
+            src={theme.palette.mode === 'dark' ? '/logos/logo-left-white.png' : '/logos/logo-left-black.png'}
+            width={70}
+            height={70}
+            className='my-5'
+          />
+          {/* <HeaderTitle variant='h4' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 0 }) }}>
             {themeConfig.templateName}
-          </HeaderTitle>
+          </HeaderTitle> */}
         </LinkStyled>
       )}
 

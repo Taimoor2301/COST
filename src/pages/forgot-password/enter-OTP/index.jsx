@@ -1,6 +1,5 @@
 // ** React Imports
 import { useEffect, useState } from 'react'
-import logo from '../../../assest/images/kaptlogo.svg'
 
 // ** Next Import
 import Link from 'next/link'
@@ -204,27 +203,7 @@ const TwoStepsV2 = () => {
     }
   }
 
-  async function verifyOTP(data) {
-    const OTP = Object.values(data).join('')
-
-    try {
-      setLoading(true)
-      await axios.get(baseURL + '/users/users.confirmemailofuserasync', {
-        params: { tenant: 'root', userId: userData.userId, code: OTP }
-      })
-
-      toast.success('Verification Success')
-
-      await auth.login({ email: userData.userEmail, password: userData.userPassword }, () => {
-        router.push('/login')
-      })
-    } catch (error) {
-      console.log(error)
-      toast.error('Verification Failed')
-    } finally {
-      setLoading(false)
-    }
-  }
+  async function verifyOTP(data) {}
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -259,7 +238,12 @@ const TwoStepsV2 = () => {
           }}
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
-            <Image alt='company logo' src={logo} width={180} />
+            <Image
+              alt='company logo'
+              src={theme.palette.mode === 'dark' ? '/logos/logo-white.png' : '/logos/logo-black.png'}
+              width={180}
+              height={180}
+            />
             <Box sx={{ my: 6 }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
                 Two-Step Verification

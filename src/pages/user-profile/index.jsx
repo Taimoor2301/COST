@@ -7,15 +7,12 @@ import Avatar from '@mui/material/Avatar'
 import { t } from 'i18next'
 
 // ** Demo Components
-import { Card, CardActions, CardContent, FormControl, Input, InputLabel, TextField } from '@mui/material'
-import { Button } from '@mui/base'
+import { Card, CardActions, CardContent, FormControl, Input, InputLabel, TextField, Button } from '@mui/material'
 import Password from './components/Password'
 import { useAuth } from 'src/hooks/useAuth'
 import { useEffect, useState } from 'react'
 import { checkPersonalUpdate, uploadImage } from 'src/utils/utils'
-import { useMutation } from '@tanstack/react-query'
-import toast from 'react-hot-toast'
-import useAPI from 'src/hooks/useNewApi'
+import UseBgColor from 'src/@core/hooks/useBgColor'
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -47,7 +44,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }))
 
 const UserProfile = ({ data }) => {
-  const api = useAPI()
   const { user } = useAuth()
   const [firstName, setFirstName] = useState(user?.firstName || '')
   const [lastName, setLastName] = useState(user?.lastName || '')
@@ -70,58 +66,6 @@ const UserProfile = ({ data }) => {
 
   // mutation
 
-  const s = t('Success')
-  const f = t('Something went wrong')
-
-  const mutation = useMutation({
-    mutationKey: ['updateUserPersonal'],
-    mutationFn: async () => {
-      let base64
-
-      if (selectedImage) {
-        base64 = await uploadImage(file)
-      }
-
-      await api.put('/personal/personal.updatecurrentuserdetailasync', {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        imageUrl: base64 || imageUrl,
-        id: user.id,
-        deleteCurrentImage: false
-      })
-    },
-    onSuccess: () => {
-      toast.success(s)
-    },
-    onError: e => {
-      toast.error(f)
-    }
-  })
-
-  const deleteImage = useMutation({
-    mutationKey: ['deleteUserImage'],
-    mutationFn: async () => {
-      await api.put('/personal/personal.updatecurrentuserdetailasync', {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        imageUrl: '',
-        id: user.id,
-        deleteCurrentImage: true
-      })
-    },
-    onSuccess: () => {
-      setImageUrl('')
-      toast.success(s)
-    },
-    onError: e => {
-      toast.error(f)
-    }
-  })
-
   function handleSubmit() {
     const errMsg = checkPersonalUpdate({ firstName, lastName, email, phoneNumber })
 
@@ -130,7 +74,6 @@ const UserProfile = ({ data }) => {
     }
 
     setErrMsg('')
-    mutation.mutate()
   }
 
   return (
@@ -177,27 +120,13 @@ const UserProfile = ({ data }) => {
                   fontSize: '12px'
                 }}
               >
-                <Button
-                  variant='contained'
-                  component='span'
-                  sx={{ border: 0 }}
-                  style={{
-                    border: 'none',
-                    borderRadius: '5px',
-                    fontSize: '12px',
-                    textTransform: 'uppercase',
-                    fontWeight: '600',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {t('Select A New Photo')}
-                </Button>
+                <button>{t('Select A New Photo')}</button>
               </label>
               <Button
                 variant='contained'
                 component='span'
-                onClick={() => deleteImage.mutate()}
-                disabled={deleteImage.isPending}
+                onClick={null}
+                disabled={false}
                 sx={{ border: 0 }}
                 style={{
                   border: 'none',
@@ -256,9 +185,11 @@ const UserProfile = ({ data }) => {
         <CardActions style={{ justifyContent: 'end' }}>
           <Button
             size='small'
-            disabled={mutation.isPending}
+            color='primary'
+            component='span'
+            variant='contained'
+            disabled={false}
             onClick={handleSubmit}
-            className='bg-[#24C6B7] text-white py-[10px] px-[40px] rounded-[8px] text-[12px] disabled:bg-gray-500'
           >
             {t('Save')}
           </Button>

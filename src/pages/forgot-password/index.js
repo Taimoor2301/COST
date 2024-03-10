@@ -2,7 +2,7 @@
 import Link from 'next/link'
 
 // ** MUI Components
-import {Button} from '@mui/base'
+import { Button } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -14,7 +14,6 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import forgetpass from '../../assest/images/46.png'
-import logo from '../../assest/images/kaptlogo.svg'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -23,13 +22,8 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { useTranslation } from 'react-i18next'
 import Image from 'next/image'
-import toast from 'react-hot-toast'
-import axios from 'axios'
-import { baseURL } from 'src/Constants/Constants'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-
-
 
 const RightWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
@@ -63,38 +57,13 @@ const ForgotPassword = () => {
   // ** Vars
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
-  const [email , setEmail] = useState('')
+  const [email, setEmail] = useState('')
 
-  const [loading , setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const f = t('No User found with this Email')
 
-
-  async function handleSubmit(e){
-    e.preventDefault()
-
-      setLoading(true)
-
-    try {
-
-      const res = await axios.post(baseURL+ '/users/users.forgotpasswordasync', {email}, {headers:{
-        'Content-Type': 'application/json',
-        accept: 'application/json',
-        tenant: 'root'
-      }})
-
-      localStorage.setItem('forgotPassCredentials', JSON.stringify(res.data?.data))
-
-      router.push('/forgot-password/reset-password')
-
-    } catch (error) {
-      toast.error(f)
-    } finally{
-      setLoading(false)
-    }
-  }
-
-
+  async function handleSubmit(e) {}
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -131,7 +100,13 @@ const ForgotPassword = () => {
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
             <Box sx={{ width: '100%', maxWidth: 400, textAlign: 'center' }}>
-              <Image alt='kapt logo' src={logo} width={180} />
+              <Image
+                alt='logo'
+                src={theme.palette.mode === 'dark' ? '/logos/logo-white.png' : '/logos/logo-black.png'}
+                width={100}
+                height={100}
+                className='mb-10'
+              />
             </Box>
             <Box sx={{ mb: 6, mt: -6 }}>
               <Typography sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.625rem', lineHeight: 1.385 }}>
@@ -142,8 +117,24 @@ const ForgotPassword = () => {
               </Typography>
             </Box>
             <form autoComplete='off' onSubmit={handleSubmit}>
-              <CustomTextField fullWidth required value={email} onChange={e => setEmail(e.target.value)} autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} />
-              <Button  type='submit' disabled={loading} className='bg-[#24C6B7] text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5' sx={{ mb: 4 }}>
+              <CustomTextField
+                fullWidth
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                autoFocus
+                type='email'
+                label='Email'
+                sx={{ display: 'flex', mb: 4 }}
+              />
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                disabled={loading}
+                className='text-white text-center py-2 w-full rounded-md hover:bg-opacity-80 disabled:bg-gray-500 mb-5'
+                sx={{ mb: 4 }}
+              >
                 {t('Send reset link')}
               </Button>
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>

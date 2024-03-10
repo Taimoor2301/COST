@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
-import logo from '../../../assest/images/kaptlogo.svg'
 import Image from 'next/image'
 
 // ** MUI Components
@@ -113,12 +112,6 @@ const ResetPasswordV2 = () => {
   const payload = JSON.parse(localStorage.getItem('forgotPassCredentials'))
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('forgotPassCredentials')).code
-
-    if (!token) {
-      router.replace('/login')
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -126,51 +119,6 @@ const ResetPasswordV2 = () => {
 
   async function handelSubmit(e) {
     e.preventDefault()
-    const { newPassword, confirmNewPassword, OTP } = values
-
-    if (!OTP || OTP.length < 6) {
-      return setErrMsg('Please enter a valid OTP')
-    }
-
-    if (newPassword.length < 6) {
-      return setErrMsg('Password must be atleast 6 characters long')
-    }
-
-    if (newPassword !== confirmNewPassword) {
-      return setErrMsg('Password are not matching')
-    }
-
-    setErrMsg('')
-
-    try {
-      setLoading(true)
-
-      await axios.post(
-        baseURL + '/users/users.resetpasswordasync',
-        {
-          email: payload.email,
-          token: payload.code,
-          otp: OTP,
-          password: newPassword
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            tenant: 'root'
-          }
-        }
-      )
-
-      localStorage.removeItem('forgotPassCredentials')
-      toast.success(s)
-      router.push('/login')
-    } catch (error) {
-      console.log(error)
-      toast.error('Error reseting password')
-    } finally {
-      setLoading(false)
-    }
   }
 
   return (
@@ -206,7 +154,12 @@ const ResetPasswordV2 = () => {
           }}
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
-            <Image alt='company logo' src={logo} width={180} />
+            <Image
+              alt='company logo'
+              src={theme.palette.mode === 'dark' ? '/logos/logo-white.png' : '/logos/logo-black.png'}
+              width={180}
+              height={180}
+            />
             <Box sx={{ my: 6, display: 'flex', flexDirection: 'column' }}>
               <Typography variant='h3' sx={{ mb: 1.5 }}>
                 {t('Reset Password')}
